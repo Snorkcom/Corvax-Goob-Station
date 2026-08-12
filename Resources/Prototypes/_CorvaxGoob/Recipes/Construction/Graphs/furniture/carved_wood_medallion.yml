@@ -9,7 +9,7 @@
       actions:
         - !type:DestroyEntity {}
       edges:
-        - to: frameElliptic
+        - to: frameShieldDark
           completed:
             - !type:SnapToGrid { }
           steps:

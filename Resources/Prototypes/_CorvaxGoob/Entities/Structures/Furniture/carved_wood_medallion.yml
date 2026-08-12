@@ -27,6 +27,15 @@
       - !type:PlaySoundBehavior
         sound:
           collection: WoodDestroy
+      - !type:SpawnEntitiesBehavior
+        spawnInContainer: true
+        spawn:
+          MaterialWoodPlank1:
+            min: 2
+            max: 3
+          PartRodMetal1:
+            min: 1
+            max: 1
       - !type:DoActsBehavior
         acts: ["Destruction"]
   - type: ItemSlots
@@ -37,12 +46,19 @@
           components:
           - Item
         blacklist:
+          components:
+          - Explosive
+          - Storage
+          - ContainerContainer
+          - EntityStorage
+          - MobState
           sizes:
           - Large
           - Huge
           - Ginormous
   - type: ItemSlotRenderer
     renderTargetSize: 32,32
+    centerItemByContentBounds: true
     mapping:
       display_slot: display
   - type: ContainerContainer
@@ -67,6 +83,9 @@
     layers:
     - state: medallion_elliptic
     - map: ["display"]
+  - type: ItemSlotRenderer
+    renderOffsets:
+      display_slot: 0,0
   - type: Construction
     graph: CarvedWoodMedallionGraph
     node: medallionElliptic
@@ -80,6 +99,9 @@
     layers:
     - state: medallion_shield_dark
     - map: ["display"]
+  - type: ItemSlotRenderer
+    renderOffsets:
+      display_slot: 0.5,1
   - type: Construction
     graph: CarvedWoodMedallionGraph
     node: medallionShieldDark
@@ -93,6 +115,9 @@
     layers:
     - state: medallion_narrow_dark
     - map: ["display"]
+  - type: ItemSlotRenderer
+    renderOffsets:
+      display_slot: 0.5,1
   - type: Construction
     graph: CarvedWoodMedallionGraph
     node: medallionNarrowDark
@@ -106,6 +131,9 @@
     layers:
     - state: medallion_shield_light
     - map: ["display"]
+  - type: ItemSlotRenderer
+    renderOffsets:
+      display_slot: 0.5,1
   - type: Construction
     graph: CarvedWoodMedallionGraph
     node: medallionShieldLight
@@ -119,6 +147,9 @@
     layers:
     - state: medallion_pointed_copper
     - map: ["display"]
+  - type: ItemSlotRenderer
+    renderOffsets:
+      display_slot: 0.5,1.5
   - type: Construction
     graph: CarvedWoodMedallionGraph
     node: medallionPointedCopper
@@ -132,6 +163,9 @@
     layers:
     - state: medallion_pointed_dark
     - map: ["display"]
+  - type: ItemSlotRenderer
+    renderOffsets:
+      display_slot: 0.5,1.5
   - type: Construction
     graph: CarvedWoodMedallionGraph
     node: medallionPointedDark

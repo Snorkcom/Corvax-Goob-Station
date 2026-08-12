@@ -100,7 +100,7 @@ public sealed class ItemSlotRendererSystem : EntitySystem
 /// Doesn't actually render anything by itself. I'd place this code in a system's FrameUpdate,
 /// but I need to somehow acquire a draw handle to draw an entity to a texture.
 /// </summary>
-public sealed class SpriteToLayerBullshitOverlay : Overlay
+public sealed partial class SpriteToLayerBullshitOverlay : Overlay
 {
     [Dependency] private readonly EntityManager _entMan = default!;
 
@@ -136,12 +136,20 @@ public sealed class SpriteToLayerBullshitOverlay : Overlay
                     continue;
                 }
 
+                var renderPosition = new Vector2(renderTarget.Size.X / 2f, renderTarget.Size.Y / 2f);
+                AdjustRenderPosition(comp, slotId, item, ref renderPosition);
+
                 handle.RenderInRenderTarget(renderTarget, () =>
                 {
-                    handle.DrawEntity(item, renderTarget.Size / 2, Vector2.One, 0); // If this throws due to a missing spritecomp, it's your fault.
+                    handle.DrawEntity(item, renderPosition, Vector2.One, 0); // If this throws due to a missing spritecomp, it's your fault.
                 }, Color.Transparent);
+                AfterRenderSlot(comp, slotId, item, renderTarget, renderPosition);
                 sprite.LayerSetTexture(layerIndex, renderTarget.Texture);
             }
         }
     }
+
+    partial void AdjustRenderPosition(ItemSlotRendererComponent component, string slotId, EntityUid item, ref Vector2 position);
+
+    partial void AfterRenderSlot(ItemSlotRendererComponent component, string slotId, EntityUid item, IRenderTexture renderTarget, Vector2 targetPosition);
 }

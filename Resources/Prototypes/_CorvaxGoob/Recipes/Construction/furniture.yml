@@ -5,7 +5,7 @@
   id: CarvedWoodMedallion
   name: construction-recipe-carved-wood-medallion
   graph: CarvedWoodMedallionGraph
-  targetNode: frameElliptic
+  targetNode: frameShieldDark
   category: construction-category-furniture
   objectType: Structure
   placementMode: SnapgridCenter
