@@ -4,6 +4,12 @@
   id: AdvancedRetractor
 
 - type: Tag
+  id: BagelTheatre
+
+- type: Tag
+  id: BagelCage
+
+- type: Tag
   id: BoneSetter
 
 - type: Tag
@@ -101,3 +107,9 @@
 
 - type: Tag
   id: TelescopicShield
+
+- type: Tag
+  id: GasTurbineBlade
+
+- type: Tag
+  id: GasTurbineStator

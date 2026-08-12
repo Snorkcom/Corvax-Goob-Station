@@ -1,8 +1,3 @@
-// SPDX-FileCopyrightText: 2024 deltanedas <39013340+deltanedas@users.noreply.github.com>
-// SPDX-FileCopyrightText: 2025 Aiden <28298836+Aidenkrz@users.noreply.github.com>
-// SPDX-FileCopyrightText: 2025 James Simonson <jamessimo89@gmail.com>
-// SPDX-FileCopyrightText: 2025 chromiumboy <50505512+chromiumboy@users.noreply.github.com>
-//
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 using Content.Shared.Security;
@@ -80,6 +75,22 @@ public sealed class CriminalRecordChangeStatus : BoundUserInterfaceMessage
     }
 }
 
+// CorvaxGoob-SecurityFeatures
+[Serializable, NetSerializable]
+public sealed class CriminalRecordChangeDetainedStatus : BoundUserInterfaceMessage
+{
+    public readonly string? Articles;
+    public readonly int? Duration;
+    public readonly bool Print;
+
+    public CriminalRecordChangeDetainedStatus(string? articles, int? duration, bool print = false)
+    {
+        Articles = articles;
+        Duration = duration;
+        Print = print;
+    }
+}
+
 /// <summary>
 /// Used to add a single line to the record's crime history.
 /// </summary>
@@ -103,6 +114,18 @@ public sealed class CriminalRecordDeleteHistory : BoundUserInterfaceMessage
     public readonly uint Index;
 
     public CriminalRecordDeleteHistory(uint index)
+    {
+        Index = index;
+    }
+}
+
+// CorvaxGoob-SecurityFeatures
+[Serializable, NetSerializable]
+public sealed class CriminalRecordPrint : BoundUserInterfaceMessage
+{
+    public readonly uint Index;
+
+    public CriminalRecordPrint(uint index)
     {
         Index = index;
     }
