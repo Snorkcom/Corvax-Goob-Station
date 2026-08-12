@@ -1,0 +1,228 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+# carved-wood-medallion
+- type: constructionGraph
+  id: CarvedWoodMedallionGraph
+  start: start
+  graph:
+    - node: start
+      actions:
+        - !type:DestroyEntity {}
+      edges:
+        - to: frameElliptic
+          completed:
+            - !type:SnapToGrid { }
+          steps:
+            - material: MetalRod
+              amount: 1
+              doAfter: 1
+
+    - node: frameElliptic
+      entity: CarvedWoodMedallionFrame
+      edges:
+        - to: frameShieldDark
+          steps:
+            - tool: Prying
+              doAfter: 1
+        - to: start
+          completed:
+            - !type:SpawnPrototype
+              prototype: PartRodMetal1
+              amount: 1
+          steps:
+            - tool: Cutting
+              doAfter: 1
+        - to: medallionElliptic
+          steps:
+            - material: WoodPlank
+              amount: 3
+              doAfter: 3
+
+    - node: frameShieldDark
+      entity: CarvedWoodMedallionFrameShieldDark
+      edges:
+        - to: frameNarrowDark
+          steps:
+            - tool: Prying
+              doAfter: 1
+        - to: start
+          completed:
+            - !type:SpawnPrototype
+              prototype: PartRodMetal1
+              amount: 1
+          steps:
+            - tool: Cutting
+              doAfter: 1
+        - to: medallionShieldDark
+          steps:
+            - material: WoodPlank
+              amount: 3
+              doAfter: 3
+
+    - node: frameNarrowDark
+      entity: CarvedWoodMedallionFrameNarrowDark
+      edges:
+        - to: frameShieldLight
+          steps:
+            - tool: Prying
+              doAfter: 1
+        - to: start
+          completed:
+            - !type:SpawnPrototype
+              prototype: PartRodMetal1
+              amount: 1
+          steps:
+            - tool: Cutting
+              doAfter: 1
+        - to: medallionNarrowDark
+          steps:
+            - material: WoodPlank
+              amount: 3
+              doAfter: 3
+
+    - node: frameShieldLight
+      entity: CarvedWoodMedallionFrameShieldLight
+      edges:
+        - to: framePointedCopper
+          steps:
+            - tool: Prying
+              doAfter: 1
+        - to: start
+          completed:
+            - !type:SpawnPrototype
+              prototype: PartRodMetal1
+              amount: 1
+          steps:
+            - tool: Cutting
+              doAfter: 1
+        - to: medallionShieldLight
+          steps:
+            - material: WoodPlank
+              amount: 3
+              doAfter: 3
+
+    - node: framePointedCopper
+      entity: CarvedWoodMedallionFramePointedCopper
+      edges:
+        - to: framePointedDark
+          steps:
+            - tool: Prying
+              doAfter: 1
+        - to: start
+          completed:
+            - !type:SpawnPrototype
+              prototype: PartRodMetal1
+              amount: 1
+          steps:
+            - tool: Cutting
+              doAfter: 1
+        - to: medallionPointedCopper
+          steps:
+            - material: WoodPlank
+              amount: 3
+              doAfter: 3
+
+    - node: framePointedDark
+      entity: CarvedWoodMedallionFramePointedDark
+      edges:
+        - to: frameElliptic
+          steps:
+            - tool: Prying
+              doAfter: 1
+        - to: start
+          completed:
+            - !type:SpawnPrototype
+              prototype: PartRodMetal1
+              amount: 1
+          steps:
+            - tool: Cutting
+              doAfter: 1
+        - to: medallionPointedDark
+          steps:
+            - material: WoodPlank
+              amount: 3
+              doAfter: 3
+
+    - node: medallionElliptic
+      entity: CarvedWoodMedallion
+      edges:
+        - to: frameElliptic
+          completed:
+            - !type:EmptyContainer
+              container: display_slot
+            - !type:SpawnPrototype
+              prototype: MaterialWoodPlank1
+              amount: 3
+          steps:
+            - tool: Prying
+              doAfter: 2
+
+    - node: medallionShieldDark
+      entity: CarvedWoodMedallionShieldDark
+      edges:
+        - to: frameShieldDark
+          completed:
+            - !type:EmptyContainer
+              container: display_slot
+            - !type:SpawnPrototype
+              prototype: MaterialWoodPlank1
+              amount: 3
+          steps:
+            - tool: Prying
+              doAfter: 2
+
+    - node: medallionNarrowDark
+      entity: CarvedWoodMedallionNarrowDark
+      edges:
+        - to: frameNarrowDark
+          completed:
+            - !type:EmptyContainer
+              container: display_slot
+            - !type:SpawnPrototype
+              prototype: MaterialWoodPlank1
+              amount: 3
+          steps:
+            - tool: Prying
+              doAfter: 2
+
+    - node: medallionShieldLight
+      entity: CarvedWoodMedallionShieldLight
+      edges:
+        - to: frameShieldLight
+          completed:
+            - !type:EmptyContainer
+              container: display_slot
+            - !type:SpawnPrototype
+              prototype: MaterialWoodPlank1
+              amount: 3
+          steps:
+            - tool: Prying
+              doAfter: 2
+
+    - node: medallionPointedCopper
+      entity: CarvedWoodMedallionPointedCopper
+      edges:
+        - to: framePointedCopper
+          completed:
+            - !type:EmptyContainer
+              container: display_slot
+            - !type:SpawnPrototype
+              prototype: MaterialWoodPlank1
+              amount: 3
+          steps:
+            - tool: Prying
+              doAfter: 2
+
+    - node: medallionPointedDark
+      entity: CarvedWoodMedallionPointedDark
+      edges:
+        - to: framePointedDark
+          completed:
+            - !type:EmptyContainer
+              container: display_slot
+            - !type:SpawnPrototype
+              prototype: MaterialWoodPlank1
+              amount: 3
+          steps:
+            - tool: Prying
+              doAfter: 2

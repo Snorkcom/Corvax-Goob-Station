@@ -1,0 +1,15 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+# carved-wood-medallion
+- type: construction
+  id: CarvedWoodMedallion
+  name: construction-recipe-carved-wood-medallion
+  graph: CarvedWoodMedallionGraph
+  targetNode: frameElliptic
+  category: construction-category-furniture
+  objectType: Structure
+  placementMode: SnapgridCenter
+  canRotate: true
+  canBuildInImpassable: true
+  conditions:
+    - !type:WallmountCondition

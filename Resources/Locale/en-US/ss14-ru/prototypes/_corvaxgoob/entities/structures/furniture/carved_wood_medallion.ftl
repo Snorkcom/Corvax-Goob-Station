@@ -1,0 +1,25 @@
+ent-CarvedWoodMedallion = carved wood medallion
+    .desc = A hand-carved wooden display shield for a single cherished trophy.
+ent-CarvedWoodMedallionShieldDark = { ent-CarvedWoodMedallion }
+    .desc = { ent-CarvedWoodMedallion.desc }
+ent-CarvedWoodMedallionNarrowDark = { ent-CarvedWoodMedallion }
+    .desc = { ent-CarvedWoodMedallion.desc }
+ent-CarvedWoodMedallionShieldLight = { ent-CarvedWoodMedallion }
+    .desc = { ent-CarvedWoodMedallion.desc }
+ent-CarvedWoodMedallionPointedCopper = { ent-CarvedWoodMedallion }
+    .desc = { ent-CarvedWoodMedallion.desc }
+ent-CarvedWoodMedallionPointedDark = { ent-CarvedWoodMedallion }
+    .desc = { ent-CarvedWoodMedallion.desc }
+
+ent-CarvedWoodMedallionFrame = carved wood medallion frame
+    .desc = A metal mounting frame for a carved wood medallion. Use a crowbar to change its shape before adding wood.
+ent-CarvedWoodMedallionFrameShieldDark = { ent-CarvedWoodMedallionFrame }
+    .desc = { ent-CarvedWoodMedallionFrame.desc }
+ent-CarvedWoodMedallionFrameNarrowDark = { ent-CarvedWoodMedallionFrame }
+    .desc = { ent-CarvedWoodMedallionFrame.desc }
+ent-CarvedWoodMedallionFrameShieldLight = { ent-CarvedWoodMedallionFrame }
+    .desc = { ent-CarvedWoodMedallionFrame.desc }
+ent-CarvedWoodMedallionFramePointedCopper = { ent-CarvedWoodMedallionFrame }
+    .desc = { ent-CarvedWoodMedallionFrame.desc }
+ent-CarvedWoodMedallionFramePointedDark = { ent-CarvedWoodMedallionFrame }
+    .desc = { ent-CarvedWoodMedallionFrame.desc }

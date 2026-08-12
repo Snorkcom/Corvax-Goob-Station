@@ -1,0 +1,240 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+# carved-wood-medallion
+- type: entity
+  parent: BaseSign
+  id: BaseCarvedWoodMedallion
+  abstract: true
+  name: carved wood medallion
+  description: A hand-carved wooden display shield for a single cherished trophy.
+  components:
+  - type: Sprite
+    sprite: _CorvaxGoob/Structures/Furniture/carved_wood_medallion.rsi
+    drawdepth: WallMountedItems
+    snapCardinals: false
+    noRot: true
+  - type: Transform
+    anchored: true
+  - type: Damageable
+    damageContainer: StructuralInorganic
+    damageModifierSet: Wood
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 35
+      behaviors:
+      - !type:PlaySoundBehavior
+        sound:
+          collection: WoodDestroy
+      - !type:DoActsBehavior
+        acts: ["Destruction"]
+  - type: ItemSlots
+    slots:
+      display_slot:
+        ejectOnBreak: true
+        whitelist:
+          components:
+          - Item
+        blacklist:
+          sizes:
+          - Large
+          - Huge
+          - Ginormous
+  - type: ItemSlotRenderer
+    renderTargetSize: 32,32
+    mapping:
+      display_slot: display
+  - type: ContainerContainer
+    containers:
+      display_slot: !type:ContainerSlot {}
+  - type: PhysicalComposition
+    materialComposition:
+      Wood: 300
+  - type: StaticPrice
+    price: 15
+  - type: Tag
+    tags:
+    - Structure
+    - Wooden
+
+- type: entity
+  parent: BaseCarvedWoodMedallion
+  id: CarvedWoodMedallion
+  suffix: Elliptic
+  components:
+  - type: Sprite
+    layers:
+    - state: medallion_elliptic
+    - map: ["display"]
+  - type: Construction
+    graph: CarvedWoodMedallionGraph
+    node: medallionElliptic
+
+- type: entity
+  parent: BaseCarvedWoodMedallion
+  id: CarvedWoodMedallionShieldDark
+  suffix: Shield, Dark
+  components:
+  - type: Sprite
+    layers:
+    - state: medallion_shield_dark
+    - map: ["display"]
+  - type: Construction
+    graph: CarvedWoodMedallionGraph
+    node: medallionShieldDark
+
+- type: entity
+  parent: BaseCarvedWoodMedallion
+  id: CarvedWoodMedallionNarrowDark
+  suffix: Narrow, Dark
+  components:
+  - type: Sprite
+    layers:
+    - state: medallion_narrow_dark
+    - map: ["display"]
+  - type: Construction
+    graph: CarvedWoodMedallionGraph
+    node: medallionNarrowDark
+
+- type: entity
+  parent: BaseCarvedWoodMedallion
+  id: CarvedWoodMedallionShieldLight
+  suffix: Shield, Light
+  components:
+  - type: Sprite
+    layers:
+    - state: medallion_shield_light
+    - map: ["display"]
+  - type: Construction
+    graph: CarvedWoodMedallionGraph
+    node: medallionShieldLight
+
+- type: entity
+  parent: BaseCarvedWoodMedallion
+  id: CarvedWoodMedallionPointedCopper
+  suffix: Pointed, Copper
+  components:
+  - type: Sprite
+    layers:
+    - state: medallion_pointed_copper
+    - map: ["display"]
+  - type: Construction
+    graph: CarvedWoodMedallionGraph
+    node: medallionPointedCopper
+
+- type: entity
+  parent: BaseCarvedWoodMedallion
+  id: CarvedWoodMedallionPointedDark
+  suffix: Pointed, Dark
+  components:
+  - type: Sprite
+    layers:
+    - state: medallion_pointed_dark
+    - map: ["display"]
+  - type: Construction
+    graph: CarvedWoodMedallionGraph
+    node: medallionPointedDark
+
+- type: entity
+  parent: BaseSign
+  id: BaseCarvedWoodMedallionFrame
+  abstract: true
+  name: carved wood medallion frame
+  description: A metal mounting frame for a carved wood medallion. Use a crowbar to change its shape before adding wood.
+  components:
+  - type: Sprite
+    sprite: _CorvaxGoob/Structures/Furniture/carved_wood_medallion.rsi
+    drawdepth: WallMountedItems
+    snapCardinals: false
+    noRot: true
+  - type: Transform
+    anchored: true
+  - type: Damageable
+    damageContainer: StructuralInorganic
+    damageModifierSet: Metallic
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 25
+      behaviors:
+      - !type:PlaySoundBehavior
+        sound:
+          collection: MetalBreak
+      - !type:DoActsBehavior
+        acts: ["Destruction"]
+  - type: PhysicalComposition
+    materialComposition:
+      Steel: 50
+  - type: StaticPrice
+    price: 5
+  - type: Tag
+    tags:
+    - Structure
+
+- type: entity
+  parent: BaseCarvedWoodMedallionFrame
+  id: CarvedWoodMedallionFrame
+  suffix: Elliptic
+  components:
+  - type: Sprite
+    state: frame_elliptic
+  - type: Construction
+    graph: CarvedWoodMedallionGraph
+    node: frameElliptic
+
+- type: entity
+  parent: BaseCarvedWoodMedallionFrame
+  id: CarvedWoodMedallionFrameShieldDark
+  suffix: Shield, Dark
+  components:
+  - type: Sprite
+    state: frame_shield_dark
+  - type: Construction
+    graph: CarvedWoodMedallionGraph
+    node: frameShieldDark
+
+- type: entity
+  parent: BaseCarvedWoodMedallionFrame
+  id: CarvedWoodMedallionFrameNarrowDark
+  suffix: Narrow, Dark
+  components:
+  - type: Sprite
+    state: frame_narrow_dark
+  - type: Construction
+    graph: CarvedWoodMedallionGraph
+    node: frameNarrowDark
+
+- type: entity
+  parent: BaseCarvedWoodMedallionFrame
+  id: CarvedWoodMedallionFrameShieldLight
+  suffix: Shield, Light
+  components:
+  - type: Sprite
+    state: frame_shield_light
+  - type: Construction
+    graph: CarvedWoodMedallionGraph
+    node: frameShieldLight
+
+- type: entity
+  parent: BaseCarvedWoodMedallionFrame
+  id: CarvedWoodMedallionFramePointedCopper
+  suffix: Pointed, Copper
+  components:
+  - type: Sprite
+    state: frame_pointed_copper
+  - type: Construction
+    graph: CarvedWoodMedallionGraph
+    node: framePointedCopper
+
+- type: entity
+  parent: BaseCarvedWoodMedallionFrame
+  id: CarvedWoodMedallionFramePointedDark
+  suffix: Pointed, Dark
+  components:
+  - type: Sprite
+    state: frame_pointed_dark
+  - type: Construction
+    graph: CarvedWoodMedallionGraph
+    node: framePointedDark
