@@ -9,5 +9,3 @@ construction-recipe-table-fancy-purple = красивый стол (фиолет
 construction-recipe-table-fancy-pink = красивый стол (розовый)
 construction-recipe-table-fancy-red = красивый стол (красный)
 construction-recipe-table-fancy-white = красивый стол (белый)
-# CorvaxGoob
-construction-recipe-carved-wood-medallion = резной деревянный медальон (трофей)
