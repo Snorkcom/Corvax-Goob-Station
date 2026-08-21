@@ -2,16 +2,11 @@
 SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
-<!-- CorvaxGoob Edit -->
 <BoxContainer xmlns="https://spacestation14.io"
-              Orientation="Vertical"
-              HorizontalExpand="True">
+              Orientation="Vertical">
     <Label Name="Title"
-           StyleClasses="LabelKeyText"
-           HorizontalExpand="True"/>
-    <PanelContainer StyleClasses="HighDivider"
-                    HorizontalExpand="True" />
+           StyleClasses="LabelKeyText"/>
+    <PanelContainer StyleClasses="HighDivider" />
     <RichTextLabel Name="Description"
-                   HorizontalExpand="True"
                    Margin="0 4"/>
 </BoxContainer>

@@ -15,6 +15,8 @@ public enum GhostRoleCategory
 [Prototype("ghostRoleClassification")]
 public sealed partial class GhostRoleClassificationPrototype : IPrototype
 {
+    public const int DefaultPriority = 1;
+
     [IdDataField]
     public string ID { get; private set; } = default!;
 
@@ -25,5 +27,5 @@ public sealed partial class GhostRoleClassificationPrototype : IPrototype
     public bool NotifyOnAvailable;
 
     [DataField]
-    public bool Highlight;
+    public int Priority = DefaultPriority;
 }

@@ -15,10 +15,8 @@ namespace Content.Shared.Ghost.Roles
         public string Description { get; set; }
         public string Rules { get; set; }
 
-        // CorvaxGoob Start
-        public GhostRoleCategory Category { get; set; }
-        public bool Highlighted { get; set; }
-        // CorvaxGoob End
+        public GhostRoleCategory Category { get; set; } // CorvaxGoob
+        public int Priority { get; set; } // CorvaxGoob
 
         /// <summary>
         /// A list of all antag and job prototype IDs of the ghost role and its mind role(s).

@@ -1,0 +1,19 @@
+<!--
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
+<DefaultWindow xmlns="https://spacestation14.io"
+               Title="{Loc 'ghost-roles-priority-panel-title'}"
+               MinSize="280 400"
+               SetSize="280 500"
+               Resizable="False">
+    <Label Name="NoPriorityRolesMessage"
+           Text="{Loc 'ghost-roles-priority-panel-empty'}"
+           VerticalAlignment="Top" />
+    <ScrollContainer VerticalExpand="True"
+                     HScrollEnabled="False">
+        <BoxContainer Name="PriorityEntries"
+                      Orientation="Vertical"
+                      VerticalExpand="True" />
+    </ScrollContainer>
+</DefaultWindow>

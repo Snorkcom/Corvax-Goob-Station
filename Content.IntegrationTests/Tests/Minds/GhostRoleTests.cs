@@ -5,7 +5,7 @@ using System.Linq;
 using Content.Server.Ghost.Roles;
 using Content.Server.Ghost.Roles.Components;
 using Content.Shared.Ghost;
-using Content.Shared.Ghost.Roles; // CorvaxGoob
+using Content.Shared.Ghost.Roles;
 using Content.Shared.Mind;
 using Content.Shared.Players;
 using Robust.Shared.Console;
@@ -19,25 +19,23 @@ public sealed class GhostRoleTests
 {
     private const string GhostRoleProtoId = "GhostRoleTestEntity";
     private const string TestMobProtoId = "GhostRoleTestMob";
-    // CorvaxGoob Start
-    private const string ClassifiedGhostRoleProtoId = "ClassifiedGhostRoleTestEntity";
-    private const string UnclassifiedGhostRoleProtoId = "UnclassifiedGhostRoleTestEntity";
-    private const string ClassifiedSpawnerGhostRoleProtoId = "ClassifiedSpawnerGhostRoleTestEntity";
-    private const string ClassifiedSpawnerTargetProtoId = "ClassifiedSpawnerGhostRoleTestMob";
-    // CorvaxGoob End
+    private const string ClassifiedGhostRoleProtoId = "ClassifiedGhostRoleTestEntity"; // CorvaxGoob
+    private const string UnclassifiedGhostRoleProtoId = "UnclassifiedGhostRoleTestEntity"; // CorvaxGoob
+    private const string ClassifiedSpawnerProtoId = "ClassifiedSpawnerGhostRoleTestEntity"; // CorvaxGoob
+    private const string ClassifiedSpawnerTargetProtoId = "ClassifiedSpawnerGhostRoleTestMob"; // CorvaxGoob
 
-    // CorvaxGoob Edit Start
     [TestPrototypes]
     private const string Prototypes = $"""
         - type: ghostRoleClassification
           id: {ClassifiedGhostRoleProtoId}
           category: Antagonist
+          priority: 100
           notifyOnAvailable: true
-          highlight: true
 
         - type: ghostRoleClassification
           id: {ClassifiedSpawnerTargetProtoId}
-          category: Antagonist
+          category: Other
+          priority: 30
 
         - type: entity
           id: {GhostRoleProtoId}
@@ -67,7 +65,7 @@ public sealed class GhostRoleTests
           - type: MobState
 
         - type: entity
-          id: {ClassifiedSpawnerGhostRoleProtoId}
+          id: {ClassifiedSpawnerProtoId}
           components:
           - type: GhostRole
           - type: GhostRoleMobSpawner
@@ -80,7 +78,7 @@ public sealed class GhostRoleTests
         """;
 
     [Test]
-    public async Task GhostRoleClassificationsUseRegistryAndSpawnerFallback()
+    public async Task GhostRoleClassificationsUsePriorityAndSpawnerFallback()
     {
         await using var pair = await PoolManager.GetServerClient(new PoolSettings
         {
@@ -101,40 +99,50 @@ public sealed class GhostRoleTests
         {
             classified = entMan.SpawnEntity(ClassifiedGhostRoleProtoId, mapData.GridCoords);
             unclassified = entMan.SpawnEntity(UnclassifiedGhostRoleProtoId, mapData.GridCoords);
-            spawner = entMan.SpawnEntity(ClassifiedSpawnerGhostRoleProtoId, mapData.GridCoords);
+            spawner = entMan.SpawnEntity(ClassifiedSpawnerProtoId, mapData.GridCoords);
         });
 
         await pair.RunTicksSync(5);
 
-        uint classifiedId = default;
-        uint unclassifiedId = default;
-        uint spawnerId = default;
-        GhostRoleInfo[] roles = [];
-
-        await server.WaitPost(() =>
+        await server.WaitAssertion(() =>
         {
-            classifiedId = entMan.GetComponent<GhostRoleComponent>(classified).Identifier;
-            unclassifiedId = entMan.GetComponent<GhostRoleComponent>(unclassified).Identifier;
-            spawnerId = entMan.GetComponent<GhostRoleComponent>(spawner).Identifier;
-            roles = entMan.System<GhostRoleSystem>().GetGhostRolesInfo(null);
-        });
+            var classificationSystem = entMan.System<GhostRoleClassificationSystem>();
+            var ghostRoleSystem = entMan.System<GhostRoleSystem>();
 
-        Assert.Multiple(() =>
-        {
-            var classifiedRole = roles.Single(role => role.Identifier == classifiedId);
-            var unclassifiedRole = roles.Single(role => role.Identifier == unclassifiedId);
-            var spawnerRole = roles.Single(role => role.Identifier == spawnerId);
+            var classifiedComponent = entMan.GetComponent<GhostRoleComponent>(classified);
+            var unclassifiedComponent = entMan.GetComponent<GhostRoleComponent>(unclassified);
+            var spawnerComponent = entMan.GetComponent<GhostRoleComponent>(spawner);
 
-            Assert.That(classifiedRole.Category, Is.EqualTo(GhostRoleCategory.Antagonist));
-            Assert.That(classifiedRole.Highlighted, Is.True);
-            Assert.That(unclassifiedRole.Category, Is.EqualTo(GhostRoleCategory.Other));
-            Assert.That(unclassifiedRole.Highlighted, Is.False);
-            Assert.That(spawnerRole.Category, Is.EqualTo(GhostRoleCategory.Antagonist));
+            var directClassification = classificationSystem.GetClassification((classified, classifiedComponent));
+            var missingClassification = classificationSystem.GetClassification((unclassified, unclassifiedComponent));
+            var spawnerClassification = classificationSystem.GetClassification((spawner, spawnerComponent));
+            var roles = ghostRoleSystem.GetGhostRolesInfo(null);
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(directClassification, Is.Not.Null);
+                Assert.That(directClassification!.Priority, Is.EqualTo(100));
+                Assert.That(directClassification.NotifyOnAvailable, Is.True);
+                Assert.That(missingClassification, Is.Null);
+                Assert.That(spawnerClassification, Is.Not.Null);
+                Assert.That(spawnerClassification!.Priority, Is.EqualTo(30));
+                Assert.That(spawnerClassification.NotifyOnAvailable, Is.False);
+
+                var directInfo = roles.Single(role => role.Identifier == classifiedComponent.Identifier);
+                var missingInfo = roles.Single(role => role.Identifier == unclassifiedComponent.Identifier);
+                var spawnerInfo = roles.Single(role => role.Identifier == spawnerComponent.Identifier);
+
+                Assert.That(directInfo.Category, Is.EqualTo(GhostRoleCategory.Antagonist));
+                Assert.That(directInfo.Priority, Is.EqualTo(100));
+                Assert.That(missingInfo.Category, Is.EqualTo(GhostRoleCategory.Other));
+                Assert.That(missingInfo.Priority, Is.EqualTo(GhostRoleClassificationPrototype.DefaultPriority));
+                Assert.That(spawnerInfo.Category, Is.EqualTo(GhostRoleCategory.Other));
+                Assert.That(spawnerInfo.Priority, Is.EqualTo(30));
+            });
         });
 
         await pair.CleanReturnAsync();
     }
-    // CorvaxGoob End
 
     /// <summary>
     /// This is a simple test that just checks if a player can take a ghost role and then regain control of their

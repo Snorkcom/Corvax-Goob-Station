@@ -2,146 +2,147 @@
 #
 # Explicitly maintained ghost role classifications.
 # The id matches an entity prototype that owns GhostRole, or a GhostRoleMobSpawner prototype target.
-# Missing entries are shown as Other and never trigger availability sound.
+# Current emergency teams use priority 75; regular future entries should normally use priority 30.
+# Missing entries use priority 1, are absent from the priority panel, and never trigger availability sound.
 
 # Emergency response teams and death squads.
 - type: ghostRoleClassification
   id: RandomHumanoidSpawnerDeathSquad # Агент Эскадрона Смерти
   category: Other
-  highlight: true
+  priority: 75
 
 - type: ghostRoleClassification
   id: RandomHumanoidSpawnerERTLeader # ОБР лидер
   category: Other
-  highlight: true
+  priority: 75
 
 - type: ghostRoleClassification
   id: RandomHumanoidSpawnerERTLeaderEVA # ОБР лидер
   category: Other
-  highlight: true
+  priority: 75
 
 - type: ghostRoleClassification
   id: RandomHumanoidSpawnerERTChaplain # ОБР священник
   category: Other
-  highlight: true
+  priority: 75
 
 - type: ghostRoleClassification
   id: RandomHumanoidSpawnerERTChaplainEVA # ОБР священник
   category: Other
-  highlight: true
+  priority: 75
 
 - type: ghostRoleClassification
   id: RandomHumanoidSpawnerERTJanitor # ОБР уборщик
   category: Other
-  highlight: true
+  priority: 75
 
 - type: ghostRoleClassification
   id: RandomHumanoidSpawnerERTJanitorEVA # ОБР уборщик
   category: Other
-  highlight: true
+  priority: 75
 
 - type: ghostRoleClassification
   id: RandomHumanoidSpawnerERTEngineer # ОБР инженер
   category: Other
-  highlight: true
+  priority: 75
 
 - type: ghostRoleClassification
   id: RandomHumanoidSpawnerERTEngineerEVA # ОБР инженер
   category: Other
-  highlight: true
+  priority: 75
 
 - type: ghostRoleClassification
   id: RandomHumanoidSpawnerERTSecurity # ОБР офицер безопасности
   category: Other
-  highlight: true
+  priority: 75
 
 - type: ghostRoleClassification
   id: RandomHumanoidSpawnerERTSecurityEVA # ОБР офицер безопасности
   category: Other
-  highlight: true
+  priority: 75
 
 - type: ghostRoleClassification
   id: RandomHumanoidSpawnerERTMedical # ОБР медик
   category: Other
-  highlight: true
+  priority: 75
 
 - type: ghostRoleClassification
   id: RandomHumanoidSpawnerERTMedicalEVA # ОБР медик
   category: Other
-  highlight: true
+  priority: 75
 
 - type: ghostRoleClassification
   id: RandomHumanoidSpawnerCBURNUnit # Агент РХБЗЗ
   category: Other
-  highlight: true
+  priority: 75
 
 # No-requirements variants.
 - type: ghostRoleClassification
   id: RandomHumanoidSpawnerDeathSquadNoReq # Эскадрон Смерти
   category: Other
-  highlight: true
+  priority: 75
 
 - type: ghostRoleClassification
   id: RandomHumanoidSpawnerERTLeaderNoReq # Лидер ОБР
   category: Other
-  highlight: true
+  priority: 75
 
 - type: ghostRoleClassification
   id: RandomHumanoidSpawnerERTLeaderEVANoReq # Лидер ОБР
   category: Other
-  highlight: true
+  priority: 75
 
 - type: ghostRoleClassification
   id: RandomHumanoidSpawnerERTChaplainNoReq # ОБР священник
   category: Other
-  highlight: true
+  priority: 75
 
 - type: ghostRoleClassification
   id: RandomHumanoidSpawnerERTChaplainEVANoReq # ОБР священник
   category: Other
-  highlight: true
+  priority: 75
 
 - type: ghostRoleClassification
   id: RandomHumanoidSpawnerERTJanitorNoReq # ОБР уборщик
   category: Other
-  highlight: true
+  priority: 75
 
 - type: ghostRoleClassification
   id: RandomHumanoidSpawnerERTJanitorEVANoReq # ОБР уборщик
   category: Other
-  highlight: true
+  priority: 75
 
 - type: ghostRoleClassification
   id: RandomHumanoidSpawnerERTEngineerNoReq # ОБР инженер
   category: Other
-  highlight: true
+  priority: 75
 
 - type: ghostRoleClassification
   id: RandomHumanoidSpawnerERTEngineerEVANoReq # ОБР инженер
   category: Other
-  highlight: true
+  priority: 75
 
 - type: ghostRoleClassification
   id: RandomHumanoidSpawnerERTSecurityNoReq # ОБР офицер безопасности
   category: Other
-  highlight: true
+  priority: 75
 
 - type: ghostRoleClassification
   id: RandomHumanoidSpawnerERTSecurityEVANoReq # ОБР офицер безопасности
   category: Other
-  highlight: true
+  priority: 75
 
 - type: ghostRoleClassification
   id: RandomHumanoidSpawnerERTMedicalNoReq # ОБР медик
   category: Other
-  highlight: true
+  priority: 75
 
 - type: ghostRoleClassification
   id: RandomHumanoidSpawnerERTMedicalEVANoReq # ОБР медик
   category: Other
-  highlight: true
+  priority: 75
 
 - type: ghostRoleClassification
   id: RandomHumanoidSpawnerCBURNUnitNoReq # Агент РХБЗЗ
   category: Other
-  highlight: true
+  priority: 75
