@@ -19,6 +19,10 @@
     fillBaseName: fill-
     inHandsFillBaseName: -fill-
     inHandsMaxFillLevels: 2
+    # CorvaxGoob Start
+    equippedFillBaseName: -fill-
+    equippedMaxFillLevels: 2
+    # CorvaxGoob End
   - type: MeleeWeapon
     damage:
       types:
@@ -39,6 +43,12 @@
   - type: Item
     size: Large
     sprite: Objects/Specific/Janitorial/mop.rsi
+    # CorvaxGoob Start
+  - type: Clothing
+    quickEquip: false
+    slots:
+    - suitStorage
+    # CorvaxGoob End
   - type: Absorbent
     useAbsorberSolution: true
   - type: SolutionContainerManager
@@ -77,8 +87,18 @@
         visible: false
     - type: SolutionContainerVisuals
       maxFillLevels: 2
+      # CorvaxGoob Start
+      equippedFillBaseName: null
+      equippedMaxFillLevels: 2
+      # CorvaxGoob End
     - type: Item
       sprite: Objects/Specific/Janitorial/advmop.rsi
+      # CorvaxGoob Start
+    - type: Clothing
+      quickEquip: false
+      slots:
+      - suitStorage
+      # CorvaxGoob End
     - type: Absorbent
       pickupAmount: 100
       useAbsorberSolution: true
