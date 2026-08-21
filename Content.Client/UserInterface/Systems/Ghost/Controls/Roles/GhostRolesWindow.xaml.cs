@@ -23,6 +23,7 @@ namespace Content.Client.UserInterface.Systems.Ghost.Controls.Roles
         public GhostRolesWindow()
         {
             RobustXamlLoader.Load(this);
+            InitializeCorvaxGoobControls(); // CorvaxGoob - ghost-role-filter-and-notification
         }
 
         public void ClearEntries()

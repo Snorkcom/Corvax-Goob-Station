@@ -11,7 +11,7 @@ using Robust.Client.GameObjects;
 namespace Content.Client.UserInterface.Systems.Ghost.Controls.Roles
 {
     [UsedImplicitly]
-    public sealed class GhostRolesEui : BaseEui
+    public sealed partial class GhostRolesEui : BaseEui // CorvaxGoob - made partial
     {
         private readonly GhostRolesWindow _window;
         private GhostRoleRulesWindow? _windowRules = null;
@@ -20,6 +20,7 @@ namespace Content.Client.UserInterface.Systems.Ghost.Controls.Roles
         public GhostRolesEui()
         {
             _window = new GhostRolesWindow();
+            InitializeCorvaxGoobControls(); // CorvaxGoob - ghost-role-filter-and-notification
 
             _window.OnRoleRequestButtonClicked += info =>
             {
@@ -79,6 +80,8 @@ namespace Content.Client.UserInterface.Systems.Ghost.Controls.Roles
             if (state is not GhostRolesEuiState ghostState)
                 return;
 
+            var visibleRoles = FilterCorvaxGoobRoles(ghostState); // CorvaxGoob - ghost-role-filter-and-notification
+
             // We must save BodyVisible state, so all Collapsible boxes will not close
             // on adding new ghost role.
             // Save the current state of each Collapsible box being visible or not
@@ -86,6 +89,7 @@ namespace Content.Client.UserInterface.Systems.Ghost.Controls.Roles
 
             // Clearing the container before adding new roles
             _window.ClearEntries();
+            _window.SetNoRolesMessage(); // CorvaxGoob - ghost-role-filter-and-notification
 
             var entityManager = IoCManager.Resolve<IEntityManager>();
             var sysManager = entityManager.EntitySysManager;
@@ -93,7 +97,7 @@ namespace Content.Client.UserInterface.Systems.Ghost.Controls.Roles
             var requirementsManager = IoCManager.Resolve<JobRequirementsManager>();
 
             // Grouping roles
-            var groupedRoles = ghostState.GhostRoles.GroupBy(role => (
+            var groupedRoles = visibleRoles.GroupBy(role => (  // CorvaxGoob Edit - ghost-role-filter-and-notification
                     role.Name,
                     role.Description,
                     //  Check the prototypes for role requirements and bans

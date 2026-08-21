@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 using Content.Server._CorvaxGoob.Skills;
+using Content.Server._CorvaxGoob.GhostRoles; // CorvaxGoob - ghost-role-filter-and-notification
 using Content.Server.Administration.Logs;
 using Content.Server.Administration.Managers;
 using Content.Server.EUI;
@@ -10,6 +11,7 @@ using Content.Server.Ghost.Roles.Events;
 using Content.Server.Ghost.Roles.UI;
 using Content.Server.Popups;
 using Content.Shared._CorvaxGoob.GhostBar;
+using Content.Shared._CorvaxGoob.GhostRoles; // CorvaxGoob - ghost-role-filter-and-notification
 using Content.Shared.Administration;
 using Content.Shared.CCVar;
 using Content.Shared.Database;
@@ -66,6 +68,7 @@ public sealed class GhostRoleSystem : EntitySystem
     [Dependency] private readonly IPrototypeManager _prototype = default!;
     [Dependency] private readonly SkillsSystem _skillsSystem = default!; // CorvaxGoob-Skills
     [Dependency] private readonly GhostSystem _ghost = default!; // CorvaxGoob-GhostBarMoreFeatures
+    [Dependency] private readonly GhostRoleClassificationSystem _classification = default!; // CorvaxGoob
 
     private uint _nextRoleIdentifier;
     private bool _needsUpdateGhostRoleCount = true;
@@ -333,6 +336,7 @@ public sealed class GhostRoleSystem : EntitySystem
             return;
 
         _ghostRoles[role.Comp.Identifier = GetNextRoleIdentifier()] = role;
+        _classification.NotifyRoleAvailable(role); // CorvaxGoob - ghost-role-filter-and-notification
         UpdateAllEui();
     }
 
@@ -716,6 +720,7 @@ public sealed class GhostRoleSystem : EntitySystem
                 : TimeSpan.MinValue;
 
             TryPrototypes((uid, role), out var antags, out var jobs);
+            var classification = _classification.GetClassification((uid, role)); // CorvaxGoob - ghost-role-filter-and-notification
 
             roles.Add(new GhostRoleInfo
             {
@@ -723,6 +728,7 @@ public sealed class GhostRoleSystem : EntitySystem
                 Name = role.RoleName,
                 Description = role.RoleDescription,
                 Rules = role.RoleRules,
+                Priority = classification?.Priority ?? GhostRoleClassificationPrototype.UnclassifiedPriority, // CorvaxGoob - ghost-role-filter-and-notification
                 RolePrototypes = (jobs, antags),
                 Kind = kind,
                 RafflePlayerCount = rafflePlayerCount,

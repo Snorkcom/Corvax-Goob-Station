@@ -16,6 +16,11 @@ namespace Content.Shared.Ghost.Roles
         public string Rules { get; set; }
 
         /// <summary>
+        /// // CorvaxGoob - ghost-role-filter-and-notification. Zero for unclassified roles; positive values come from the CorvaxGoob registry.
+        /// </summary>
+        public int Priority { get; set; }
+
+        /// <summary>
         /// A list of all antag and job prototype IDs of the ghost role and its mind role(s).
         /// </summary>
         public (List<ProtoId<JobPrototype>>?,List<ProtoId<AntagPrototype>>?)  RolePrototypes;
@@ -40,11 +45,15 @@ namespace Content.Shared.Ghost.Roles
     public sealed class GhostRolesEuiState : EuiStateBase
     {
         public GhostRoleInfo[] GhostRoles { get; }
+        public bool NotificationsEnabled { get; } // CorvaxGoob - ghost-role-filter-and-notification
 
-        public GhostRolesEuiState(GhostRoleInfo[] ghostRoles)
+        // CorvaxGoob Edit Start - ghost-role-filter-and-notification
+        public GhostRolesEuiState(GhostRoleInfo[] ghostRoles, bool notificationsEnabled)
         {
             GhostRoles = ghostRoles;
+            NotificationsEnabled = notificationsEnabled;
         }
+        // CorvaxGoob End
     }
 
     [NetSerializable, Serializable]

@@ -1,0 +1,149 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# Explicitly maintained ghost role classifications.
+# The id matches an entity prototype that owns GhostRole, or a GhostRoleMobSpawner prototype target.
+# Current emergency teams use priority 75; regular future entries should normally use priority 30.
+# Missing entries have priority 0 and are hidden while the important-role filter is enabled.
+# Listed roles trigger availability sound by default; use notifyOnAvailable: false to opt out.
+
+# Emergency response teams and death squads.
+- type: ghostRoleClassification
+  id: RandomHumanoidSpawnerDeathSquad # Агент Эскадрона Смерти
+  category: Other
+  priority: 75
+
+- type: ghostRoleClassification
+  id: RandomHumanoidSpawnerERTLeader # ОБР лидер
+  category: Other
+  priority: 75
+
+- type: ghostRoleClassification
+  id: RandomHumanoidSpawnerERTLeaderEVA # ОБР лидер
+  category: Other
+  priority: 75
+
+- type: ghostRoleClassification
+  id: RandomHumanoidSpawnerERTChaplain # ОБР священник
+  category: Other
+  priority: 75
+
+- type: ghostRoleClassification
+  id: RandomHumanoidSpawnerERTChaplainEVA # ОБР священник
+  category: Other
+  priority: 75
+
+- type: ghostRoleClassification
+  id: RandomHumanoidSpawnerERTJanitor # ОБР уборщик
+  category: Other
+  priority: 75
+
+- type: ghostRoleClassification
+  id: RandomHumanoidSpawnerERTJanitorEVA # ОБР уборщик
+  category: Other
+  priority: 75
+
+- type: ghostRoleClassification
+  id: RandomHumanoidSpawnerERTEngineer # ОБР инженер
+  category: Other
+  priority: 75
+
+- type: ghostRoleClassification
+  id: RandomHumanoidSpawnerERTEngineerEVA # ОБР инженер
+  category: Other
+  priority: 75
+
+- type: ghostRoleClassification
+  id: RandomHumanoidSpawnerERTSecurity # ОБР офицер безопасности
+  category: Other
+  priority: 75
+
+- type: ghostRoleClassification
+  id: RandomHumanoidSpawnerERTSecurityEVA # ОБР офицер безопасности
+  category: Other
+  priority: 75
+
+- type: ghostRoleClassification
+  id: RandomHumanoidSpawnerERTMedical # ОБР медик
+  category: Other
+  priority: 75
+
+- type: ghostRoleClassification
+  id: RandomHumanoidSpawnerERTMedicalEVA # ОБР медик
+  category: Other
+  priority: 75
+
+- type: ghostRoleClassification
+  id: RandomHumanoidSpawnerCBURNUnit # Агент РХБЗЗ
+  category: Other
+  priority: 75
+
+# No-requirements variants.
+- type: ghostRoleClassification
+  id: RandomHumanoidSpawnerDeathSquadNoReq # Эскадрон Смерти
+  category: Other
+  priority: 75
+
+- type: ghostRoleClassification
+  id: RandomHumanoidSpawnerERTLeaderNoReq # Лидер ОБР
+  category: Other
+  priority: 75
+
+- type: ghostRoleClassification
+  id: RandomHumanoidSpawnerERTLeaderEVANoReq # Лидер ОБР
+  category: Other
+  priority: 75
+
+- type: ghostRoleClassification
+  id: RandomHumanoidSpawnerERTChaplainNoReq # ОБР священник
+  category: Other
+  priority: 75
+
+- type: ghostRoleClassification
+  id: RandomHumanoidSpawnerERTChaplainEVANoReq # ОБР священник
+  category: Other
+  priority: 75
+
+- type: ghostRoleClassification
+  id: RandomHumanoidSpawnerERTJanitorNoReq # ОБР уборщик
+  category: Other
+  priority: 75
+
+- type: ghostRoleClassification
+  id: RandomHumanoidSpawnerERTJanitorEVANoReq # ОБР уборщик
+  category: Other
+  priority: 75
+
+- type: ghostRoleClassification
+  id: RandomHumanoidSpawnerERTEngineerNoReq # ОБР инженер
+  category: Other
+  priority: 75
+
+- type: ghostRoleClassification
+  id: RandomHumanoidSpawnerERTEngineerEVANoReq # ОБР инженер
+  category: Other
+  priority: 75
+
+- type: ghostRoleClassification
+  id: RandomHumanoidSpawnerERTSecurityNoReq # ОБР офицер безопасности
+  category: Other
+  priority: 75
+
+- type: ghostRoleClassification
+  id: RandomHumanoidSpawnerERTSecurityEVANoReq # ОБР офицер безопасности
+  category: Other
+  priority: 75
+
+- type: ghostRoleClassification
+  id: RandomHumanoidSpawnerERTMedicalNoReq # ОБР медик
+  category: Other
+  priority: 75
+
+- type: ghostRoleClassification
+  id: RandomHumanoidSpawnerERTMedicalEVANoReq # ОБР медик
+  category: Other
+  priority: 75
+
+- type: ghostRoleClassification
+  id: RandomHumanoidSpawnerCBURNUnitNoReq # Агент РХБЗЗ
+  category: Other
+  priority: 75
