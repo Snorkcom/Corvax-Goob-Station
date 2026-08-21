@@ -14,12 +14,15 @@ namespace Content.Client.UserInterface.Systems.Ghost.Controls.Roles
     public sealed class GhostRolesEui : BaseEui
     {
         private readonly GhostRolesWindow _window;
+        private readonly GhostRolesPriorityPanel _priorityPanel; // CorvaxGoob
         private GhostRoleRulesWindow? _windowRules = null;
         private uint _windowRulesId = 0;
 
         public GhostRolesEui()
         {
             _window = new GhostRolesWindow();
+            _priorityPanel = new GhostRolesPriorityPanel(_window); // CorvaxGoob
+            _priorityPanel.OnRoleSelected += _window.ScrollToRole; // CorvaxGoob
 
             _window.OnRoleRequestButtonClicked += info =>
             {
@@ -63,11 +66,13 @@ namespace Content.Client.UserInterface.Systems.Ghost.Controls.Roles
         {
             base.Opened();
             _window.OpenCentered();
+            _priorityPanel.OpenAttached(); // CorvaxGoob
         }
 
         public override void Closed()
         {
             base.Closed();
+            _priorityPanel.Close(); // CorvaxGoob
             _window.Close();
             _windowRules?.Close();
         }
@@ -98,7 +103,9 @@ namespace Content.Client.UserInterface.Systems.Ghost.Controls.Roles
                     role.Description,
                     //  Check the prototypes for role requirements and bans
                     requirementsManager.IsAllowed(role.RolePrototypes.Item1, role.RolePrototypes.Item2, null, out var reason),
-                    reason));
+                    reason)).ToList(); // CorvaxGoob
+
+            var priorityRoles = new List<ImportantGhostRoleGroup>(); // CorvaxGoob
 
             // Add a new entry for each role group
             foreach (var group in groupedRoles)
@@ -110,7 +117,26 @@ namespace Content.Client.UserInterface.Systems.Ghost.Controls.Roles
 
                 // Adding a new role
                 _window.AddEntry(name, description, prototypesAllowed, reason, group, spriteSystem);
+
+                // CorvaxGoob Start
+                var priorityRole = group
+                    .OrderByDescending(role => role.Priority)
+                    .ThenBy(role => role.Category == GhostRoleCategory.Antagonist ? 0 : 1)
+                    .First();
+
+                if (priorityRole.Priority > GhostRoleClassificationPrototype.DefaultPriority)
+                {
+                    priorityRoles.Add(new ImportantGhostRoleGroup(
+                        priorityRole.Identifier,
+                        name,
+                        group.Count(),
+                        priorityRole.Category,
+                        priorityRole.Priority));
+                }
+                // CorvaxGoob End
             }
+
+            _priorityPanel.SetEntries(priorityRoles); // CorvaxGoob
 
             // Restore the Collapsible box state if it is saved
             _window.RestoreCollapsibleBoxesStates();

@@ -9,7 +9,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     <Label Name="NoRolesMessage"
            Text="{Loc 'ghost-roles-window-no-roles-available-label'}"
            VerticalAlignment="Top" />
-    <ScrollContainer VerticalExpand="True"
+    <ScrollContainer Name="RoleScroll"
+                     VerticalExpand="True"
                      HScrollEnabled="False">
         <BoxContainer Orientation="Vertical"
                       Name="EntryContainer"

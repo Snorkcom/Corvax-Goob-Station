@@ -40,6 +40,11 @@ ghost-target-window-warp-to-most-followed = Warp to Most Followed
 
 ghost-roles-window-title = Ghost Roles
 ghost-roles-window-available-button = Available ({$rolesCount})
+ghost-roles-priority-panel-title = Important roles
+ghost-roles-priority-panel-empty = No important roles available
+ghost-roles-priority-panel-category-antagonist = Antagonists and threats ({$rolesCount})
+ghost-roles-priority-panel-category-other = Others ({$rolesCount})
+ghost-roles-priority-panel-entry = {$name} ({$rolesCount})
 ghost-roles-window-join-raffle-button = Join raffle
 ghost-roles-window-raffle-in-progress-button =
     Join raffle ({$time} left, { $players ->

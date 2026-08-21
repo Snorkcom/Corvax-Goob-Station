@@ -66,6 +66,7 @@ public sealed class GhostRoleSystem : EntitySystem
     [Dependency] private readonly IPrototypeManager _prototype = default!;
     [Dependency] private readonly SkillsSystem _skillsSystem = default!; // CorvaxGoob-Skills
     [Dependency] private readonly GhostSystem _ghost = default!; // CorvaxGoob-GhostBarMoreFeatures
+    [Dependency] private readonly GhostRoleClassificationSystem _classification = default!; // CorvaxGoob
 
     private uint _nextRoleIdentifier;
     private bool _needsUpdateGhostRoleCount = true;
@@ -333,6 +334,7 @@ public sealed class GhostRoleSystem : EntitySystem
             return;
 
         _ghostRoles[role.Comp.Identifier = GetNextRoleIdentifier()] = role;
+        _classification.NotifyRoleAvailable(role); // CorvaxGoob
         UpdateAllEui();
     }
 
@@ -716,6 +718,7 @@ public sealed class GhostRoleSystem : EntitySystem
                 : TimeSpan.MinValue;
 
             TryPrototypes((uid, role), out var antags, out var jobs);
+            var classification = _classification.GetClassification((uid, role)); // CorvaxGoob
 
             roles.Add(new GhostRoleInfo
             {
@@ -723,6 +726,8 @@ public sealed class GhostRoleSystem : EntitySystem
                 Name = role.RoleName,
                 Description = role.RoleDescription,
                 Rules = role.RoleRules,
+                Category = classification?.Category ?? GhostRoleCategory.Other, // CorvaxGoob
+                Priority = classification?.Priority ?? GhostRoleClassificationPrototype.DefaultPriority, // CorvaxGoob
                 RolePrototypes = (jobs, antags),
                 Kind = kind,
                 RafflePlayerCount = rafflePlayerCount,
