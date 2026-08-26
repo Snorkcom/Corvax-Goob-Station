@@ -10,7 +10,16 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         <BoxContainer Orientation="Horizontal" SeparationOverride="8" Margin="10 0">
             <BoxContainer Name="FilterVBox" MinWidth="105" Margin="0 10" Orientation="Vertical" SeparationOverride="4"/>
             <BoxContainer Name="HighlightsVBox" MinWidth="120" Margin="0 10" Orientation="Vertical" SeparationOverride="4">
-                <Label Text="{Loc 'hud-chatbox-highlights'}"/>
+                <!-- CorvaxGoob Edit Start - add-highlighted-filter-values -->
+                <BoxContainer Orientation="Horizontal" SeparationOverride="4">
+                    <Label Text="{Loc 'hud-chatbox-highlights'}" HorizontalExpand="True"/>
+                    <Button Name="HighlightAutoFillButton"
+                            Text="+"
+                            MinSize="18 0"
+                            StyleClasses="ButtonSquare ButtonSmall"
+                            ToolTip="{Loc 'hud-chatbox-highlights-autofill-tooltip'}"/>
+                </BoxContainer>
+                <!-- CorvaxGoob End -->
                 <PanelContainer>
                     <!-- Begin custom background for TextEdit -->
                     <PanelContainer.PanelOverride>

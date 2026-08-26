@@ -1,0 +1,382 @@
+# CorvaxGoob chat highlight presets for Russian clients.
+# IDs use the job prototype ID plus a locale suffix so this file can coexist with chat_highlights_en.yml.
+
+- type: corvaxGoobChatHighlight
+  id: AtmosphericTechnician-ru-RU
+  words:
+  - "атмосферный техник"
+
+- type: corvaxGoobChatHighlight
+  id: Bartender-ru-RU
+  words:
+  - "бармен"
+
+- type: corvaxGoobChatHighlight
+  id: BlueshieldOfficer-ru-RU
+  words:
+  - "офицер Синий Щит"
+
+- type: corvaxGoobChatHighlight
+  id: Borg-ru-RU
+  words:
+  - "борг"
+
+- type: corvaxGoobChatHighlight
+  id: Botanist-ru-RU
+  words:
+  - "ботаник"
+
+- type: corvaxGoobChatHighlight
+  id: Brigmedic-ru-RU
+  words:
+  - "бригмедик"
+
+- type: corvaxGoobChatHighlight
+  id: Captain-ru-RU
+  words:
+  - "капитан"
+
+- type: corvaxGoobChatHighlight
+  id: CargoTechnician-ru-RU
+  words:
+  - "грузчик"
+
+- type: corvaxGoobChatHighlight
+  id: CBURN-ru-RU
+  words:
+  - "агент карантинной службы ЦК"
+
+- type: corvaxGoobChatHighlight
+  id: CentralCommandOfficial-ru-RU
+  words:
+  - "представитель ЦК"
+
+- type: corvaxGoobChatHighlight
+  id: Chaplain-ru-RU
+  words:
+  - "священник"
+
+- type: corvaxGoobChatHighlight
+  id: Chef-ru-RU
+  words:
+  - "шеф-повар"
+
+- type: corvaxGoobChatHighlight
+  id: Chemist-ru-RU
+  words:
+  - "химик"
+
+- type: corvaxGoobChatHighlight
+  id: ChiefEngineer-ru-RU
+  words:
+  - "старший инженер"
+
+- type: corvaxGoobChatHighlight
+  id: ChiefMedicalOfficer-ru-RU
+  words:
+  - "главный врач"
+
+- type: corvaxGoobChatHighlight
+  id: Clown-ru-RU
+  words:
+  - "клоун"
+
+- type: corvaxGoobChatHighlight
+  id: CommandMaid-ru-RU
+  words:
+  - "горничная командования"
+
+- type: corvaxGoobChatHighlight
+  id: Conquest-ru-RU
+  words:
+  - "конквест"
+
+- type: corvaxGoobChatHighlight
+  id: DeathSquad-ru-RU
+  words:
+  - "агент ЦК"
+
+- type: corvaxGoobChatHighlight
+  id: Detective-ru-RU
+  words:
+  - "детектив"
+
+- type: corvaxGoobChatHighlight
+  id: Diplomat-ru-RU
+  words:
+  - "дипломат NanoTrasen"
+
+- type: corvaxGoobChatHighlight
+  id: ERTChaplain-ru-RU
+  words:
+  - "священник ОБР"
+
+- type: corvaxGoobChatHighlight
+  id: ERTEngineer-ru-RU
+  words:
+  - "инженер ОБР"
+
+- type: corvaxGoobChatHighlight
+  id: ERTJanitor-ru-RU
+  words:
+  - "уборщик ОБР"
+
+- type: corvaxGoobChatHighlight
+  id: ERTLeader-ru-RU
+  words:
+  - "лидер ОБР"
+
+- type: corvaxGoobChatHighlight
+  id: ERTMedical-ru-RU
+  words:
+  - "медик ОБР"
+
+- type: corvaxGoobChatHighlight
+  id: ERTSecurity-ru-RU
+  words:
+  - "офицер безопасности ОБР"
+
+- type: corvaxGoobChatHighlight
+  id: GovernmentMan-ru-RU
+  words:
+  - "G-Man"
+
+- type: corvaxGoobChatHighlight
+  id: HeadOfPersonnel-ru-RU
+  words:
+  - "глава персонала"
+
+- type: corvaxGoobChatHighlight
+  id: HeadOfSecurity-ru-RU
+  words:
+  - "глава службы безопасности"
+
+- type: corvaxGoobChatHighlight
+  id: HecuOperative-ru-RU
+  words:
+  - "агент HECU"
+
+- type: corvaxGoobChatHighlight
+  id: Inspector-ru-RU
+  words:
+  - "инспектор ЦК"
+
+- type: corvaxGoobChatHighlight
+  id: Janitor-ru-RU
+  words:
+  - "уборщик"
+
+- type: corvaxGoobChatHighlight
+  id: Lawyer-ru-RU
+  words:
+  - "адвокат"
+
+- type: corvaxGoobChatHighlight
+  id: Librarian-ru-RU
+  words:
+  - "библиотекарь"
+
+- type: corvaxGoobChatHighlight
+  id: Magistrate-ru-RU
+  words:
+  - "магистрат"
+
+- type: corvaxGoobChatHighlight
+  id: MedicalDoctor-ru-RU
+  words:
+  - "врач"
+
+- type: corvaxGoobChatHighlight
+  id: MedicalIntern-ru-RU
+  words:
+  - "интерн"
+
+- type: corvaxGoobChatHighlight
+  id: MercenaryCaptain-ru-RU
+  words:
+  - "капитан Наёмников"
+
+- type: corvaxGoobChatHighlight
+  id: Mime-ru-RU
+  words:
+  - "мим"
+
+- type: corvaxGoobChatHighlight
+  id: Musician-ru-RU
+  words:
+  - "музыкант"
+
+- type: corvaxGoobChatHighlight
+  id: NanotrasenCareerTrainer-ru-RU
+  words:
+  - "наставник ЦК"
+
+- type: corvaxGoobChatHighlight
+  id: NanotrasenRepresentative-ru-RU
+  words:
+  - "представитель NanoTrasen"
+
+- type: corvaxGoobChatHighlight
+  id: NavyCaptain-ru-RU
+  words:
+  - "капитан ВКФ"
+
+- type: corvaxGoobChatHighlight
+  id: NavyOfficer-ru-RU
+  words:
+  - "офицер ЦК"
+
+- type: corvaxGoobChatHighlight
+  id: NavyOfficerUndercover-ru-RU
+  words:
+  - "офицер под прикрытием"
+
+- type: corvaxGoobChatHighlight
+  id: OuterCommander-ru-RU
+  words:
+  - "офицер ТСФ"
+
+- type: corvaxGoobChatHighlight
+  id: Overall-ru-RU
+  words:
+  - "общее"
+
+- type: corvaxGoobChatHighlight
+  id: Paramedic-ru-RU
+  words:
+  - "парамедик"
+
+- type: corvaxGoobChatHighlight
+  id: PartyMaker-ru-RU
+  words:
+  - "патимейкер"
+
+- type: corvaxGoobChatHighlight
+  id: Passenger-ru-RU
+  words:
+  - "пассажир"
+
+- type: corvaxGoobChatHighlight
+  id: Pilot-ru-RU
+  words:
+  - "пилот"
+
+- type: corvaxGoobChatHighlight
+  id: Psychologist-ru-RU
+  words:
+  - "психолог"
+
+- type: corvaxGoobChatHighlight
+  id: Quartermaster-ru-RU
+  words:
+  - "квартирмейстер"
+
+- type: corvaxGoobChatHighlight
+  id: RadioHost-ru-RU
+  words:
+  - "радиоведущий"
+
+- type: corvaxGoobChatHighlight
+  id: Reporter-ru-RU
+  words:
+  - "репортёр"
+
+- type: corvaxGoobChatHighlight
+  id: ResearchAssistant-ru-RU
+  words:
+  - "научный ассистент"
+
+- type: corvaxGoobChatHighlight
+  id: ResearchDirector-ru-RU
+  words:
+  - "научный руководитель"
+
+- type: corvaxGoobChatHighlight
+  id: Roboticist-ru-RU
+  words:
+  - "робототехник"
+
+- type: corvaxGoobChatHighlight
+  id: SalvageSpecialist-ru-RU
+  words:
+  - "утилизатор"
+
+- type: corvaxGoobChatHighlight
+  id: Scientist-ru-RU
+  words:
+  - "учёный"
+
+- type: corvaxGoobChatHighlight
+  id: SecurityCadet-ru-RU
+  words:
+  - "кадет СБ"
+
+- type: corvaxGoobChatHighlight
+  id: SecurityClown-ru-RU
+  words:
+  - "клоун СБ"
+
+- type: corvaxGoobChatHighlight
+  id: SecurityOfficer-ru-RU
+  words:
+  - "офицер СБ"
+
+- type: corvaxGoobChatHighlight
+  id: ServiceWorker-ru-RU
+  words:
+  - "сервисный работник"
+
+- type: corvaxGoobChatHighlight
+  id: ShaftMiner-ru-RU
+  words:
+  - "шахтёр"
+
+- type: corvaxGoobChatHighlight
+  id: SpecialOperationsOfficer-ru-RU
+  words:
+  - "офицер спецопераций"
+
+- type: corvaxGoobChatHighlight
+  id: StationAi-ru-RU
+  words:
+  - "станционный ИИ"
+
+- type: corvaxGoobChatHighlight
+  id: StationEngineer-ru-RU
+  words:
+  - "инженер"
+
+- type: corvaxGoobChatHighlight
+  id: Surgeon-ru-RU
+  words:
+  - "хирург"
+
+- type: corvaxGoobChatHighlight
+  id: SyndicateHighCommander-ru-RU
+  words:
+  - "Офицер Синдиката"
+
+- type: corvaxGoobChatHighlight
+  id: TechnicalAssistant-ru-RU
+  words:
+  - "технический ассистент"
+
+- type: corvaxGoobChatHighlight
+  id: Virologist-ru-RU
+  words:
+  - "вирусолог"
+
+- type: corvaxGoobChatHighlight
+  id: Visitor-ru-RU
+  words:
+  - "посетитель"
+
+- type: corvaxGoobChatHighlight
+  id: Warden-ru-RU
+  words:
+  - "смотритель"
+
+- type: corvaxGoobChatHighlight
+  id: WardenHelper-ru-RU
+  words:
+  - "помощник смотрителя"
