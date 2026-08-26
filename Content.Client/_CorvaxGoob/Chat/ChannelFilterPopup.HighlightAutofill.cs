@@ -5,30 +5,29 @@ using static Robust.Client.UserInterface.Controls.BaseButton;
 namespace Content.Client.UserInterface.Systems.Chat.Controls;
 
 /// <summary>
-/// CorvaxGoob-only UI glue for the small "+" button near the highlights label.
+/// Isolated UI glue for the small "+" button near the highlights label.
 /// The popup raises a request event only; the chat controller decides which text to generate.
 /// </summary>
 public sealed partial class ChannelFilterPopup
 {
     /// <summary>
-    /// Raised when the user presses the "+" button to prepare highlight text for the edit field.
-    /// This is intentionally separate from <c>OnNewHighlights</c>, which applies and saves the field.
+    /// Fills the highlights edit field when the "+" button is pressed, without applying or saving it.
     /// </summary>
-    public event Action? OnCorvaxGoobFillHighlightsRequested;
+    public event Action? OnFillHighlightsRequested;
 
     /// <summary>
-    /// Connects the XAML button to the CorvaxGoob request event after typed names are loaded.
+    /// Wires the "+" button to the autofill event after XAML names are loaded.
     /// </summary>
-    private partial void InitializeCorvaxGoobHighlightAutofill()
+    private partial void InitializeHighlightAutofill()
     {
-        HighlightAutoFillButton.OnPressed += CorvaxGoobHighlightAutoFillPressed;
+        HighlightAutoFillButton.OnPressed += HighlightAutoFillPressed;
     }
 
     /// <summary>
     /// Converts the button press into a feature-specific request without touching saved highlights.
     /// </summary>
-    private void CorvaxGoobHighlightAutoFillPressed(ButtonEventArgs args)
+    private void HighlightAutoFillPressed(ButtonEventArgs args)
     {
-        OnCorvaxGoobFillHighlightsRequested?.Invoke();
+        OnFillHighlightsRequested?.Invoke();
     }
 }

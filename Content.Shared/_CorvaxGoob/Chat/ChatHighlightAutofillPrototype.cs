@@ -5,11 +5,11 @@ using Robust.Shared.Prototypes;
 namespace Content.Shared._CorvaxGoob.Chat;
 
 /// <summary>
-/// CorvaxGoob per-job word list used by the chat filter popup's manual highlight-fill button.
+/// Per-job word list used by the chat filter popup's manual highlight-fill button.
 /// The prototype ID is the job ID plus a locale suffix, for example <c>StationEngineer-ru-RU</c>.
 /// </summary>
-[Prototype("corvaxGoobChatHighlight")]
-public sealed partial class CorvaxGoobChatHighlightPrototype : IPrototype
+[Prototype("chatHighlightAutofill")]
+public sealed partial class ChatHighlightAutofillPrototype : IPrototype
 {
     /// <summary>
     /// Job-based identifier with locale suffix. Separate locale files are loaded at the same time.

@@ -47,8 +47,7 @@ public sealed partial class ChannelFilterPopup : Popup
         RobustXamlLoader.Load(this);
 
         HighlightButton.OnPressed += HighlightsEntered;
-        // Keeps the CorvaxGoob "+" button wiring in an isolated partial instead of this base popup file.
-        InitializeCorvaxGoobHighlightAutofill(); // CorvaxGoob - add-highlighted-filter-values
+        InitializeHighlightAutofill(); // CorvaxGoob - add-highlighted-filter-values
         // Add a placeholder text to the highlights TextEdit.
         HighlightEdit.Placeholder = new Rope.Leaf(Loc.GetString("hud-chatbox-highlights-placeholder"));
 
@@ -62,10 +61,7 @@ public sealed partial class ChannelFilterPopup : Popup
         }
     }
 
-    /// <summary>
-    /// CorvaxGoob hook for highlight field helpers that should stay outside the base chat popup.
-    /// </summary>
-    private partial void InitializeCorvaxGoobHighlightAutofill(); // CorvaxGoob - add-highlighted-filter-values
+    private partial void InitializeHighlightAutofill(); // CorvaxGoob - add-highlighted-filter-values
 
     public bool IsActive(ChatChannel channel)
     {

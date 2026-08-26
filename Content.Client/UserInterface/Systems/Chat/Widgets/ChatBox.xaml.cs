@@ -60,8 +60,7 @@ public partial class ChatBox : UIWidget
         _controller.MessageAdded += OnMessageAdded;
         _controller.HighlightsUpdated += OnHighlightsUpdated;
         _controller.RegisterChat(this);
-        // Wires the manual highlight-fill popup button after the chat controller is ready.
-        InitializeCorvaxGoobHighlightAutofill(); // CorvaxGoob - add-highlighted-filter-values
+        InitializeHighlightAutofill(); // CorvaxGoob - add-highlighted-filter-values
 
         // WD EDIT START
         _coalescence = _cfg.GetCVar(GoobCVars.CoalesceIdenticalMessages); // i am uncomfortable calling repopulate on chatbox in its ctor, even though it worked in testing i'll still err on the side of caution
@@ -70,15 +69,8 @@ public partial class ChatBox : UIWidget
     }
 
     // CorvaxGoob Start - add-highlighted-filter-values
-    /// <summary>
-    /// Subscribes this chat box to the isolated highlight-fill feature.
-    /// </summary>
-    private partial void InitializeCorvaxGoobHighlightAutofill();
-
-    /// <summary>
-    /// Unsubscribes the isolated highlight-fill feature during widget disposal.
-    /// </summary>
-    private partial void DisposeCorvaxGoobHighlightAutofill();
+    private partial void InitializeHighlightAutofill();
+    private partial void DisposeHighlightAutofill();
     // CorvaxGoob End
 
     private void OnTextEntered(LineEditEventArgs args)
@@ -279,8 +271,8 @@ public partial class ChatBox : UIWidget
         base.Dispose(disposing);
 
         if (!disposing) return;
-        // Keep CorvaxGoob-specific cleanup next to the rest of the chat event cleanup.
-        DisposeCorvaxGoobHighlightAutofill(); // CorvaxGoob - add-highlighted-filter-values
+
+        DisposeHighlightAutofill(); // CorvaxGoob - add-highlighted-filter-values
         _controller.UnregisterChat(this);
         ChatInput.Input.OnTextEntered -= OnTextEntered;
         ChatInput.Input.OnKeyBindDown -= OnInputKeyBindDown;

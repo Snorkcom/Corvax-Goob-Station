@@ -1,308 +1,308 @@
-# CorvaxGoob chat highlight presets for English clients.
+# Chat highlight autofill presets for the en-US locale.
 # IDs use the job prototype ID plus a locale suffix so this file can coexist with chat_highlights_ru.yml.
 # Add localized aliases to the same array, for example: words: ["Captain", "Cap", "Commander"].
 # Use rawWords for values that must be inserted without double quotes, for example: rawWords: ["cap"].
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: AtmosphericTechnician-en-US
   words: ["Atmospheric Technician"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Bartender-en-US
   words: ["Bartender"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: BlueshieldOfficer-en-US
   words: ["Blueshield"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Borg-en-US
   words: ["Cyborg"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Botanist-en-US
   words: ["Botanist"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Brigmedic-en-US
   words: ["Brigmedic"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Captain-en-US
   words: ["Captain"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: CargoTechnician-en-US
   words: ["Cargo Technician"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: CBURN-en-US
   words: ["Centcomm Quarantine Officer"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: CentralCommandOfficial-en-US
   words: ["CentComm Official"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Chaplain-en-US
   words: ["Chaplain"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Chef-en-US
   words: ["Chef"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Chemist-en-US
   words: ["Chemist"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: ChiefEngineer-en-US
   words: ["Chief Engineer"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: ChiefMedicalOfficer-en-US
   words: ["Chief Medical Officer"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Clown-en-US
   words: ["Clown"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: CommandMaid-en-US
   words: ["Command Maid"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Conquest-en-US
   words: ["Conquest"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: DeathSquad-en-US
   words: ["Deathsquad Operative"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Detective-en-US
   words: ["Detective"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Diplomat-en-US
   words: ["Diplomat"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: ERTChaplain-en-US
   words: ["ERT Chaplain"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: ERTEngineer-en-US
   words: ["ERT Engineer"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: ERTJanitor-en-US
   words: ["ERT Janitor"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: ERTLeader-en-US
   words: ["ERT Leader"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: ERTMedical-en-US
   words: ["ERT Medic"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: ERTSecurity-en-US
   words: ["ERT Security"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: GovernmentMan-en-US
   words: ["The G-Man"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: HeadOfPersonnel-en-US
   words: ["Head of Personnel"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: HeadOfSecurity-en-US
   words: ["Head of Security"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: HecuOperative-en-US
   words: ["HECU Operative"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Inspector-en-US
   words: ["Central Command Auditor"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Janitor-en-US
   words: ["Janitor"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Lawyer-en-US
   words: ["Lawyer"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Librarian-en-US
   words: ["Librarian"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Magistrate-en-US
   words: ["Magistrate"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: MedicalDoctor-en-US
   words: ["Medical Doctor"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: MedicalIntern-en-US
   words: ["Medical Intern"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: MercenaryCaptain-en-US
   words: ["Mercenary Captain"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Mime-en-US
   words: ["Mime"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Musician-en-US
   words: ["Musician"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: NanotrasenCareerTrainer-en-US
   words: ["Nanotrasen Career Trainer"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: NanotrasenRepresentative-en-US
   words: ["Nanotrasen Representative"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: NavyCaptain-en-US
   words: ["Navy Captain"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: NavyOfficer-en-US
   words: ["Navy Officer"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: NavyOfficerUndercover-en-US
   words: ["Undercover Navy Officer"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: OuterCommander-en-US
   words: ["Outer Commander"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Overall-en-US
   words: ["Overall"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Paramedic-en-US
   words: ["Paramedic"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: PartyMaker-en-US
   words: ["Party Maker"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Passenger-en-US
   words: ["Assistant"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Pilot-en-US
   words: ["Pilot"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Psychologist-en-US
   words: ["Psychologist"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Quartermaster-en-US
   words: ["Quartermaster"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: RadioHost-en-US
   words: ["Radio Host"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Reporter-en-US
   words: ["Reporter"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: ResearchAssistant-en-US
   words: ["Research Assistant"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: ResearchDirector-en-US
   words: ["Research Director"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Roboticist-en-US
   words: ["Roboticist"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: SalvageSpecialist-en-US
   words: ["Salvage Specialist"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Scientist-en-US
   words: ["Scientist"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: SecurityCadet-en-US
   words: ["Security Cadet"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: SecurityClown-en-US
   words: ["Security Clown"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: SecurityOfficer-en-US
   words: ["Security Officer"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: ServiceWorker-en-US
   words: ["Service Worker"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: ShaftMiner-en-US
   words: ["Shaft Miner"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: SpecialOperationsOfficer-en-US
   words: ["Special Operations Officer"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: StationAi-en-US
   words: ["Station AI"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: StationEngineer-en-US
   words: ["Station Engineer"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Surgeon-en-US
   words: ["Surgeon"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: SyndicateHighCommander-en-US
   words: ["High Commander"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: TechnicalAssistant-en-US
   words: ["Technical Assistant"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Virologist-en-US
   words: ["Virologist"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Visitor-en-US
   words: ["Visitor"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Warden-en-US
   words: ["Warden"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: WardenHelper-en-US
   words: ["Warden Helper"]

@@ -7,7 +7,7 @@ using Robust.Shared.GameObjects;
 namespace Content.Client.UserInterface.Systems.Chat;
 
 /// <summary>
-/// CorvaxGoob manual highlight filler for the filter popup "+" button.
+/// Manual highlight filler for the filter popup "+" button.
 /// It prepares text for the edit field only and deliberately avoids writing to <c>chat.highlights</c>.
 /// </summary>
 public sealed partial class ChatUIController
@@ -16,7 +16,7 @@ public sealed partial class ChatUIController
     /// Builds replacement text from the local character name and original mind job.
     /// Missing name, mind, job, or locale preset is skipped instead of producing a fallback value.
     /// </summary>
-    public string CorvaxGoobBuildCharacterHighlights()
+    public string BuildCharacterHighlights()
     {
         var lines = new List<string>();
         // RobustToolbox content sandbox forbids StringComparer, so duplicate keys are normalized explicitly.
@@ -29,7 +29,7 @@ public sealed partial class ChatUIController
             foreach (var word in metadata.EntityName.Split([' ', '-'],
                          StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
             {
-                TryAddCorvaxGoobHighlightLine(lines, seen, word);
+                TryAddHighlightLine(lines, seen, word);
             }
         }
 
@@ -39,17 +39,17 @@ public sealed partial class ChatUIController
             _ent.System<JobSystem>().MindTryGetJobId(mindId, out var jobId) &&
             jobId is { } originalJobId)
         {
-            if (!TryGetCorvaxGoobJobHighlight(originalJobId.Id, out var highlight))
+            if (!TryGetJobHighlight(originalJobId.Id, out var highlight))
                 return string.Join("\n", lines);
 
             foreach (var word in highlight.Words)
             {
-                TryAddCorvaxGoobHighlightLine(lines, seen, word);
+                TryAddHighlightLine(lines, seen, word);
             }
 
             foreach (var rawWord in highlight.RawWords)
             {
-                TryAddCorvaxGoobHighlightLine(lines, seen, rawWord, true);
+                TryAddHighlightLine(lines, seen, rawWord, true);
             }
         }
 
@@ -60,7 +60,7 @@ public sealed partial class ChatUIController
     /// Finds the editable, culture-specific word list attached to the exact original job prototype ID.
     /// The selected prototype may contain quoted <c>words</c> and unquoted <c>rawWords</c>.
     /// </summary>
-    private bool TryGetCorvaxGoobJobHighlight(string jobId, out CorvaxGoobChatHighlightPrototype highlight)
+    private bool TryGetJobHighlight(string jobId, out ChatHighlightAutofillPrototype highlight)
     {
         var culture = _loc.DefaultCulture?.TwoLetterISOLanguageName == "ru"
             ? "ru-RU"
@@ -72,13 +72,13 @@ public sealed partial class ChatUIController
     /// <summary>
     /// Adds a formatted line if the source value is not empty and has not already been generated.
     /// </summary>
-    private static void TryAddCorvaxGoobHighlightLine(
+    private static void TryAddHighlightLine(
         List<string> lines,
         HashSet<string> seen,
         string value,
         bool raw = false)
     {
-        var line = FormatCorvaxGoobHighlightLine(value, raw);
+        var line = FormatHighlightLine(value, raw);
 
         if (line == null || !seen.Add(line.ToLowerInvariant()))
             return;
@@ -90,7 +90,7 @@ public sealed partial class ChatUIController
     /// Normalizes one highlight value into the user-editable format expected by chat highlights.
     /// Regular values become <c>"word"</c>; raw values are inserted without adding double quotes.
     /// </summary>
-    private static string? FormatCorvaxGoobHighlightLine(string value, bool raw)
+    private static string? FormatHighlightLine(string value, bool raw)
     {
         var trimmed = value.Trim();
 

@@ -1,309 +1,309 @@
-# CorvaxGoob chat highlight presets for Russian clients.
+# Chat highlight autofill presets for the ru-RU locale.
 # IDs use the job prototype ID plus a locale suffix so this file can coexist with chat_highlights_en.yml.
 # Add localized aliases to the same array, for example: words: ["капитан", "кэп", "кеп", "начальник"].
 # Use rawWords for values that must be inserted without double quotes, for example: rawWords: ["кап"].
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: AtmosphericTechnician-ru-RU
   words: ["атмосферный техник"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Bartender-ru-RU
   words: ["бармен"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: BlueshieldOfficer-ru-RU
   words: ["офицер Синий Щит"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Borg-ru-RU
   words: ["борг"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Botanist-ru-RU
   words: ["ботаник"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Brigmedic-ru-RU
   words: ["бригмедик"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Captain-ru-RU
   words: ["капитан", "кэп"]
   rawWords: ["кап"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: CargoTechnician-ru-RU
   words: ["грузчик"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: CBURN-ru-RU
   words: ["агент карантинной службы ЦК"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: CentralCommandOfficial-ru-RU
   words: ["представитель ЦК"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Chaplain-ru-RU
   words: ["священник"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Chef-ru-RU
   words: ["шеф-повар"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Chemist-ru-RU
   words: ["химик"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: ChiefEngineer-ru-RU
   words: ["старший инженер"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: ChiefMedicalOfficer-ru-RU
   words: ["главный врач"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Clown-ru-RU
   words: ["клоун"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: CommandMaid-ru-RU
   words: ["горничная командования"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Conquest-ru-RU
   words: ["конквест"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: DeathSquad-ru-RU
   words: ["агент ЦК"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Detective-ru-RU
   words: ["детектив"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Diplomat-ru-RU
   words: ["дипломат NanoTrasen"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: ERTChaplain-ru-RU
   words: ["священник ОБР"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: ERTEngineer-ru-RU
   words: ["инженер ОБР"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: ERTJanitor-ru-RU
   words: ["уборщик ОБР"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: ERTLeader-ru-RU
   words: ["лидер ОБР"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: ERTMedical-ru-RU
   words: ["медик ОБР"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: ERTSecurity-ru-RU
   words: ["офицер безопасности ОБР"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: GovernmentMan-ru-RU
   words: ["G-Man"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: HeadOfPersonnel-ru-RU
   words: ["глава персонала"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: HeadOfSecurity-ru-RU
   words: ["глава службы безопасности"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: HecuOperative-ru-RU
   words: ["агент HECU"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Inspector-ru-RU
   words: ["инспектор ЦК"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Janitor-ru-RU
   words: ["уборщик"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Lawyer-ru-RU
   words: ["адвокат"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Librarian-ru-RU
   words: ["библиотекарь"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Magistrate-ru-RU
   words: ["магистрат"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: MedicalDoctor-ru-RU
   words: ["врач"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: MedicalIntern-ru-RU
   words: ["интерн"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: MercenaryCaptain-ru-RU
   words: ["капитан Наёмников"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Mime-ru-RU
   words: ["мим"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Musician-ru-RU
   words: ["музыкант"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: NanotrasenCareerTrainer-ru-RU
   words: ["наставник ЦК"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: NanotrasenRepresentative-ru-RU
   words: ["представитель NanoTrasen"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: NavyCaptain-ru-RU
   words: ["капитан ВКФ"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: NavyOfficer-ru-RU
   words: ["офицер ЦК"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: NavyOfficerUndercover-ru-RU
   words: ["офицер под прикрытием"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: OuterCommander-ru-RU
   words: ["офицер ТСФ"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Overall-ru-RU
   words: ["общее"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Paramedic-ru-RU
   words: ["парамедик"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: PartyMaker-ru-RU
   words: ["патимейкер"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Passenger-ru-RU
   words: ["пассажир"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Pilot-ru-RU
   words: ["пилот"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Psychologist-ru-RU
   words: ["психолог"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Quartermaster-ru-RU
   words: ["квартирмейстер"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: RadioHost-ru-RU
   words: ["радиоведущий"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Reporter-ru-RU
   words: ["репортёр"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: ResearchAssistant-ru-RU
   words: ["научный ассистент"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: ResearchDirector-ru-RU
   words: ["научный руководитель"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Roboticist-ru-RU
   words: ["робототехник"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: SalvageSpecialist-ru-RU
   words: ["утилизатор"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Scientist-ru-RU
   words: ["учёный"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: SecurityCadet-ru-RU
   words: ["кадет СБ"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: SecurityClown-ru-RU
   words: ["клоун СБ"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: SecurityOfficer-ru-RU
   words: ["офицер СБ"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: ServiceWorker-ru-RU
   words: ["сервисный работник"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: ShaftMiner-ru-RU
   words: ["шахтёр"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: SpecialOperationsOfficer-ru-RU
   words: ["офицер спецопераций"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: StationAi-ru-RU
   words: ["станционный ИИ"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: StationEngineer-ru-RU
   words: ["инженер"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Surgeon-ru-RU
   words: ["хирург"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: SyndicateHighCommander-ru-RU
   words: ["Офицер Синдиката"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: TechnicalAssistant-ru-RU
   words: ["технический ассистент"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Virologist-ru-RU
   words: ["вирусолог"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Visitor-ru-RU
   words: ["посетитель"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: Warden-ru-RU
   words: ["смотритель"]
 
-- type: corvaxGoobChatHighlight
+- type: chatHighlightAutofill
   id: WardenHelper-ru-RU
   words: ["помощник смотрителя"]
