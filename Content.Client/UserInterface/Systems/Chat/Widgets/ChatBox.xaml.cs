@@ -271,7 +271,6 @@ public partial class ChatBox : UIWidget
         base.Dispose(disposing);
 
         if (!disposing) return;
-
         DisposeHighlightAutofill(); // CorvaxGoob - add-highlighted-filter-values
         _controller.UnregisterChat(this);
         ChatInput.Input.OnTextEntered -= OnTextEntered;

@@ -1,308 +1,408 @@
 # Chat highlight autofill presets for the en-US locale.
-# IDs use the job prototype ID plus a locale suffix so this file can coexist with chat_highlights_ru.yml.
-# Add localized aliases to the same array, for example: words: ["Captain", "Cap", "Commander"].
+# IDs use the job prototype ID plus a locale suffix so this file can coexist with the other locale file.
+# Add localized aliases to words, for example: words: ["Captain", "Cap", "Commander"].
 # Use rawWords for values that must be inserted without double quotes, for example: rawWords: ["cap"].
 
-- type: chatHighlightAutofill
-  id: AtmosphericTechnician-en-US
-  words: ["Atmospheric Technician"]
+# Command
 
 - type: chatHighlightAutofill
-  id: Bartender-en-US
-  words: ["Bartender"]
+  id: Captain-en-US
+  words: ["Captain", "Commander"]
+  rawWords: ["Cap"]
+
+- type: chatHighlightAutofill
+  id: NanotrasenRepresentative-en-US
+  words: ["Nanotrasen Representative", "NT"]
+  rawWords: ["Nanotrasen"]
 
 - type: chatHighlightAutofill
   id: BlueshieldOfficer-en-US
   words: ["Blueshield"]
+  rawWords: ["Blueshield"]
 
-- type: chatHighlightAutofill
-  id: Borg-en-US
-  words: ["Cyborg"]
-
-- type: chatHighlightAutofill
-  id: Botanist-en-US
-  words: ["Botanist"]
-
-- type: chatHighlightAutofill
-  id: Brigmedic-en-US
-  words: ["Brigmedic"]
-
-- type: chatHighlightAutofill
-  id: Captain-en-US
-  words: ["Captain"]
-
-- type: chatHighlightAutofill
-  id: CargoTechnician-en-US
-  words: ["Cargo Technician"]
-
-- type: chatHighlightAutofill
-  id: CBURN-en-US
-  words: ["Centcomm Quarantine Officer"]
-
-- type: chatHighlightAutofill
-  id: CentralCommandOfficial-en-US
-  words: ["CentComm Official"]
-
-- type: chatHighlightAutofill
-  id: Chaplain-en-US
-  words: ["Chaplain"]
-
-- type: chatHighlightAutofill
-  id: Chef-en-US
-  words: ["Chef"]
-
-- type: chatHighlightAutofill
-  id: Chemist-en-US
-  words: ["Chemist"]
+# Engineering
 
 - type: chatHighlightAutofill
   id: ChiefEngineer-en-US
-  words: ["Chief Engineer"]
+  words: ["Chief Engineer", "CE"]
+  rawWords: ["Eng", "Atmos"]
 
 - type: chatHighlightAutofill
-  id: ChiefMedicalOfficer-en-US
-  words: ["Chief Medical Officer"]
-
-- type: chatHighlightAutofill
-  id: Clown-en-US
-  words: ["Clown"]
-
-- type: chatHighlightAutofill
-  id: CommandMaid-en-US
-  words: ["Command Maid"]
-
-- type: chatHighlightAutofill
-  id: Conquest-en-US
-  words: ["Conquest"]
-
-- type: chatHighlightAutofill
-  id: DeathSquad-en-US
-  words: ["Deathsquad Operative"]
-
-- type: chatHighlightAutofill
-  id: Detective-en-US
-  words: ["Detective"]
-
-- type: chatHighlightAutofill
-  id: Diplomat-en-US
-  words: ["Diplomat"]
-
-- type: chatHighlightAutofill
-  id: ERTChaplain-en-US
-  words: ["ERT Chaplain"]
-
-- type: chatHighlightAutofill
-  id: ERTEngineer-en-US
-  words: ["ERT Engineer"]
-
-- type: chatHighlightAutofill
-  id: ERTJanitor-en-US
-  words: ["ERT Janitor"]
-
-- type: chatHighlightAutofill
-  id: ERTLeader-en-US
-  words: ["ERT Leader"]
-
-- type: chatHighlightAutofill
-  id: ERTMedical-en-US
-  words: ["ERT Medic"]
-
-- type: chatHighlightAutofill
-  id: ERTSecurity-en-US
-  words: ["ERT Security"]
-
-- type: chatHighlightAutofill
-  id: GovernmentMan-en-US
-  words: ["The G-Man"]
-
-- type: chatHighlightAutofill
-  id: HeadOfPersonnel-en-US
-  words: ["Head of Personnel"]
-
-- type: chatHighlightAutofill
-  id: HeadOfSecurity-en-US
-  words: ["Head of Security"]
-
-- type: chatHighlightAutofill
-  id: HecuOperative-en-US
-  words: ["HECU Operative"]
-
-- type: chatHighlightAutofill
-  id: Inspector-en-US
-  words: ["Central Command Auditor"]
-
-- type: chatHighlightAutofill
-  id: Janitor-en-US
-  words: ["Janitor"]
-
-- type: chatHighlightAutofill
-  id: Lawyer-en-US
-  words: ["Lawyer"]
-
-- type: chatHighlightAutofill
-  id: Librarian-en-US
-  words: ["Librarian"]
-
-- type: chatHighlightAutofill
-  id: Magistrate-en-US
-  words: ["Magistrate"]
-
-- type: chatHighlightAutofill
-  id: MedicalDoctor-en-US
-  words: ["Medical Doctor"]
-
-- type: chatHighlightAutofill
-  id: MedicalIntern-en-US
-  words: ["Medical Intern"]
-
-- type: chatHighlightAutofill
-  id: MercenaryCaptain-en-US
-  words: ["Mercenary Captain"]
-
-- type: chatHighlightAutofill
-  id: Mime-en-US
-  words: ["Mime"]
-
-- type: chatHighlightAutofill
-  id: Musician-en-US
-  words: ["Musician"]
-
-- type: chatHighlightAutofill
-  id: NanotrasenCareerTrainer-en-US
-  words: ["Nanotrasen Career Trainer"]
-
-- type: chatHighlightAutofill
-  id: NanotrasenRepresentative-en-US
-  words: ["Nanotrasen Representative"]
-
-- type: chatHighlightAutofill
-  id: NavyCaptain-en-US
-  words: ["Navy Captain"]
-
-- type: chatHighlightAutofill
-  id: NavyOfficer-en-US
-  words: ["Navy Officer"]
-
-- type: chatHighlightAutofill
-  id: NavyOfficerUndercover-en-US
-  words: ["Undercover Navy Officer"]
-
-- type: chatHighlightAutofill
-  id: OuterCommander-en-US
-  words: ["Outer Commander"]
-
-- type: chatHighlightAutofill
-  id: Overall-en-US
-  words: ["Overall"]
-
-- type: chatHighlightAutofill
-  id: Paramedic-en-US
-  words: ["Paramedic"]
-
-- type: chatHighlightAutofill
-  id: PartyMaker-en-US
-  words: ["Party Maker"]
-
-- type: chatHighlightAutofill
-  id: Passenger-en-US
-  words: ["Assistant"]
-
-- type: chatHighlightAutofill
-  id: Pilot-en-US
-  words: ["Pilot"]
-
-- type: chatHighlightAutofill
-  id: Psychologist-en-US
-  words: ["Psychologist"]
-
-- type: chatHighlightAutofill
-  id: Quartermaster-en-US
-  words: ["Quartermaster"]
-
-- type: chatHighlightAutofill
-  id: RadioHost-en-US
-  words: ["Radio Host"]
-
-- type: chatHighlightAutofill
-  id: Reporter-en-US
-  words: ["Reporter"]
-
-- type: chatHighlightAutofill
-  id: ResearchAssistant-en-US
-  words: ["Research Assistant"]
-
-- type: chatHighlightAutofill
-  id: ResearchDirector-en-US
-  words: ["Research Director"]
-
-- type: chatHighlightAutofill
-  id: Roboticist-en-US
-  words: ["Roboticist"]
-
-- type: chatHighlightAutofill
-  id: SalvageSpecialist-en-US
-  words: ["Salvage Specialist"]
-
-- type: chatHighlightAutofill
-  id: Scientist-en-US
-  words: ["Scientist"]
-
-- type: chatHighlightAutofill
-  id: SecurityCadet-en-US
-  words: ["Security Cadet"]
-
-- type: chatHighlightAutofill
-  id: SecurityClown-en-US
-  words: ["Security Clown"]
-
-- type: chatHighlightAutofill
-  id: SecurityOfficer-en-US
-  words: ["Security Officer"]
-
-- type: chatHighlightAutofill
-  id: ServiceWorker-en-US
-  words: ["Service Worker"]
-
-- type: chatHighlightAutofill
-  id: ShaftMiner-en-US
-  words: ["Shaft Miner"]
-
-- type: chatHighlightAutofill
-  id: SpecialOperationsOfficer-en-US
-  words: ["Special Operations Officer"]
-
-- type: chatHighlightAutofill
-  id: StationAi-en-US
-  words: ["Station AI"]
+  id: AtmosphericTechnician-en-US
+  words: ["Atmospheric Technician"]
+  rawWords: ["Eng", "Atmos"]
 
 - type: chatHighlightAutofill
   id: StationEngineer-en-US
   words: ["Station Engineer"]
-
-- type: chatHighlightAutofill
-  id: Surgeon-en-US
-  words: ["Surgeon"]
-
-- type: chatHighlightAutofill
-  id: SyndicateHighCommander-en-US
-  words: ["High Commander"]
+  rawWords: ["Eng"]
 
 - type: chatHighlightAutofill
   id: TechnicalAssistant-en-US
   words: ["Technical Assistant"]
+  rawWords: ["Tech", "Eng"]
+
+# Medical
+
+- type: chatHighlightAutofill
+  id: ChiefMedicalOfficer-en-US
+  words: ["Chief Medical Officer", "CMO"]
+  rawWords: ["Med", "Doc"]
+
+- type: chatHighlightAutofill
+  id: Chemist-en-US
+  words: ["Chemist"]
+  rawWords: ["Chem", "Surg", "Virus", "Med", "Doc"]
+
+- type: chatHighlightAutofill
+  id: MedicalDoctor-en-US
+  words: ["Medical Doctor"]
+  rawWords: ["Med", "Doc"]
+
+- type: chatHighlightAutofill
+  id: MedicalIntern-en-US
+  words: ["Medical Intern"]
+  rawWords: ["Intern", "Med", "Doc"]
+
+- type: chatHighlightAutofill
+  id: Paramedic-en-US
+  words: ["Paramedic"]
+  rawWords: ["Med", "Doc"]
+
+- type: chatHighlightAutofill
+  id: Psychologist-en-US
+  words: ["Psychologist"]
+  rawWords: ["Psycho", "Med", "Doc"]
+
+- type: chatHighlightAutofill
+  id: Surgeon-en-US
+  words: ["Surgeon"]
+  rawWords: ["Surg", "Med", "Doc"]
 
 - type: chatHighlightAutofill
   id: Virologist-en-US
   words: ["Virologist"]
+  rawWords: ["Virus", "Med", "Doc"]
+
+# Security
 
 - type: chatHighlightAutofill
-  id: Visitor-en-US
-  words: ["Visitor"]
+  id: HeadOfSecurity-en-US
+  words: ["Head of Security", "HoS"]
+  rawWords: ["Sec"]
 
 - type: chatHighlightAutofill
   id: Warden-en-US
   words: ["Warden"]
+  rawWords: ["Ward", "Sec"]
 
 - type: chatHighlightAutofill
   id: WardenHelper-en-US
   words: ["Warden Helper"]
+  rawWords: ["Ward", "Sec"]
+
+- type: chatHighlightAutofill
+  id: Brigmedic-en-US
+  words: ["Brigmedic", "BM"]
+  rawWords: ["Sec"]
+
+- type: chatHighlightAutofill
+  id: Detective-en-US
+  words: ["Detective"]
+  rawWords: ["Dec", "Sec"]
+
+- type: chatHighlightAutofill
+  id: Pilot-en-US
+  words: ["Pilot"]
+  rawWords: ["Sec"]
+
+- type: chatHighlightAutofill
+  id: SecurityCadet-en-US
+  words: ["Security Cadet"]
+  rawWords: ["Cadet", "Sec"]
+
+- type: chatHighlightAutofill
+  id: SecurityOfficer-en-US
+  words: ["Security Officer"]
+  rawWords: ["Officer", "Sec"]
+
+# Science
+
+- type: chatHighlightAutofill
+  id: ResearchDirector-en-US
+  words: ["Research Director", "RD"]
+  rawWords: ["Research", "Scien"]
+
+- type: chatHighlightAutofill
+  id: ResearchAssistant-en-US
+  words: ["Research Assistant"]
+  rawWords: ["Assistant", "Research", "Scien"]
+
+- type: chatHighlightAutofill
+  id: Roboticist-en-US
+  words: ["Roboticist"]
+  rawWords: ["Robot", "Research", "Scien"]
+
+- type: chatHighlightAutofill
+  id: Scientist-en-US
+  words: ["Scientist"]
+  rawWords: ["Scien"]
+
+# Cargo
+
+- type: chatHighlightAutofill
+  id: Quartermaster-en-US
+  words: ["Quartermaster", "QM"]
+  rawWords: ["Cargo"]
+
+- type: chatHighlightAutofill
+  id: CargoTechnician-en-US
+  words: ["Cargo Technician"]
+  rawWords: ["Cargo"]
+
+- type: chatHighlightAutofill
+  id: SalvageSpecialist-en-US
+  words: ["Salvage Specialist"]
+  rawWords: ["Salvage", "Cargo"]
+
+- type: chatHighlightAutofill
+  id: ShaftMiner-en-US
+  words: ["Shaft Miner"]
+  rawWords: ["Miner", "Cargo"]
+
+# Service
+
+- type: chatHighlightAutofill
+  id: HeadOfPersonnel-en-US
+  words: ["Head of Personnel", "HoP"]
+  rawWords: ["Service"]
+
+- type: chatHighlightAutofill
+  id: Bartender-en-US
+  words: ["Bartender"]
+  rawWords: ["Bar", "Service"]
+
+- type: chatHighlightAutofill
+  id: Botanist-en-US
+  words: ["Botanist"]
+  rawWords: ["Service"]
+
+- type: chatHighlightAutofill
+  id: Chaplain-en-US
+  words: ["Chaplain"]
+  rawWords: ["Service"]
+
+- type: chatHighlightAutofill
+  id: Chef-en-US
+  words: ["Chef"]
+  rawWords: ["Service"]
+
+- type: chatHighlightAutofill
+  id: Clown-en-US
+  words: ["Clown"]
+  rawWords: ["Service"]
+
+- type: chatHighlightAutofill
+  id: Janitor-en-US
+  words: ["Janitor"]
+  rawWords: ["Service"]
+
+- type: chatHighlightAutofill
+  id: Librarian-en-US
+  words: ["Librarian"]
+  rawWords: ["Service"]
+
+- type: chatHighlightAutofill
+  id: Mime-en-US
+  words: ["Mime"]
+  rawWords: ["Service"]
+
+- type: chatHighlightAutofill
+  id: Musician-en-US
+  words: ["Musician"]
+  rawWords: ["Service"]
+
+- type: chatHighlightAutofill
+  id: RadioHost-en-US
+  words: ["Radio Host"]
+  rawWords: ["Radio", "Service"]
+
+- type: chatHighlightAutofill
+  id: Reporter-en-US
+  words: ["Reporter"]
+  rawWords: ["Service"]
+
+- type: chatHighlightAutofill
+  id: ServiceWorker-en-US
+  words: ["Service Worker"]
+  rawWords: ["Service"]
+
+# Legal
+
+- type: chatHighlightAutofill
+  id: Magistrate-en-US
+  words: ["Magistrate"]
+  rawWords: ["Legal"]
+
+- type: chatHighlightAutofill
+  id: Lawyer-en-US
+  words: ["Lawyer"]
+  rawWords: ["Legal"]
+
+# Silicon
+
+- type: chatHighlightAutofill
+  id: StationAi-en-US
+  words: ["Station AI"]
+  rawWords: ["AI"]
+
+- type: chatHighlightAutofill
+  id: Borg-en-US
+  words: ["Cyborg"]
+  rawWords: ["borg"]
+
+# Civilian
+
+- type: chatHighlightAutofill
+  id: Passenger-en-US
+  words: ["Assistant"]
+  rawWords: ["Assistant"]
+
+- type: chatHighlightAutofill
+  id: Visitor-en-US
+  words: ["Visitor"]
+  rawWords: ["Visitor"]
+
+# Central Command
+
+- type: chatHighlightAutofill
+  id: CentralCommandOfficial-en-US
+  words: ["CentComm Official"]
+  rawWords: ["CentComm"]
+
+# Others
+
+#- type: chatHighlightAutofill
+#  id: CBURN-en-US
+#  words: ["Centcomm Quarantine Officer"]
+#  rawWords: ["Centcomm Quarantine Officer"]
+
+#- type: chatHighlightAutofill
+#  id: CommandMaid-en-US
+#  words: ["Command Maid"]
+#  rawWords: ["Command Maid"]
+
+#- type: chatHighlightAutofill
+#  id: Conquest-en-US
+#  words: ["Conquest"]
+#  rawWords: ["Conquest"]
+
+#- type: chatHighlightAutofill
+#  id: DeathSquad-en-US
+#  words: ["Deathsquad Operative"]
+#  rawWords: ["Deathsquad Operative"]
+
+#- type: chatHighlightAutofill
+#  id: Diplomat-en-US
+#  words: ["Diplomat"]
+#  rawWords: ["Diplomat"]
+
+#- type: chatHighlightAutofill
+#  id: ERTChaplain-en-US
+#  words: ["ERT Chaplain"]
+#  rawWords: ["ERT Chaplain"]
+
+#- type: chatHighlightAutofill
+#  id: ERTEngineer-en-US
+#  words: ["ERT Engineer"]
+#  rawWords: ["ERT Engineer"]
+
+#- type: chatHighlightAutofill
+#  id: ERTJanitor-en-US
+#  words: ["ERT Janitor"]
+#  rawWords: ["ERT Janitor"]
+
+#- type: chatHighlightAutofill
+#  id: ERTLeader-en-US
+#  words: ["ERT Leader"]
+#  rawWords: ["ERT Leader"]
+
+#- type: chatHighlightAutofill
+#  id: ERTMedical-en-US
+#  words: ["ERT Medic"]
+#  rawWords: ["ERT Medic"]
+
+#- type: chatHighlightAutofill
+#  id: ERTSecurity-en-US
+#  words: ["ERT Security"]
+#  rawWords: ["ERT Security"]
+
+#- type: chatHighlightAutofill
+#  id: GovernmentMan-en-US
+#  words: ["The G-Man"]
+#  rawWords: ["The G-Man"]
+
+#- type: chatHighlightAutofill
+#  id: HecuOperative-en-US
+#  words: ["HECU Operative"]
+#  rawWords: ["HECU Operative"]
+
+#- type: chatHighlightAutofill
+#  id: Inspector-en-US
+#  words: ["Central Command Auditor"]
+#  rawWords: ["Central Command Auditor"]
+
+#- type: chatHighlightAutofill
+#  id: MercenaryCaptain-en-US
+#  words: ["Mercenary Captain"]
+#  rawWords: ["Mercenary Captain"]
+
+#- type: chatHighlightAutofill
+#  id: NanotrasenCareerTrainer-en-US
+#  words: ["Nanotrasen Career Trainer"]
+#  rawWords: ["Nanotrasen Career Trainer"]
+
+#- type: chatHighlightAutofill
+#  id: NavyCaptain-en-US
+#  words: ["Navy Captain"]
+#  rawWords: ["Navy Captain"]
+
+#- type: chatHighlightAutofill
+#  id: NavyOfficer-en-US
+#  words: ["Navy Officer"]
+#  rawWords: ["Navy Officer"]
+
+#- type: chatHighlightAutofill
+#  id: NavyOfficerUndercover-en-US
+#  words: ["Undercover Navy Officer"]
+#  rawWords: ["Undercover Navy Officer"]
+
+#- type: chatHighlightAutofill
+#  id: OuterCommander-en-US
+#  words: ["Outer Commander"]
+#  rawWords: ["Outer Commander"]
+
+#- type: chatHighlightAutofill
+#  id: Overall-en-US
+#  words: ["Overall"]
+#  rawWords: ["Overall"]
+
+#- type: chatHighlightAutofill
+#  id: PartyMaker-en-US
+#  words: ["Party Maker"]
+#  rawWords: ["Party Maker"]
+
+#- type: chatHighlightAutofill
+#  id: SecurityClown-en-US
+#  words: ["Security Clown"]
+#  rawWords: ["Security Clown"]
+
+#- type: chatHighlightAutofill
+#  id: SpecialOperationsOfficer-en-US
+#  words: ["Special Operations Officer"]
+#  rawWords: ["Special Operations Officer"]
+
+#- type: chatHighlightAutofill
+#  id: SyndicateHighCommander-en-US
+#  words: ["High Commander"]
+#  rawWords: ["High Commander"]

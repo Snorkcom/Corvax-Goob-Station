@@ -1,309 +1,409 @@
 # Chat highlight autofill presets for the ru-RU locale.
-# IDs use the job prototype ID plus a locale suffix so this file can coexist with chat_highlights_en.yml.
-# Add localized aliases to the same array, for example: words: ["капитан", "кэп", "кеп", "начальник"].
-# Use rawWords for values that must be inserted without double quotes, for example: rawWords: ["кап"].
+# IDs use the job prototype ID plus a locale suffix so this file can coexist with the other locale file.
+# Add localized aliases to words, for example: words: ["капитан", "кэп", "кеп"].
+# Use rawWords for values that must be inserted without double quotes, for example: rawWords: ["кэп"].
 
-- type: chatHighlightAutofill
-  id: AtmosphericTechnician-ru-RU
-  words: ["атмосферный техник"]
-
-- type: chatHighlightAutofill
-  id: Bartender-ru-RU
-  words: ["бармен"]
-
-- type: chatHighlightAutofill
-  id: BlueshieldOfficer-ru-RU
-  words: ["офицер Синий Щит"]
-
-- type: chatHighlightAutofill
-  id: Borg-ru-RU
-  words: ["борг"]
-
-- type: chatHighlightAutofill
-  id: Botanist-ru-RU
-  words: ["ботаник"]
-
-- type: chatHighlightAutofill
-  id: Brigmedic-ru-RU
-  words: ["бригмедик"]
+# Command
 
 - type: chatHighlightAutofill
   id: Captain-ru-RU
-  words: ["капитан", "кэп"]
-  rawWords: ["кап"]
-
-- type: chatHighlightAutofill
-  id: CargoTechnician-ru-RU
-  words: ["грузчик"]
-
-- type: chatHighlightAutofill
-  id: CBURN-ru-RU
-  words: ["агент карантинной службы ЦК"]
-
-- type: chatHighlightAutofill
-  id: CentralCommandOfficial-ru-RU
-  words: ["представитель ЦК"]
-
-- type: chatHighlightAutofill
-  id: Chaplain-ru-RU
-  words: ["священник"]
-
-- type: chatHighlightAutofill
-  id: Chef-ru-RU
-  words: ["шеф-повар"]
-
-- type: chatHighlightAutofill
-  id: Chemist-ru-RU
-  words: ["химик"]
-
-- type: chatHighlightAutofill
-  id: ChiefEngineer-ru-RU
-  words: ["старший инженер"]
-
-- type: chatHighlightAutofill
-  id: ChiefMedicalOfficer-ru-RU
-  words: ["главный врач"]
-
-- type: chatHighlightAutofill
-  id: Clown-ru-RU
-  words: ["клоун"]
-
-- type: chatHighlightAutofill
-  id: CommandMaid-ru-RU
-  words: ["горничная командования"]
-
-- type: chatHighlightAutofill
-  id: Conquest-ru-RU
-  words: ["конквест"]
-
-- type: chatHighlightAutofill
-  id: DeathSquad-ru-RU
-  words: ["агент ЦК"]
-
-- type: chatHighlightAutofill
-  id: Detective-ru-RU
-  words: ["детектив"]
-
-- type: chatHighlightAutofill
-  id: Diplomat-ru-RU
-  words: ["дипломат NanoTrasen"]
-
-- type: chatHighlightAutofill
-  id: ERTChaplain-ru-RU
-  words: ["священник ОБР"]
-
-- type: chatHighlightAutofill
-  id: ERTEngineer-ru-RU
-  words: ["инженер ОБР"]
-
-- type: chatHighlightAutofill
-  id: ERTJanitor-ru-RU
-  words: ["уборщик ОБР"]
-
-- type: chatHighlightAutofill
-  id: ERTLeader-ru-RU
-  words: ["лидер ОБР"]
-
-- type: chatHighlightAutofill
-  id: ERTMedical-ru-RU
-  words: ["медик ОБР"]
-
-- type: chatHighlightAutofill
-  id: ERTSecurity-ru-RU
-  words: ["офицер безопасности ОБР"]
-
-- type: chatHighlightAutofill
-  id: GovernmentMan-ru-RU
-  words: ["G-Man"]
-
-- type: chatHighlightAutofill
-  id: HeadOfPersonnel-ru-RU
-  words: ["глава персонала"]
-
-- type: chatHighlightAutofill
-  id: HeadOfSecurity-ru-RU
-  words: ["глава службы безопасности"]
-
-- type: chatHighlightAutofill
-  id: HecuOperative-ru-RU
-  words: ["агент HECU"]
-
-- type: chatHighlightAutofill
-  id: Inspector-ru-RU
-  words: ["инспектор ЦК"]
-
-- type: chatHighlightAutofill
-  id: Janitor-ru-RU
-  words: ["уборщик"]
-
-- type: chatHighlightAutofill
-  id: Lawyer-ru-RU
-  words: ["адвокат"]
-
-- type: chatHighlightAutofill
-  id: Librarian-ru-RU
-  words: ["библиотекарь"]
-
-- type: chatHighlightAutofill
-  id: Magistrate-ru-RU
-  words: ["магистрат"]
-
-- type: chatHighlightAutofill
-  id: MedicalDoctor-ru-RU
-  words: ["врач"]
-
-- type: chatHighlightAutofill
-  id: MedicalIntern-ru-RU
-  words: ["интерн"]
-
-- type: chatHighlightAutofill
-  id: MercenaryCaptain-ru-RU
-  words: ["капитан Наёмников"]
-
-- type: chatHighlightAutofill
-  id: Mime-ru-RU
-  words: ["мим"]
-
-- type: chatHighlightAutofill
-  id: Musician-ru-RU
-  words: ["музыкант"]
-
-- type: chatHighlightAutofill
-  id: NanotrasenCareerTrainer-ru-RU
-  words: ["наставник ЦК"]
+  words: ["капитан", "кэп", "кеп", "ПНТ", "СИ", "ГП", "НР", "ГСБ", "ГВ", "КМ", "цель", "цели", "СРП", "факс", "код", "КК", "СК", "ЗК", "офицер Синий Щит", "представитель NanoTrasen", "старший инженер", "главный врач", "глава службы безопасности", "научный руководитель", "глава персонала", "квартирмейстер"]
+  rawWords: ["капитан", "диск", "доступ", "карт", "датчик"]
 
 - type: chatHighlightAutofill
   id: NanotrasenRepresentative-ru-RU
-  words: ["представитель NanoTrasen"]
+  words: ["представитель NanoTrasen", "ПНТ", "НТ", "СИ", "ГП", "НР", "ГСБ", "ГВ", "КМ", "СРП", "старший инженер", "главный врач", "глава службы безопасности", "научный руководитель", "глава персонала", "квартирмейстер", "цель"]
+  rawWords: ["представител", "капитан"]
 
 - type: chatHighlightAutofill
-  id: NavyCaptain-ru-RU
-  words: ["капитан ВКФ"]
+  id: BlueshieldOfficer-ru-RU
+  words: ["офицер Синий Щит", "ОСЩ", "СЩ", "блю", "ПНТ", "СИ", "ГП", "НР", "ГСБ", "ГВ", "КМ", "представитель NanoTrasen", "старший инженер", "главный врач", "глава службы безопасности", "научный руководитель", "глава персонала", "квартирмейстер"]
+  rawWords: ["щит","капитан"]
+
+# Engineering
 
 - type: chatHighlightAutofill
-  id: NavyOfficer-ru-RU
-  words: ["офицер ЦК"]
+  id: ChiefEngineer-ru-RU
+  words: ["старший инженер", "СИ", "СЕ", "СМ", "газ", "сбежала", "синга", "сингу", "реактор", "взрыв", "плазма", "капитан"]
+  rawWords: ["цель", "атмос", "разгерм", "воздух", "крио", "ТЭГ", "горит", "пожар", "огонь", "взорвал", "инженер", "свет", "электр", "тесл", "сингуляр", "ядерн", "метеор", "радиац", "радиоактив"]
 
 - type: chatHighlightAutofill
-  id: NavyOfficerUndercover-ru-RU
-  words: ["офицер под прикрытием"]
-
-- type: chatHighlightAutofill
-  id: OuterCommander-ru-RU
-  words: ["офицер ТСФ"]
-
-- type: chatHighlightAutofill
-  id: Overall-ru-RU
-  words: ["общее"]
-
-- type: chatHighlightAutofill
-  id: Paramedic-ru-RU
-  words: ["парамедик"]
-
-- type: chatHighlightAutofill
-  id: PartyMaker-ru-RU
-  words: ["патимейкер"]
-
-- type: chatHighlightAutofill
-  id: Passenger-ru-RU
-  words: ["пассажир"]
-
-- type: chatHighlightAutofill
-  id: Pilot-ru-RU
-  words: ["пилот"]
-
-- type: chatHighlightAutofill
-  id: Psychologist-ru-RU
-  words: ["психолог"]
-
-- type: chatHighlightAutofill
-  id: Quartermaster-ru-RU
-  words: ["квартирмейстер"]
-
-- type: chatHighlightAutofill
-  id: RadioHost-ru-RU
-  words: ["радиоведущий"]
-
-- type: chatHighlightAutofill
-  id: Reporter-ru-RU
-  words: ["репортёр"]
-
-- type: chatHighlightAutofill
-  id: ResearchAssistant-ru-RU
-  words: ["научный ассистент"]
-
-- type: chatHighlightAutofill
-  id: ResearchDirector-ru-RU
-  words: ["научный руководитель"]
-
-- type: chatHighlightAutofill
-  id: Roboticist-ru-RU
-  words: ["робототехник"]
-
-- type: chatHighlightAutofill
-  id: SalvageSpecialist-ru-RU
-  words: ["утилизатор"]
-
-- type: chatHighlightAutofill
-  id: Scientist-ru-RU
-  words: ["учёный"]
-
-- type: chatHighlightAutofill
-  id: SecurityCadet-ru-RU
-  words: ["кадет СБ"]
-
-- type: chatHighlightAutofill
-  id: SecurityClown-ru-RU
-  words: ["клоун СБ"]
-
-- type: chatHighlightAutofill
-  id: SecurityOfficer-ru-RU
-  words: ["офицер СБ"]
-
-- type: chatHighlightAutofill
-  id: ServiceWorker-ru-RU
-  words: ["сервисный работник"]
-
-- type: chatHighlightAutofill
-  id: ShaftMiner-ru-RU
-  words: ["шахтёр"]
-
-- type: chatHighlightAutofill
-  id: SpecialOperationsOfficer-ru-RU
-  words: ["офицер спецопераций"]
-
-- type: chatHighlightAutofill
-  id: StationAi-ru-RU
-  words: ["станционный ИИ"]
+  id: AtmosphericTechnician-ru-RU
+  words: ["атмосферный техник", "газ", "плазма", "взрыв", "старший инженер"]
+  rawWords: ["цель", "атмос", "разгерм", "воздух", "крио", "ТЭГ", "горит", "пожар", "огонь", "взорвал", "инженер", "свет", "электр", "метеор"]
 
 - type: chatHighlightAutofill
   id: StationEngineer-ru-RU
-  words: ["инженер"]
-
-- type: chatHighlightAutofill
-  id: Surgeon-ru-RU
-  words: ["хирург"]
-
-- type: chatHighlightAutofill
-  id: SyndicateHighCommander-ru-RU
-  words: ["Офицер Синдиката"]
+  words: ["инженер", "сбежала", "синга", "сингу", "реактор", "взрыв", "старший инженер"]
+  rawWords: ["цель", "разгерм", "инженер", "свет", "электр", "тесл", "сингуляр", "ядерн", "метеор", "радиац", "радиоактив"]
 
 - type: chatHighlightAutofill
   id: TechnicalAssistant-ru-RU
-  words: ["технический ассистент"]
+  words: ["технический ассистент", "сбежала", "синга", "сингу", "реактор", "взрыв", "старший инженер"]
+  rawWords: ["ассик", "асик", "цель", "разгерм", "инженер", "свет", "электр", "тесл", "сингуляр", "ядерн", "метеор", "радиац", "радиоактив"]
+
+
+# Medical
+
+- type: chatHighlightAutofill
+  id: ChiefMedicalOfficer-ru-RU
+  words: ["главный врач", "ГВ", "химка", "мед", "медотдел", "мед отдел", "капитан"]
+  rawWords: ["врач", "медик", "доктор", "химик", "лекарств", "медиц", "операц", "морг", "умер", "сдох", "погиб", "сгорел", "труп", "тело", "вирус", "крио", "клон"]
+
+- type: chatHighlightAutofill
+  id: Chemist-ru-RU
+  words: ["химик", "химка", "мед", "медотдел", "мед отдел", "зомби", "главный врач"]
+  rawWords: ["химик", "химич", "сварит", "синтез", "лекарств", "медиц", "вирус"]
+
+- type: chatHighlightAutofill
+  id: MedicalDoctor-ru-RU
+  words: ["врач", "мед", "медотдел", "мед отдел", "главный врач"]
+  rawWords: ["врач", "медик", "доктор", "лекарств", "медиц"]
+
+- type: chatHighlightAutofill
+  id: MedicalIntern-ru-RU
+  words: ["интерн", "мед", "медотдел", "мед отдел", "главный врач"]
+  rawWords: ["интерн", "врач", "медик", "доктор", "лекарств", "медиц"]
+
+- type: chatHighlightAutofill
+  id: Paramedic-ru-RU
+  words: ["парамедик", "мед", "медотдел", "мед отдел", "главный врач"]
+  rawWords: ["парамед", "спасит", "помогит", "помощ", "врач", "медик", "медиц", "доктор", "умер", "сдох", "погиб", "сгорел", "труп", "тело"]
+
+- type: chatHighlightAutofill
+  id: Psychologist-ru-RU
+  words: ["психолог", "главный врач"]
+  rawWords: ["псих", "сумасшедш"]
+
+- type: chatHighlightAutofill
+  id: Surgeon-ru-RU
+  words: ["хирург", "мед", "медотдел", "мед отдел", "главный врач"]
+  rawWords: ["хирург", "операц", "врач", "медик", "доктор", "лекарств", "медиц"]
 
 - type: chatHighlightAutofill
   id: Virologist-ru-RU
-  words: ["вирусолог"]
+  words: ["вирусолог", "мед", "медотдел", "мед отдел", "зомби", "главный врач"]
+  rawWords: ["вирус", "врач", "медик", "доктор", "лекарств", "медиц"]
+
+# Security
+
+- type: chatHighlightAutofill
+  id: HeadOfSecurity-ru-RU
+  words: ["глава службы безопасности", "гсб", "хос", "сб", "ЯО", "агент", "вор", "дракон", "блоб", "рева", "зомби", "ниндзя", "капитан"]
+  rawWords: ["оруж", "помогите", "спасите", "напал", "убив", "убил", "труп", "тело", "украл", "взлом", "проник", "стрельб", "сбежал", "щиткур", "превышен", "допрос", "обыск", "обыщ", "арест", "задержит", "ордер", "приговор", "казнь", "перма", "адвокат", "ядерн", "синди", "хайриск", "революц", "ксено", "еретик", "культ", "генокрад", "генк", "демон", "голо", "крыс", "невидим", "маг", "призр"]
+
+- type: chatHighlightAutofill
+  id: Warden-ru-RU
+  words: ["смотритель", "сб", "глава службы безопасности"]
+  rawWords: ["смотрител", "бриг", "варден", "вард", "щиткур", "превышен", "допрос", "обыск", "арест", "адвокат", "ордер", "приговор", "казн", "сбежал", "оруж", "отряд"]
+
+- type: chatHighlightAutofill
+  id: WardenHelper-ru-RU
+  words: ["помощник смотрителя", "сб", "глава службы безопасности"]
+  rawWords: ["помощн", "бриг", "смотрител", "варден", "вард", "щиткур", "превышен", "допрос", "обыск", "арест", "адвокат", "ордер", "приговор", "перма", "казн", "сбежал", "оруж", "отряд"]
+
+- type: chatHighlightAutofill
+  id: Brigmedic-ru-RU
+  words: ["бригмедик", "бм", "сб", "бриг", "главный врач", "глава службы безопасности"]
+  rawWords: ["бригмед"]
+
+- type: chatHighlightAutofill
+  id: Detective-ru-RU
+  words: ["детектив", "дек", "дэк", "сб", "глава службы безопасности"]
+  rawWords: ["безопасн", "помогите", "спасите", "напал", "проник", "убив", "убил", "труп", "тело", "украл", "взлом", "стрельб", "драк", "хайриск", "кров", "днк", "логи", "отпечатки", "вор"]
+
+- type: chatHighlightAutofill
+  id: Pilot-ru-RU
+  words: ["пилот", "сб", "глава службы безопасности"]
+  rawWords: ["шаттл"]
+
+- type: chatHighlightAutofill
+  id: SecurityCadet-ru-RU
+  words: ["кадет СБ", "сб", "глава службы безопасности"]
+  rawWords: ["кадет", "безопасн", "помогите", "спасите", "напал", "проник", "убив", "убил", "труп", "тело", "украл", "взлом", "стрельб", "драка", "отряд", "вор", "обыщ", "арест", "задерж", "ордер"]
+
+- type: chatHighlightAutofill
+  id: SecurityOfficer-ru-RU
+  words: ["офицер СБ", "сб", "глава службы безопасности"]
+  rawWords: ["офицер", "безопасн", "помогите", "спасите", "напал", "проник", "убив", "убил", "труп", "тело", "украл", "взлом", "стрельб", "драка", "отряд", "вор", "обыщ", "арест", "задерж", "ордер"]
+
+# Science
+
+- type: chatHighlightAutofill
+  id: ResearchDirector-ru-RU
+  words: ["научный руководитель", "НР", "РД", "НИО", "РНД", "артефакт", "арт", "арты", "капитан"]
+  rawWords: ["учен", "учён", "научн", "печь", "печк", "переработчик", "телепад", "улучш", "изучит", "аномал", "борг"]
+
+- type: chatHighlightAutofill
+  id: ResearchAssistant-ru-RU
+  words: ["научный ассистент", "НИО", "РНД", "артефакт", "арт", "арты", "научный руководитель"]
+  rawWords: ["ассик", "учен", "учён", "научн", "аномал"]
+
+- type: chatHighlightAutofill
+  id: Roboticist-ru-RU
+  words: ["робототехник", "НИО", "РНД", "артефакт", "арт", "арты", "научный руководитель"]
+  rawWords: ["робототехник", "учен", "учён", "научн", "аномал", "борг"]
+
+- type: chatHighlightAutofill
+  id: Scientist-ru-RU
+  words: ["учёный", "НИО", "РНД", "артефакт", "арт", "арты", "научный руководитель"]
+  rawWords: ["учёный", "учен", "учён", "научн", "аномал", "борг"]
+
+# Cargo
+
+- type: chatHighlightAutofill
+  id: Quartermaster-ru-RU
+  words: ["квартирмейстер", "КМ", "карго", "закажите", "купите", "одобрите", "лаву", "лаве", "печь", "капитан"]
+  rawWords: ["снабжен", "заказ", "груз", "достав", "привез", "ресурс", "материал", "трейд", "торгов", "лава", "обломок", "шаттл", "печк", "переработчик", "телепад"]
+
+- type: chatHighlightAutofill
+  id: CargoTechnician-ru-RU
+  words: ["грузчик", "карго", "закажите", "купите", "одобрите", "квартирмейстер"]
+  rawWords: [ "снабжен", "заказ", "груз", "достав", "привез", "ресурс", "материал", "трейд", "торгов", "шаттл"]
+
+- type: chatHighlightAutofill
+  id: SalvageSpecialist-ru-RU
+  words: ["утилизатор", "карго", "закажите", "купите", "одобрите", "квартирмейстер"]
+  rawWords: ["утил", "снабжен", "заказ", "груз", "ресурс", "материал", "обломок"]
+
+- type: chatHighlightAutofill
+  id: ShaftMiner-ru-RU
+  words: ["шахтёр", "карго", "закажите", "купите", "одобрите", "лаву", "лаве", "квартирмейстер"]
+  rawWords: ["шахтёр", "шахтер", "лава", "снабжен", "заказ", "груз", "ресурс", "материал"]
+
+# Service
+
+- type: chatHighlightAutofill
+  id: HeadOfPersonnel-ru-RU
+  words: ["глава персонала", "ГП", "хоп", "уборка", "кухня", "бар", "шеф", "еда", "Иан", "капитан"]
+  rawWords: ["сервис", "уборщик", "грязн", "уберит", "ботан", "гидропон", "выраст", "доступ", "повар", "бармен", "бармэн", "расшир"]
+
+- type: chatHighlightAutofill
+  id: Bartender-ru-RU
+  words: ["бармен", "бармэн", "бар", "глава персонала"]
+  rawWords: ["налей"]
+
+- type: chatHighlightAutofill
+  id: Botanist-ru-RU
+  words: ["ботаник", "глава персонала"]
+  rawWords: ["ботан", "гидропон", "выраст"]
+
+- type: chatHighlightAutofill
+  id: Chaplain-ru-RU
+  words: ["священник", "библия", "Бог", "глава персонала"]
+  rawWords: ["свят", "священ", "храм", "церков", "фантом", "дух", "призра", "культ", "ерети", "жертв", "рун"]
+
+- type: chatHighlightAutofill
+  id: Chef-ru-RU
+  words: ["шеф-повар", "еда", "глава персонала"]
+  rawWords: ["шеф", "шэф", "повар", "кухн", "готов", "блюд", "есть", "жрат"]
+
+- type: chatHighlightAutofill
+  id: Clown-ru-RU
+  words: ["клоун", "клуня", "шут", "глава персонала"]
+  rawWords: ["клоун"]
+
+- type: chatHighlightAutofill
+  id: Janitor-ru-RU
+  words: ["уборщик", "уборка", "глава персонала"]
+  rawWords: ["убор", "грязн", "уберит", "убрат", "смазк", "луж", "мусор", "скользк"]
+
+- type: chatHighlightAutofill
+  id: Librarian-ru-RU
+  words: ["библиотекарь", "глава персонала"]
+  rawWords: ["книжн", "книг"]
+
+- type: chatHighlightAutofill
+  id: Mime-ru-RU
+  words: ["мим", "глава персонала"]
+  rawWords: ["мим"]
+
+- type: chatHighlightAutofill
+  id: Musician-ru-RU
+  words: ["музыкант", "глава персонала"]
+  rawWords: ["музык"]
+
+- type: chatHighlightAutofill
+  id: RadioHost-ru-RU
+  words: ["радиоведущий", "глава персонала"]
+  rawWords: ["радио"]
+
+- type: chatHighlightAutofill
+  id: Reporter-ru-RU
+  words: ["репортёр", "сб", "глава персонала"]
+  rawWords: ["репорт", "капитан", "адвокат", "безопасн", "помогите", "спасите", "напал", "проник", "убив", "убил", "труп", "тело", "украл", "взлом", "стрельб", "драк", "хайриск", "кров", "отпечатки"]
+
+- type: chatHighlightAutofill
+  id: ServiceWorker-ru-RU
+  words: ["сервисный работник", "глава персонала"]
+  rawWords: ["сервис", "уборщик", "грязн", "уберит", "ботан", "гидропон", "выраст", "доступ", "повар", "бармен", "бармэн"]
+
+# Legal
+
+- type: chatHighlightAutofill
+  id: Magistrate-ru-RU
+  words: ["магистрат", "мага", "сб"]
+  rawWords: ["адвокат", "стать", "допрос", "обыск", "перма", "казн", "суд"]
+
+- type: chatHighlightAutofill
+  id: Lawyer-ru-RU
+  words: ["адвокат", "сб"]
+  rawWords: ["адвокат", "стать", "допрос", "обыск", "ордер", "перма", "казн", "суд"]
+
+# Silicon
+
+- type: chatHighlightAutofill
+  id: StationAi-ru-RU
+  words: ["станционный ИИ", "СИИ", "ЦИИ", "ИИ", "капитан", "научный руководитель"]
+  rawWords: ["борг", "юнит", "закон", "двоичн"]
+
+- type: chatHighlightAutofill
+  id: Borg-ru-RU
+  words: ["борг", "станционный ИИ"]
+  rawWords: ["борг", "юнит", "закон", "двоичн"]
+
+# Civilian
+
+- type: chatHighlightAutofill
+  id: Passenger-ru-RU
+  words: ["пассажир", "глава персонала"]
+  rawWords: ["пассажир", "пассик", "асси"]
 
 - type: chatHighlightAutofill
   id: Visitor-ru-RU
   words: ["посетитель"]
+  rawWords: ["посетит", "визит", "стыков"]
+
+# Central Command
 
 - type: chatHighlightAutofill
-  id: Warden-ru-RU
-  words: ["смотритель"]
+  id: CentralCommandOfficial-ru-RU
+  words: ["представитель ЦК", "ЦК", "ЦентКом"]
+  rawWords: ["представитель ЦК"]
 
-- type: chatHighlightAutofill
-  id: WardenHelper-ru-RU
-  words: ["помощник смотрителя"]
+# Others
+
+#- type: chatHighlightAutofill
+#  id: CBURN-ru-RU
+#  words: ["агент карантинной службы ЦК"]
+#  rawWords: ["агент карантинной службы ЦК"]
+
+#- type: chatHighlightAutofill
+#  id: CommandMaid-ru-RU
+#  words: ["горничная командования"]
+#  rawWords: ["горничная командования"]
+
+#- type: chatHighlightAutofill
+#  id: Conquest-ru-RU
+#  words: ["конквест"]
+#  rawWords: ["конквест"]
+
+#- type: chatHighlightAutofill
+#  id: DeathSquad-ru-RU
+#  words: ["агент ЦК"]
+#  rawWords: ["агент ЦК"]
+
+#- type: chatHighlightAutofill
+#  id: Diplomat-ru-RU
+#  words: ["дипломат NanoTrasen"]
+#  rawWords: ["дипломат NanoTrasen"]
+
+#- type: chatHighlightAutofill
+#  id: ERTChaplain-ru-RU
+#  words: ["священник ОБР"]
+#  rawWords: ["священник ОБР"]
+
+#- type: chatHighlightAutofill
+#  id: ERTEngineer-ru-RU
+#  words: ["инженер ОБР"]
+#  rawWords: ["инженер ОБР"]
+
+#- type: chatHighlightAutofill
+#  id: ERTJanitor-ru-RU
+#  words: ["уборщик ОБР"]
+#  rawWords: ["уборщик ОБР"]
+
+#- type: chatHighlightAutofill
+#  id: ERTLeader-ru-RU
+#  words: ["лидер ОБР"]
+#  rawWords: ["лидер ОБР"]
+
+#- type: chatHighlightAutofill
+#  id: ERTMedical-ru-RU
+#  words: ["медик ОБР"]
+#  rawWords: ["медик ОБР"]
+
+#- type: chatHighlightAutofill
+#  id: ERTSecurity-ru-RU
+#  words: ["офицер безопасности ОБР"]
+#  rawWords: ["офицер безопасности ОБР"]
+
+#- type: chatHighlightAutofill
+#  id: GovernmentMan-ru-RU
+#  words: ["G-Man"]
+#  rawWords: ["G-Man"]
+
+#- type: chatHighlightAutofill
+#  id: HecuOperative-ru-RU
+#  words: ["агент HECU"]
+#  rawWords: ["агент HECU"]
+
+#- type: chatHighlightAutofill
+#  id: Inspector-ru-RU
+#  words: ["инспектор ЦК"]
+#  rawWords: ["инспектор ЦК"]
+
+#- type: chatHighlightAutofill
+#  id: MercenaryCaptain-ru-RU
+#  words: ["капитан Наёмников"]
+#  rawWords: ["капитан Наёмников"]
+
+#- type: chatHighlightAutofill
+#  id: NanotrasenCareerTrainer-ru-RU
+#  words: ["наставник ЦК"]
+#  rawWords: ["наставник ЦК"]
+
+#- type: chatHighlightAutofill
+#  id: NavyCaptain-ru-RU
+#  words: ["капитан ВКФ"]
+#  rawWords: ["капитан ВКФ"]
+
+#- type: chatHighlightAutofill
+#  id: NavyOfficer-ru-RU
+#  words: ["офицер ЦК"]
+#  rawWords: ["офицер ЦК"]
+
+#- type: chatHighlightAutofill
+#  id: NavyOfficerUndercover-ru-RU
+#  words: ["офицер под прикрытием"]
+#  rawWords: ["офицер под прикрытием"]
+
+#- type: chatHighlightAutofill
+#  id: OuterCommander-ru-RU
+#  words: ["офицер ТСФ"]
+#  rawWords: ["офицер ТСФ"]
+
+#- type: chatHighlightAutofill
+#  id: Overall-ru-RU
+#  words: ["общее"]
+#  rawWords: ["общее"]
+
+#- type: chatHighlightAutofill
+#  id: PartyMaker-ru-RU
+#  words: ["патимейкер"]
+#  rawWords: ["патимейкер"]
+
+#- type: chatHighlightAutofill
+#  id: SecurityClown-ru-RU
+#  words: ["клоун СБ"]
+#  rawWords: ["клоун СБ"]
+
+#- type: chatHighlightAutofill
+#  id: SpecialOperationsOfficer-ru-RU
+#  words: ["офицер спецопераций"]
+#  rawWords: ["офицер спецопераций"]
+
+#- type: chatHighlightAutofill
+#  id: SyndicateHighCommander-ru-RU
+#  words: ["Офицер Синдиката"]
+#  rawWords: ["Офицер Синдиката"]
