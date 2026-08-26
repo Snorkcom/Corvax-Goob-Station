@@ -2,15 +2,16 @@
 SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
+<!-- CorvaxGoob Edit Start - add-highlighted-filter-values -->
 <controls:ChannelFilterPopup
     xmlns="https://spacestation14.io"
     xmlns:gfx="clr-namespace:Robust.Client.Graphics;assembly=Robust.Client"
-    xmlns:controls="clr-namespace:Content.Client.UserInterface.Systems.Chat.Controls">
-    <PanelContainer Name="FilterPopupPanel" StyleClasses="BorderedWindowPanel">
-        <BoxContainer Orientation="Horizontal" SeparationOverride="8" Margin="10 0">
-            <BoxContainer Name="FilterVBox" MinWidth="105" Margin="0 10" Orientation="Vertical" SeparationOverride="4"/>
-            <BoxContainer Name="HighlightsVBox" MinWidth="120" Margin="0 10" Orientation="Vertical" SeparationOverride="4">
-                <!-- CorvaxGoob Edit Start - add-highlighted-filter-values -->
+    xmlns:controls="clr-namespace:Content.Client.UserInterface.Systems.Chat.Controls"
+    MinSize="400 470">
+    <PanelContainer Name="FilterPopupPanel" StyleClasses="BorderedWindowPanel" HorizontalExpand="True" VerticalExpand="True">
+        <BoxContainer Orientation="Horizontal" SeparationOverride="8" Margin="10 0" HorizontalExpand="True" VerticalExpand="True">
+            <BoxContainer Name="FilterVBox" MinWidth="105" Margin="0 10" Orientation="Vertical" SeparationOverride="4" HorizontalExpand="False" VerticalAlignment="Top"/>
+            <BoxContainer Name="HighlightsVBox" MinWidth="120" Margin="0 10" Orientation="Vertical" SeparationOverride="4" HorizontalExpand="True" VerticalExpand="True">
                 <BoxContainer Orientation="Horizontal" SeparationOverride="4">
                     <Label Text="{Loc 'hud-chatbox-highlights'}" HorizontalExpand="True"/>
                     <Button Name="HighlightAutoFillButton"
@@ -19,14 +20,14 @@ SPDX-License-Identifier: AGPL-3.0-or-later
                             StyleClasses="ButtonSquare ButtonSmall"
                             ToolTip="{Loc 'hud-chatbox-highlights-autofill-tooltip'}"/>
                 </BoxContainer>
-                <!-- CorvaxGoob End -->
-                <PanelContainer>
+                <PanelContainer HorizontalExpand="True" VerticalExpand="True">
+<!-- CorvaxGoob End -->
                     <!-- Begin custom background for TextEdit -->
                     <PanelContainer.PanelOverride>
                         <gfx:StyleBoxFlat BackgroundColor="#323446"/>
                     </PanelContainer.PanelOverride>
                     <!-- End custom background -->
-                    <TextEdit Name="HighlightEdit" MinHeight="150" Margin="5 5"/>
+                    <TextEdit Name="HighlightEdit" MinHeight="150" Margin="5 5" HorizontalExpand="True" VerticalExpand="True"/> <!-- CorvaxGoob Edit - add-highlighted-filter-values -->
                 </PanelContainer>
                 <Button Name="HighlightButton" Text="{Loc 'hud-chatbox-highlights-button'}" ToolTip="{Loc 'hud-chatbox-highlights-tooltip'}"/>
             </BoxContainer>
