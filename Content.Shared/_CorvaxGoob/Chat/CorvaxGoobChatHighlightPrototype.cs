@@ -18,8 +18,15 @@ public sealed partial class CorvaxGoobChatHighlightPrototype : IPrototype
     public string ID { get; private set; } = default!;
 
     /// <summary>
-    /// Words that will be inserted into the highlights edit field, one quoted line per value.
+    /// Localized job title and optional aliases inserted into the highlights edit field, one quoted line per value.
     /// </summary>
     [DataField]
     public List<string> Words { get; private set; } = new();
+
+    /// <summary>
+    /// Optional aliases inserted into the highlights edit field exactly as written, without adding double quotes.
+    /// Use this when the chat filter syntax needs a raw value instead of a quoted word.
+    /// </summary>
+    [DataField("rawWords")]
+    public List<string> RawWords { get; private set; } = new();
 }

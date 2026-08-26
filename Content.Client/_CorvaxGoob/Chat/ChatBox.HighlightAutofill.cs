@@ -25,12 +25,11 @@ public partial class ChatBox
     }
 
     /// <summary>
-    /// Clears only the visible edit field, then asks the controller to fill it from character data.
+    /// Replaces only the visible edit field with locally available character and original-job highlights.
     /// The normal "Send" button remains the only path that saves <c>chat.highlights</c>.
     /// </summary>
     private void CorvaxGoobFillHighlightsRequested()
     {
-        ChatInput.FilterButton.Popup.UpdateHighlights(string.Empty);
-        _controller.CorvaxGoobPrepareCharacterHighlights(ChatInput.FilterButton.Popup.UpdateHighlights);
+        ChatInput.FilterButton.Popup.UpdateHighlights(_controller.CorvaxGoobBuildCharacterHighlights());
     }
 }

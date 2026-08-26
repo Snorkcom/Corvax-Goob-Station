@@ -1,383 +1,308 @@
 # CorvaxGoob chat highlight presets for English clients.
 # IDs use the job prototype ID plus a locale suffix so this file can coexist with chat_highlights_ru.yml.
+# Add localized aliases to the same array, for example: words: ["Captain", "Cap", "Commander"].
+# Use rawWords for values that must be inserted without double quotes, for example: rawWords: ["cap"].
 
 - type: corvaxGoobChatHighlight
   id: AtmosphericTechnician-en-US
-  words:
-  - "Atmospheric Technician"
+  words: ["Atmospheric Technician"]
 
 - type: corvaxGoobChatHighlight
   id: Bartender-en-US
-  words:
-  - "Bartender"
+  words: ["Bartender"]
 
 - type: corvaxGoobChatHighlight
   id: BlueshieldOfficer-en-US
-  words:
-  - "Blueshield"
+  words: ["Blueshield"]
 
 - type: corvaxGoobChatHighlight
   id: Borg-en-US
-  words:
-  - "Cyborg"
+  words: ["Cyborg"]
 
 - type: corvaxGoobChatHighlight
   id: Botanist-en-US
-  words:
-  - "Botanist"
+  words: ["Botanist"]
 
 - type: corvaxGoobChatHighlight
   id: Brigmedic-en-US
-  words:
-  - "Brigmedic"
+  words: ["Brigmedic"]
 
 - type: corvaxGoobChatHighlight
   id: Captain-en-US
-  words:
-  - "Captain"
+  words: ["Captain"]
 
 - type: corvaxGoobChatHighlight
   id: CargoTechnician-en-US
-  words:
-  - "Cargo Technician"
+  words: ["Cargo Technician"]
 
 - type: corvaxGoobChatHighlight
   id: CBURN-en-US
-  words:
-  - "Centcomm Quarantine Officer"
+  words: ["Centcomm Quarantine Officer"]
 
 - type: corvaxGoobChatHighlight
   id: CentralCommandOfficial-en-US
-  words:
-  - "CentComm Official"
+  words: ["CentComm Official"]
 
 - type: corvaxGoobChatHighlight
   id: Chaplain-en-US
-  words:
-  - "Chaplain"
+  words: ["Chaplain"]
 
 - type: corvaxGoobChatHighlight
   id: Chef-en-US
-  words:
-  - "Chef"
+  words: ["Chef"]
 
 - type: corvaxGoobChatHighlight
   id: Chemist-en-US
-  words:
-  - "Chemist"
+  words: ["Chemist"]
 
 - type: corvaxGoobChatHighlight
   id: ChiefEngineer-en-US
-  words:
-  - "Chief Engineer"
+  words: ["Chief Engineer"]
 
 - type: corvaxGoobChatHighlight
   id: ChiefMedicalOfficer-en-US
-  words:
-  - "Chief Medical Officer"
+  words: ["Chief Medical Officer"]
 
 - type: corvaxGoobChatHighlight
   id: Clown-en-US
-  words:
-  - "Clown"
+  words: ["Clown"]
 
 - type: corvaxGoobChatHighlight
   id: CommandMaid-en-US
-  words:
-  - "Command Maid"
+  words: ["Command Maid"]
 
 - type: corvaxGoobChatHighlight
   id: Conquest-en-US
-  words:
-  - "Conquest"
+  words: ["Conquest"]
 
 - type: corvaxGoobChatHighlight
   id: DeathSquad-en-US
-  words:
-  - "Deathsquad Operative"
+  words: ["Deathsquad Operative"]
 
 - type: corvaxGoobChatHighlight
   id: Detective-en-US
-  words:
-  - "Detective"
+  words: ["Detective"]
 
 - type: corvaxGoobChatHighlight
   id: Diplomat-en-US
-  words:
-  - "Diplomat"
+  words: ["Diplomat"]
 
 - type: corvaxGoobChatHighlight
   id: ERTChaplain-en-US
-  words:
-  - "ERT Chaplain"
+  words: ["ERT Chaplain"]
 
 - type: corvaxGoobChatHighlight
   id: ERTEngineer-en-US
-  words:
-  - "ERT Engineer"
+  words: ["ERT Engineer"]
 
 - type: corvaxGoobChatHighlight
   id: ERTJanitor-en-US
-  words:
-  - "ERT Janitor"
+  words: ["ERT Janitor"]
 
 - type: corvaxGoobChatHighlight
   id: ERTLeader-en-US
-  words:
-  - "ERT Leader"
+  words: ["ERT Leader"]
 
 - type: corvaxGoobChatHighlight
   id: ERTMedical-en-US
-  words:
-  - "ERT Medic"
+  words: ["ERT Medic"]
 
 - type: corvaxGoobChatHighlight
   id: ERTSecurity-en-US
-  words:
-  - "ERT Security"
+  words: ["ERT Security"]
 
 - type: corvaxGoobChatHighlight
   id: GovernmentMan-en-US
-  words:
-  - "The G-Man"
+  words: ["The G-Man"]
 
 - type: corvaxGoobChatHighlight
   id: HeadOfPersonnel-en-US
-  words:
-  - "Head of Personnel"
+  words: ["Head of Personnel"]
 
 - type: corvaxGoobChatHighlight
   id: HeadOfSecurity-en-US
-  words:
-  - "Head of Security"
+  words: ["Head of Security"]
 
 - type: corvaxGoobChatHighlight
   id: HecuOperative-en-US
-  words:
-  - "HECU Operative"
+  words: ["HECU Operative"]
 
 - type: corvaxGoobChatHighlight
   id: Inspector-en-US
-  words:
-  - "Central Command Auditor"
+  words: ["Central Command Auditor"]
 
 - type: corvaxGoobChatHighlight
   id: Janitor-en-US
-  words:
-  - "Janitor"
+  words: ["Janitor"]
 
 - type: corvaxGoobChatHighlight
   id: Lawyer-en-US
-  words:
-  - "Lawyer"
+  words: ["Lawyer"]
 
 - type: corvaxGoobChatHighlight
   id: Librarian-en-US
-  words:
-  - "Librarian"
+  words: ["Librarian"]
 
 - type: corvaxGoobChatHighlight
   id: Magistrate-en-US
-  words:
-  - "Magistrate"
+  words: ["Magistrate"]
 
 - type: corvaxGoobChatHighlight
   id: MedicalDoctor-en-US
-  words:
-  - "Medical Doctor"
+  words: ["Medical Doctor"]
 
 - type: corvaxGoobChatHighlight
   id: MedicalIntern-en-US
-  words:
-  - "Medical Intern"
+  words: ["Medical Intern"]
 
 - type: corvaxGoobChatHighlight
   id: MercenaryCaptain-en-US
-  words:
-  - "Mercenary Captain"
+  words: ["Mercenary Captain"]
 
 - type: corvaxGoobChatHighlight
   id: Mime-en-US
-  words:
-  - "Mime"
+  words: ["Mime"]
 
 - type: corvaxGoobChatHighlight
   id: Musician-en-US
-  words:
-  - "Musician"
+  words: ["Musician"]
 
 - type: corvaxGoobChatHighlight
   id: NanotrasenCareerTrainer-en-US
-  words:
-  - "Nanotrasen Career Trainer"
+  words: ["Nanotrasen Career Trainer"]
 
 - type: corvaxGoobChatHighlight
   id: NanotrasenRepresentative-en-US
-  words:
-  - "Nanotrasen Representative"
+  words: ["Nanotrasen Representative"]
 
 - type: corvaxGoobChatHighlight
   id: NavyCaptain-en-US
-  words:
-  - "Navy Captain"
+  words: ["Navy Captain"]
 
 - type: corvaxGoobChatHighlight
   id: NavyOfficer-en-US
-  words:
-  - "Navy Officer"
+  words: ["Navy Officer"]
 
 - type: corvaxGoobChatHighlight
   id: NavyOfficerUndercover-en-US
-  words:
-  - "Undercover Navy Officer"
+  words: ["Undercover Navy Officer"]
 
 - type: corvaxGoobChatHighlight
   id: OuterCommander-en-US
-  words:
-  - "Outer Commander"
+  words: ["Outer Commander"]
 
 - type: corvaxGoobChatHighlight
   id: Overall-en-US
-  words:
-  - "Overall"
+  words: ["Overall"]
 
 - type: corvaxGoobChatHighlight
   id: Paramedic-en-US
-  words:
-  - "Paramedic"
+  words: ["Paramedic"]
 
 - type: corvaxGoobChatHighlight
   id: PartyMaker-en-US
-  words:
-  - "Party Maker"
+  words: ["Party Maker"]
 
 - type: corvaxGoobChatHighlight
   id: Passenger-en-US
-  words:
-  - "Assistant"
+  words: ["Assistant"]
 
 - type: corvaxGoobChatHighlight
   id: Pilot-en-US
-  words:
-  - "Pilot"
+  words: ["Pilot"]
 
 - type: corvaxGoobChatHighlight
   id: Psychologist-en-US
-  words:
-  - "Psychologist"
+  words: ["Psychologist"]
 
 - type: corvaxGoobChatHighlight
   id: Quartermaster-en-US
-  words:
-  - "Quartermaster"
+  words: ["Quartermaster"]
 
 - type: corvaxGoobChatHighlight
   id: RadioHost-en-US
-  words:
-  - "Radio Host"
+  words: ["Radio Host"]
 
 - type: corvaxGoobChatHighlight
   id: Reporter-en-US
-  words:
-  - "Reporter"
+  words: ["Reporter"]
 
 - type: corvaxGoobChatHighlight
   id: ResearchAssistant-en-US
-  words:
-  - "Research Assistant"
+  words: ["Research Assistant"]
 
 - type: corvaxGoobChatHighlight
   id: ResearchDirector-en-US
-  words:
-  - "Research Director"
+  words: ["Research Director"]
 
 - type: corvaxGoobChatHighlight
   id: Roboticist-en-US
-  words:
-  - "Roboticist"
+  words: ["Roboticist"]
 
 - type: corvaxGoobChatHighlight
   id: SalvageSpecialist-en-US
-  words:
-  - "Salvage Specialist"
+  words: ["Salvage Specialist"]
 
 - type: corvaxGoobChatHighlight
   id: Scientist-en-US
-  words:
-  - "Scientist"
+  words: ["Scientist"]
 
 - type: corvaxGoobChatHighlight
   id: SecurityCadet-en-US
-  words:
-  - "Security Cadet"
+  words: ["Security Cadet"]
 
 - type: corvaxGoobChatHighlight
   id: SecurityClown-en-US
-  words:
-  - "Security Clown"
+  words: ["Security Clown"]
 
 - type: corvaxGoobChatHighlight
   id: SecurityOfficer-en-US
-  words:
-  - "Security Officer"
+  words: ["Security Officer"]
 
 - type: corvaxGoobChatHighlight
   id: ServiceWorker-en-US
-  words:
-  - "Service Worker"
+  words: ["Service Worker"]
 
 - type: corvaxGoobChatHighlight
   id: ShaftMiner-en-US
-  words:
-  - "Shaft Miner"
+  words: ["Shaft Miner"]
 
 - type: corvaxGoobChatHighlight
   id: SpecialOperationsOfficer-en-US
-  words:
-  - "Special Operations Officer"
+  words: ["Special Operations Officer"]
 
 - type: corvaxGoobChatHighlight
   id: StationAi-en-US
-  words:
-  - "Station AI"
+  words: ["Station AI"]
 
 - type: corvaxGoobChatHighlight
   id: StationEngineer-en-US
-  words:
-  - "Station Engineer"
+  words: ["Station Engineer"]
 
 - type: corvaxGoobChatHighlight
   id: Surgeon-en-US
-  words:
-  - "Surgeon"
+  words: ["Surgeon"]
 
 - type: corvaxGoobChatHighlight
   id: SyndicateHighCommander-en-US
-  words:
-  - "High Commander"
+  words: ["High Commander"]
 
 - type: corvaxGoobChatHighlight
   id: TechnicalAssistant-en-US
-  words:
-  - "Technical Assistant"
+  words: ["Technical Assistant"]
 
 - type: corvaxGoobChatHighlight
   id: Virologist-en-US
-  words:
-  - "Virologist"
+  words: ["Virologist"]
 
 - type: corvaxGoobChatHighlight
   id: Visitor-en-US
-  words:
-  - "Visitor"
+  words: ["Visitor"]
 
 - type: corvaxGoobChatHighlight
   id: Warden-en-US
-  words:
-  - "Warden"
+  words: ["Warden"]
 
 - type: corvaxGoobChatHighlight
   id: WardenHelper-en-US
-  words:
-  - "Warden Helper"
-
+  words: ["Warden Helper"]

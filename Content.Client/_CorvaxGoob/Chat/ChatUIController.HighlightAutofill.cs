@@ -1,11 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-using System.Text;
-using System.Text.RegularExpressions;
+using Content.Client.Roles;
 using Content.Shared._CorvaxGoob.Chat;
-using Content.Shared.Roles;
-using Robust.Shared.Prototypes;
-using static Content.Client.CharacterInfo.CharacterInfoSystem;
+using Robust.Shared.GameObjects;
 
 namespace Content.Client.UserInterface.Systems.Chat;
 
@@ -15,183 +12,96 @@ namespace Content.Client.UserInterface.Systems.Chat;
 /// </summary>
 public sealed partial class ChatUIController
 {
-    // Name words are split the way players expect to highlight them: spaces and hyphenated parts become separate lines.
-    private static readonly Regex CorvaxGoobNameWordSeparators = new(@"[\s\-]+", RegexOptions.Compiled);
-
-    // Set only while the popup "+" button is waiting for CharacterInfoSystem to answer.
-    private Action<string>? _corvaxGoobPendingHighlightsReceiver;
-
     /// <summary>
-    /// Requests current character data and sends the generated text to <paramref name="receiver"/>.
-    /// The receiver is usually <c>ChannelFilterPopup.UpdateHighlights</c>, so this does not save settings.
+    /// Builds replacement text from the local character name and original mind job.
+    /// Missing name, mind, job, or locale preset is skipped instead of producing a fallback value.
     /// </summary>
-    public void CorvaxGoobPrepareCharacterHighlights(Action<string> receiver)
-    {
-        if (_player.LocalEntity == null)
-            return;
-
-        _corvaxGoobPendingHighlightsReceiver = receiver;
-        _characterInfo.RequestCharacterInfo();
-    }
-
-    /// <summary>
-    /// Handles the character-info response for the manual popup button.
-    /// Setting <paramref name="handled"/> prevents the old auto-fill branch from applying and saving this request.
-    /// </summary>
-    private partial void CorvaxGoobHandleCharacterUpdated(CharacterData data, ref bool handled)
-    {
-        if (_corvaxGoobPendingHighlightsReceiver == null)
-            return;
-
-        handled = true;
-        var receiver = _corvaxGoobPendingHighlightsReceiver;
-        _corvaxGoobPendingHighlightsReceiver = null;
-        _charInfoIsAttach = false;
-        receiver(BuildCorvaxGoobHighlightText(data));
-    }
-
-    /// <summary>
-    /// Builds the replacement text for the edit field: quoted name parts first, then quoted job words.
-    /// Duplicate generated lines are skipped before the text reaches the UI.
-    /// </summary>
-    private string BuildCorvaxGoobHighlightText(CharacterData data)
+    public string CorvaxGoobBuildCharacterHighlights()
     {
         var lines = new List<string>();
-        var seen = new HashSet<string>(StringComparer.CurrentCultureIgnoreCase);
+        // RobustToolbox content sandbox forbids StringComparer, so duplicate keys are normalized explicitly.
+        var seen = new HashSet<string>();
 
-        foreach (var word in CorvaxGoobNameWordSeparators.Split(data.EntityName))
+        if (_player.LocalEntity is { } entity &&
+            _ent.TryGetComponent(entity, out MetaDataComponent? metadata))
         {
-            TryAddCorvaxGoobHighlightLine(lines, seen, word);
+            // Each space- or hyphen-separated name part becomes its own quoted highlight.
+            foreach (var word in metadata.EntityName.Split([' ', '-'],
+                         StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
+            {
+                TryAddCorvaxGoobHighlightLine(lines, seen, word);
+            }
         }
 
-        foreach (var word in GetCorvaxGoobJobHighlightWords(data.Job))
+        if (_player.LocalUser is { } user &&
+            _mindSystem != null &&
+            _mindSystem.TryGetMind(user, out var mindId) &&
+            _ent.System<JobSystem>().MindTryGetJobId(mindId, out var jobId) &&
+            jobId is { } originalJobId)
         {
-            TryAddCorvaxGoobHighlightLine(lines, seen, word);
+            if (!TryGetCorvaxGoobJobHighlight(originalJobId.Id, out var highlight))
+                return string.Join("\n", lines);
+
+            foreach (var word in highlight.Words)
+            {
+                TryAddCorvaxGoobHighlightLine(lines, seen, word);
+            }
+
+            foreach (var rawWord in highlight.RawWords)
+            {
+                TryAddCorvaxGoobHighlightLine(lines, seen, rawWord, true);
+            }
         }
 
         return string.Join("\n", lines);
     }
 
     /// <summary>
-    /// Returns the culture-specific word list for the character's original job title.
-    /// If the job cannot be resolved at all, the raw title is used as a last-resort visible fallback.
+    /// Finds the editable, culture-specific word list attached to the exact original job prototype ID.
+    /// The selected prototype may contain quoted <c>words</c> and unquoted <c>rawWords</c>.
     /// </summary>
-    private IEnumerable<string> GetCorvaxGoobJobHighlightWords(string jobName)
+    private bool TryGetCorvaxGoobJobHighlight(string jobId, out CorvaxGoobChatHighlightPrototype highlight)
     {
-        if (TryResolveCorvaxGoobJobPrototype(jobName, out var job))
-        {
-            foreach (var highlightId in GetCorvaxGoobJobHighlightIds(job.ID))
-            {
-                if (_prototypeManager.TryIndex<CorvaxGoobChatHighlightPrototype>(highlightId, out var highlight))
-                    return highlight.Words;
-            }
-        }
-
-        if (string.IsNullOrWhiteSpace(jobName))
-            return Array.Empty<string>();
-
-        return new[] { jobName };
-    }
-
-    /// <summary>
-    /// Yields prototype IDs in preferred order. Both locale files are loaded together,
-    /// so IDs include a culture suffix to avoid prototype ID collisions.
-    /// </summary>
-    private IEnumerable<string> GetCorvaxGoobJobHighlightIds(string jobId)
-    {
-        var primaryCulture = _loc.DefaultCulture?.TwoLetterISOLanguageName == "ru"
+        var culture = _loc.DefaultCulture?.TwoLetterISOLanguageName == "ru"
             ? "ru-RU"
             : "en-US";
-        var fallbackCulture = primaryCulture == "ru-RU"
-            ? "en-US"
-            : "ru-RU";
 
-        yield return $"{jobId}-{primaryCulture}";
-        yield return $"{jobId}-{fallbackCulture}";
-    }
-
-    /// <summary>
-    /// Resolves <see cref="CharacterData.Job"/> back to a job prototype.
-    /// The title may arrive localized, so localized names are checked before the English-like job ID fallback.
-    /// </summary>
-    private bool TryResolveCorvaxGoobJobPrototype(string jobName, out JobPrototype job)
-    {
-        var normalizedJobName = NormalizeCorvaxGoobJobName(jobName);
-
-        foreach (var prototype in _prototypeManager.EnumeratePrototypes<JobPrototype>())
-        {
-            if (NormalizeCorvaxGoobJobName(prototype.LocalizedName) == normalizedJobName
-                || NormalizeCorvaxGoobJobName(HumanizeCorvaxGoobJobId(prototype.ID)) == normalizedJobName)
-            {
-                job = prototype;
-                return true;
-            }
-        }
-
-        job = default!;
-        return false;
+        return _prototypeManager.TryIndex($"{jobId}-{culture}", out highlight);
     }
 
     /// <summary>
     /// Adds a formatted line if the source value is not empty and has not already been generated.
     /// </summary>
-    private static void TryAddCorvaxGoobHighlightLine(List<string> lines, HashSet<string> seen, string value)
+    private static void TryAddCorvaxGoobHighlightLine(
+        List<string> lines,
+        HashSet<string> seen,
+        string value,
+        bool raw = false)
     {
-        var line = FormatCorvaxGoobHighlightLine(value);
+        var line = FormatCorvaxGoobHighlightLine(value, raw);
 
-        if (line == null || !seen.Add(line))
+        if (line == null || !seen.Add(line.ToLowerInvariant()))
             return;
 
         lines.Add(line);
     }
 
     /// <summary>
-    /// Normalizes one highlight value into the user-editable format expected by chat highlights: <c>"word"</c>.
-    /// Already quoted values in prototype data are accepted and re-quoted consistently.
+    /// Normalizes one highlight value into the user-editable format expected by chat highlights.
+    /// Regular values become <c>"word"</c>; raw values are inserted without adding double quotes.
     /// </summary>
-    private static string? FormatCorvaxGoobHighlightLine(string value)
+    private static string? FormatCorvaxGoobHighlightLine(string value, bool raw)
     {
         var trimmed = value.Trim();
 
-        if (trimmed.Length >= 2 && trimmed[0] == '"' && trimmed[^1] == '"')
+        if (!raw && trimmed.Length >= 2 && trimmed[0] == '"' && trimmed[^1] == '"')
             trimmed = trimmed[1..^1].Trim();
 
         if (trimmed.Length == 0)
             return null;
 
-        return $"\"{trimmed}\"";
-    }
-
-    /// <summary>
-    /// Makes localized job titles and generated fallback titles comparable.
-    /// </summary>
-    private static string NormalizeCorvaxGoobJobName(string name)
-    {
-        return string.Join(" ", CorvaxGoobNameWordSeparators.Split(name.Trim())).ToLowerInvariant();
-    }
-
-    /// <summary>
-    /// Converts job IDs such as <c>StationEngineer</c> into <c>Station Engineer</c>
-    /// for cases where the server sends an English title while the client is using another locale.
-    /// </summary>
-    private static string HumanizeCorvaxGoobJobId(string id)
-    {
-        var builder = new StringBuilder(id.Length + 8);
-
-        for (var i = 0; i < id.Length; i++)
-        {
-            var current = id[i];
-
-            if (i > 0
-                && char.IsUpper(current)
-                && (!char.IsUpper(id[i - 1]) || (i + 1 < id.Length && char.IsLower(id[i + 1]))))
-            {
-                builder.Append(' ');
-            }
-
-            builder.Append(current);
-        }
-
-        return builder.ToString();
+        return raw
+            ? trimmed
+            : $"\"{trimmed}\"";
     }
 }

@@ -162,14 +162,6 @@ public sealed partial class ChatUIController : IOnSystemChanged<CharacterInfoSys
 
     private void OnCharacterUpdated(CharacterData data)
     {
-        // CorvaxGoob Start - add-highlighted-filter-values
-        // The manual "+" button uses the same character-info event, but it must not run the old save/apply path.
-        var corvaxGoobHandled = false;
-        CorvaxGoobHandleCharacterUpdated(data, ref corvaxGoobHandled);
-        if (corvaxGoobHandled)
-            return;
-        // CorvaxGoob End
-
         // If _charInfoIsAttach is false then the opening of the character panel was the one
         // to generate the event, dismiss it.
         if (!_charInfoIsAttach)
@@ -199,9 +191,4 @@ public sealed partial class ChatUIController : IOnSystemChanged<CharacterInfoSys
         HighlightsUpdated?.Invoke(newHighlights);
         _charInfoIsAttach = false;
     }
-
-    /// <summary>
-    /// CorvaxGoob hook that lets the manual "+" button consume character info before the old autofill path.
-    /// </summary>
-    private partial void CorvaxGoobHandleCharacterUpdated(CharacterData data, ref bool handled); // CorvaxGoob - add-highlighted-filter-values
 }
