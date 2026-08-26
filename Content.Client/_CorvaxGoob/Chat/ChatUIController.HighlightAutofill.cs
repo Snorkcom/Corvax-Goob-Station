@@ -1,7 +1,11 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-using Content.Client.Roles;
+using Content.Client.Access;
 using Content.Shared._CorvaxGoob.Chat;
+using Content.Shared.Inventory;
+using Content.Shared.PDA;
+using Content.Shared.Roles;
+using System.Diagnostics.CodeAnalysis;
 using Robust.Shared.GameObjects;
 
 namespace Content.Client.UserInterface.Systems.Chat;
@@ -13,8 +17,8 @@ namespace Content.Client.UserInterface.Systems.Chat;
 public sealed partial class ChatUIController
 {
     /// <summary>
-    /// Builds replacement text from the local character name and original mind job.
-    /// Missing name, mind, job, or locale preset is skipped instead of producing a fallback value.
+    /// Builds replacement text from the local character name and the job on the equipped PDA's ID card.
+    /// Missing name, PDA, ID card, job, or locale preset is skipped instead of producing a fallback value.
     /// </summary>
     public string BuildCharacterHighlights()
     {
@@ -33,13 +37,10 @@ public sealed partial class ChatUIController
             }
         }
 
-        if (_player.LocalUser is { } user &&
-            _mindSystem != null &&
-            _mindSystem.TryGetMind(user, out var mindId) &&
-            _ent.System<JobSystem>().MindTryGetJobId(mindId, out var jobId) &&
-            jobId is { } originalJobId)
+        if (_player.LocalEntity is { } localEntity &&
+            TryGetEquippedPdaJobId(localEntity, out var jobId))
         {
-            if (!TryGetJobHighlight(originalJobId.Id, out var highlight))
+            if (!TryGetJobHighlight(jobId, out var highlight))
                 return string.Join("\n", lines);
 
             foreach (var word in highlight.Words)
@@ -57,10 +58,42 @@ public sealed partial class ChatUIController
     }
 
     /// <summary>
-    /// Finds the editable, culture-specific word list attached to the exact original job prototype ID.
+    /// Resolves the canonical job ID from the localized title on the ID card inside the equipped PDA.
+    /// A bare ID card, custom title, or missing PDA is intentionally ignored.
+    /// </summary>
+    private bool TryGetEquippedPdaJobId(
+        EntityUid entity,
+        [NotNullWhen(true)] out string? jobId)
+    {
+        jobId = null;
+
+        if (!_ent.System<InventorySystem>().TryGetSlotEntity(entity, "id", out var idSlot) ||
+            !_ent.TryGetComponent<PdaComponent>(idSlot.Value, out _) ||
+            !_ent.System<IdCardSystem>().TryGetIdCard(idSlot.Value, out var idCard) ||
+            string.IsNullOrWhiteSpace(idCard.Comp.LocalizedJobTitle))
+        {
+            return false;
+        }
+
+        foreach (var job in _prototypeManager.EnumeratePrototypes<JobPrototype>())
+        {
+            if (job.LocalizedName != idCard.Comp.LocalizedJobTitle)
+                continue;
+
+            jobId = job.ID;
+            return true;
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    /// Finds the editable, culture-specific word list attached to the resolved job prototype ID.
     /// The selected prototype may contain quoted <c>words</c> and unquoted <c>rawWords</c>.
     /// </summary>
-    private bool TryGetJobHighlight(string jobId, out ChatHighlightAutofillPrototype highlight)
+    private bool TryGetJobHighlight(
+        string jobId,
+        [NotNullWhen(true)] out ChatHighlightAutofillPrototype? highlight)
     {
         var culture = _loc.DefaultCulture?.TwoLetterISOLanguageName == "ru"
             ? "ru-RU"
