@@ -7,6 +7,9 @@ using Content.Shared.Store.Components;
 
 namespace Content.Goobstation.Server.Traitor.Cooperation;
 
+/// <summary>
+/// Permanently unlocks an existing pen uplink when the pen is emagged.
+/// </summary>
 public sealed class PenUplinkEmagSystem : EntitySystem
 {
     public override void Initialize()

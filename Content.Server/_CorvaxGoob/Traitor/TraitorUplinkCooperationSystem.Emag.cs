@@ -1,9 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-using Content.Server.Traitor.Uplink;
 using Content.Shared.Emag.Systems;
 using Content.Shared.PDA.Ringer;
-using Content.Shared.Store.Components;
 
 namespace Content.Server.Traitor.Cooperation;
 
@@ -23,10 +21,5 @@ public sealed partial class TraitorUplinkCooperationSystem
 
         args.Handled = true;
         args.Repeatable = true;
-    }
-
-    private bool HasExistingUplink(EntityUid uid)
-    {
-        return HasComp<UplinkComponent>(uid) && HasComp<StoreComponent>(uid);
     }
 }

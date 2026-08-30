@@ -10,34 +10,46 @@ namespace Content.Server.Traitor.Cooperation;
 /// </summary>
 public sealed partial class TraitorUplinkCooperationSystem
 {
-    public string GetOrCreateMeetingBriefing(EntityUid ruleUid)
+    private const int MinimumMeetingMinute = 10;
+    private const int MaximumMeetingMinute = 30;
+    private const int MeetingWindowRadius = 3;
+
+    /// <summary>
+    /// Returns chat and character-menu versions of the shared meeting hint for this traitor rule.
+    /// </summary>
+    public (string Chat, string Character) GetOrCreateMeetingBriefings(EntityUid ruleUid)
     {
         var comp = GetOrCreateMeetingHint(ruleUid);
-        return Loc.GetString("traitor-cooperation-meeting-briefing",
-            ("start", comp.StartMinute),
-            ("end", comp.EndMinute),
-            ("location", comp.Location));
+        return (
+            FormatMeetingBriefing("traitor-cooperation-meeting-briefing", comp),
+            FormatMeetingBriefing("traitor-cooperation-meeting-briefing-character", comp));
     }
 
-    public string GetOrCreateMeetingCharacterBriefing(EntityUid ruleUid)
+    private string FormatMeetingBriefing(string localizationKey, TraitorMeetingComponent meeting)
     {
-        var comp = GetOrCreateMeetingHint(ruleUid);
-        return Loc.GetString("traitor-cooperation-meeting-briefing-character",
-            ("start", comp.StartMinute),
-            ("end", comp.EndMinute),
-            ("location", comp.Location));
+        return Loc.GetString(localizationKey,
+            ("start", meeting.StartMinute),
+            ("end", meeting.EndMinute),
+            ("location", meeting.Location));
     }
 
     private TraitorMeetingComponent GetOrCreateMeetingHint(EntityUid ruleUid)
     {
         // Store the meeting hint on the rule so every traitor in the round receives the same window and area.
         var comp = EnsureComp<TraitorMeetingComponent>(ruleUid);
-        if (comp.StartMinute == 0)
+        if (!comp.Initialized)
         {
-            var middleMinute = _random.Next(10, 31);
-            comp.StartMinute = Math.Clamp(middleMinute - 3, 10, 30);
-            comp.EndMinute = Math.Clamp(middleMinute + 3, 10, 30);
+            var middleMinute = _random.Next(MinimumMeetingMinute, MaximumMeetingMinute + 1);
+            comp.StartMinute = Math.Clamp(
+                middleMinute - MeetingWindowRadius,
+                MinimumMeetingMinute,
+                MaximumMeetingMinute);
+            comp.EndMinute = Math.Clamp(
+                middleMinute + MeetingWindowRadius,
+                MinimumMeetingMinute,
+                MaximumMeetingMinute);
             comp.Location = PickMeetingLocation();
+            comp.Initialized = true;
         }
 
         return comp;

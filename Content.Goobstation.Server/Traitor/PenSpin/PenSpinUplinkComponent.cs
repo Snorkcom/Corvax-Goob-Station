@@ -19,6 +19,9 @@ public sealed partial class PenSpinUplinkComponent : Component
     public TimeSpan? NextSpinTime;
 
     // CorvaxGoob Start - traitor-cooperation-system
+    /// <summary>
+    /// Allows the pen uplink to open without its spin code and remain unlocked after the store closes.
+    /// </summary>
     [DataField]
     public bool PermanentlyUnlocked;
     // CorvaxGoob End

@@ -12,35 +12,24 @@ public sealed partial class TraitorUplinkCooperationComponent : Component
     /// The traitor mind that owns this uplink for per-device uniqueness checks.
     /// </summary>
     [DataField]
-    public EntityUid? OwnerMind;
+    public EntityUid? OwnerMindId;
 
     /// <summary>
     /// Employer name shown when two traitor devices complete pairing.
     /// </summary>
     [DataField]
-    public string Employer = string.Empty;
+    public string EmployerName = string.Empty;
 
     /// <summary>
     /// Other traitor minds this specific device has already paired with.
     /// </summary>
     [DataField]
-    public HashSet<EntityUid> LinkedMinds = new();
+    public HashSet<EntityUid> LinkedOwnerMindIds = new();
 
     /// <summary>
-    /// Prevents more than one free radio implanter discount on this device.
+    /// Catalog listing IDs that already received a one-shot discount on this device.
+    /// This also prevents deterministic radio implanter and emag rewards from being granted twice.
     /// </summary>
     [DataField]
-    public bool RadioImplanterDiscountGranted;
-
-    /// <summary>
-    /// Prevents more than one emag discount on this device.
-    /// </summary>
-    [DataField]
-    public bool EmagDiscountGranted;
-
-    /// <summary>
-    /// Catalog listing ids that already received a manually cloned discount on this device.
-    /// </summary>
-    [DataField]
-    public HashSet<string> GrantedManualDiscountListings = new();
+    public HashSet<string> DiscountedListingIds = new();
 }

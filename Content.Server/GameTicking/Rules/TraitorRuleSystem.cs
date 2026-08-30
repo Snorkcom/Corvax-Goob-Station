@@ -91,8 +91,8 @@ public sealed class TraitorRuleSystem : GameRuleSystem<TraitorRuleComponent>
         }
 
         var issuer = _random.Pick(_prototypeManager.Index(component.ObjectiveIssuers));
-        var meetingBriefing = _traitorUplinkCooperation.GetOrCreateMeetingBriefing(rule.Owner); // CorvaxGoob - traitor-cooperation-system
-        var meetingBriefingCharacter = _traitorUplinkCooperation.GetOrCreateMeetingCharacterBriefing(rule.Owner); // CorvaxGoob - traitor-cooperation-system
+        var (meetingBriefing, meetingBriefingCharacter) =
+            _traitorUplinkCooperation.GetOrCreateMeetingBriefings(rule.Owner); // CorvaxGoob - traitor-cooperation-system
 
         string? uplinkBriefing = null; // Goob
         string? uplinkBriefingShort = null; // Goob

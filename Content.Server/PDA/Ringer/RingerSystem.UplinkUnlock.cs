@@ -4,6 +4,9 @@ using Content.Shared.PDA.Ringer;
 
 namespace Content.Server.PDA.Ringer;
 
+/// <summary>
+/// Exposes server-side unlocking for an existing ringer uplink without its ringtone code.
+/// </summary>
 public sealed partial class RingerSystem
 {
     /// <summary>

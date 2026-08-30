@@ -9,6 +9,12 @@ namespace Content.Server.Traitor.Cooperation;
 public sealed partial class TraitorMeetingComponent : Component
 {
     /// <summary>
+    /// Whether the shared hint has already been generated for this rule.
+    /// </summary>
+    [DataField]
+    public bool Initialized;
+
+    /// <summary>
     /// Inclusive lower bound of the suggested meeting window in shift minutes.
     /// </summary>
     [DataField]

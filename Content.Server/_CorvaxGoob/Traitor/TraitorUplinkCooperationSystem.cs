@@ -10,7 +10,6 @@ using Content.Server.Traitor.Uplink;
 using Content.Shared.DoAfter;
 using Content.Shared.Emag.Systems;
 using Content.Shared.Interaction;
-using Content.Shared.Mind;
 using Content.Shared.PDA.Ringer;
 using Content.Shared.Store.Components;
 using Content.Shared.Traitor.Cooperation;
@@ -24,15 +23,14 @@ namespace Content.Server.Traitor.Cooperation;
 /// </summary>
 public sealed partial class TraitorUplinkCooperationSystem : EntitySystem
 {
-    [Dependency] private IRobustRandom _random = default!;
-    [Dependency] private IPrototypeManager _prototype = default!;
-    [Dependency] private SharedMindSystem _mind = default!;
-    [Dependency] private SharedDoAfterSystem _doAfter = default!;
-    [Dependency] private ChatSystem _chat = default!;
-    [Dependency] private PopupSystem _popup = default!;
-    [Dependency] private RingerSystem _ringer = default!;
-    [Dependency] private StoreSystem _store = default!;
-    [Dependency] private StationSystem _station = default!;
+    [Dependency] private readonly IRobustRandom _random = default!;
+    [Dependency] private readonly IPrototypeManager _prototype = default!;
+    [Dependency] private readonly SharedDoAfterSystem _doAfter = default!;
+    [Dependency] private readonly ChatSystem _chat = default!;
+    [Dependency] private readonly PopupSystem _popup = default!;
+    [Dependency] private readonly RingerSystem _ringer = default!;
+    [Dependency] private readonly StoreSystem _store = default!;
+    [Dependency] private readonly StationSystem _station = default!;
 
     public override void Initialize()
     {
@@ -45,14 +43,36 @@ public sealed partial class TraitorUplinkCooperationSystem : EntitySystem
         SubscribeLocalEvent<TraitorUplinkCooperationComponent, ListingPurchasedEvent>(OnListingPurchased);
     }
 
+    /// <summary>
+    /// Attaches the traitor owner's identity and employer to an existing uplink.
+    /// </summary>
     public void RegisterTraitorUplink(EntityUid uplink, EntityUid mindId, string employer)
     {
         // Each uplink stores its traitor owner's mind ID; pairing uniqueness is checked against those stored owners.
-        if (!HasComp<UplinkComponent>(uplink) || !HasComp<StoreComponent>(uplink))
+        if (!HasExistingUplink(uplink))
             return;
 
         var comp = EnsureComp<TraitorUplinkCooperationComponent>(uplink);
-        comp.OwnerMind = mindId;
-        comp.Employer = employer;
+        comp.OwnerMindId = mindId;
+        comp.EmployerName = employer;
+    }
+
+    private bool HasExistingUplink(EntityUid uid)
+    {
+        return HasComp<UplinkComponent>(uid) && HasComp<StoreComponent>(uid);
+    }
+
+    private bool TryGetUplinkStore(
+        Entity<TraitorUplinkCooperationComponent> uplink,
+        out Entity<StoreComponent> store)
+    {
+        if (!TryComp<StoreComponent>(uplink.Owner, out var storeComp))
+        {
+            store = default;
+            return false;
+        }
+
+        store = (uplink.Owner, storeComp);
+        return true;
     }
 }

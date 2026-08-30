@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-using System.Diagnostics.CodeAnalysis;
 using Content.Shared.Chat;
 using Content.Shared.DoAfter;
 using Content.Shared.Interaction;
@@ -16,6 +15,9 @@ namespace Content.Server.Traitor.Cooperation;
 /// </summary>
 public sealed partial class TraitorUplinkCooperationSystem
 {
+    private static readonly TimeSpan PairingDuration = TimeSpan.FromSeconds(5);
+    private const float PairingDistanceThreshold = 2f;
+
     private void OnUplinkAfterInteract(Entity<TraitorUplinkCooperationComponent> ent, ref AfterInteractEvent args)
     {
         if (args.Handled || !args.CanReach || args.Target is not { } target || target == ent.Owner)
@@ -28,16 +30,16 @@ public sealed partial class TraitorUplinkCooperationSystem
         if (!TryComp<TraitorUplinkCooperationComponent>(target, out var targetComp))
             return;
 
-        if (!CanLinkUplinks((ent.Owner, ent.Comp), (target, targetComp), out var reason))
+        if (!TryValidatePairing((ent.Owner, ent.Comp), (target, targetComp), out _, out _, out var failureMessage))
         {
-            if (reason != null)
-                _popup.PopupEntity(reason, ent.Owner, args.User, PopupType.SmallCaution);
+            if (failureMessage != null)
+                _popup.PopupEntity(failureMessage, ent.Owner, args.User, PopupType.SmallCaution);
             return;
         }
 
         var doAfter = new DoAfterArgs(EntityManager,
             args.User,
-            TimeSpan.FromSeconds(5),
+            PairingDuration,
             new TraitorUplinkLinkDoAfterEvent(),
             ent.Owner,
             target: target,
@@ -47,7 +49,7 @@ public sealed partial class TraitorUplinkCooperationSystem
             BreakOnDamage = true,
             NeedHand = true,
             BreakOnHandChange = true,
-            DistanceThreshold = 2f,
+            DistanceThreshold = PairingDistanceThreshold,
         };
 
         if (!_doAfter.TryStartDoAfter(doAfter))
@@ -65,77 +67,90 @@ public sealed partial class TraitorUplinkCooperationSystem
         if (!TryComp<TraitorUplinkCooperationComponent>(target, out var targetComp))
             return;
 
-        if (!CanLinkUplinks((ent.Owner, ent.Comp), (target, targetComp), out _))
+        if (!TryValidatePairing((ent.Owner, ent.Comp),
+                (target, targetComp),
+                out var sourceMindId,
+                out var targetMindId,
+                out _))
             return;
 
-        LinkUplinks((ent.Owner, ent.Comp), (target, targetComp));
+        CompletePairing((ent.Owner, ent.Comp), (target, targetComp), sourceMindId, targetMindId);
     }
 
-    private bool CanLinkUplinks(
+    private bool TryValidatePairing(
         Entity<TraitorUplinkCooperationComponent> source,
         Entity<TraitorUplinkCooperationComponent> target,
-        out string? reason)
+        out EntityUid sourceMindId,
+        out EntityUid targetMindId,
+        out string? failureMessage)
     {
-        reason = null;
+        sourceMindId = default;
+        targetMindId = default;
+        failureMessage = null;
 
         if (!HasExistingUplink(source.Owner) || !HasExistingUplink(target.Owner))
             return false;
 
         // Uniqueness is scoped to the source device and keyed by the other traitor mind.
-        if (!TryGetUplinkOwnerMind(source, out var sourceMind) ||
-            !TryGetUplinkOwnerMind(target, out var targetMind) ||
-            sourceMind == targetMind)
+        if (!TryGetUplinkOwnerMindId(source, out sourceMindId) ||
+            !TryGetUplinkOwnerMindId(target, out targetMindId) ||
+            sourceMindId == targetMindId)
             return false;
 
-        if (source.Comp.LinkedMinds.Contains(targetMind.Value))
+        if (source.Comp.LinkedOwnerMindIds.Contains(targetMindId))
         {
-            reason = Loc.GetString("traitor-cooperation-uplink-link-already-linked");
+            failureMessage = Loc.GetString("traitor-cooperation-uplink-link-already-linked");
             return false;
         }
 
         return true;
     }
 
-    private bool TryGetUplinkOwnerMind(
+    private bool TryGetUplinkOwnerMindId(
         Entity<TraitorUplinkCooperationComponent> uplink,
-        [NotNullWhen(true)] out EntityUid? mindId)
+        out EntityUid mindId)
     {
-        mindId = uplink.Comp.OwnerMind;
-
-        if (mindId != null)
-            return true;
-
-        // Fall back to StoreComponent for any uplink that existed before cooperation metadata was attached.
-        if (TryComp<StoreComponent>(uplink.Owner, out var store) && store.AccountOwner != null)
+        if (uplink.Comp.OwnerMindId is { } ownerMindId)
         {
-            mindId = store.AccountOwner;
+            mindId = ownerMindId;
             return true;
         }
 
+        // Fall back to StoreComponent for any uplink that existed before cooperation metadata was attached.
+        if (TryComp<StoreComponent>(uplink.Owner, out var store) && store.AccountOwner is { } accountOwner)
+        {
+            mindId = accountOwner;
+            return true;
+        }
+
+        mindId = default;
         return false;
     }
 
-    private void LinkUplinks(Entity<TraitorUplinkCooperationComponent> source, Entity<TraitorUplinkCooperationComponent> target)
+    private void CompletePairing(
+        Entity<TraitorUplinkCooperationComponent> source,
+        Entity<TraitorUplinkCooperationComponent> target,
+        EntityUid sourceMindId,
+        EntityUid targetMindId)
     {
-        if (!TryGetUplinkOwnerMind(source, out var sourceMind) ||
-            !TryGetUplinkOwnerMind(target, out var targetMind))
-            return;
+        source.Comp.LinkedOwnerMindIds.Add(targetMindId);
+        target.Comp.LinkedOwnerMindIds.Add(sourceMindId);
 
-        source.Comp.LinkedMinds.Add(targetMind.Value);
-        target.Comp.LinkedMinds.Add(sourceMind.Value);
+        var sourceLinkCount = source.Comp.LinkedOwnerMindIds.Count;
+        var targetLinkCount = target.Comp.LinkedOwnerMindIds.Count;
 
         // Each device can get the radio implanter discount once, on its first successful pairing.
-        if (source.Comp.LinkedMinds.Count == 1)
+        if (sourceLinkCount == 1)
             GrantRadioImplanterDiscount(source);
-        if (target.Comp.LinkedMinds.Count == 1)
+        if (targetLinkCount == 1)
             GrantRadioImplanterDiscount(target);
 
-        GrantCooperationDiscounts(source, source.Comp.LinkedMinds.Count);
-        GrantCooperationDiscounts(target, target.Comp.LinkedMinds.Count);
+        GrantCooperationDiscounts(source, sourceLinkCount);
+        GrantCooperationDiscounts(target, targetLinkCount);
         GrantEmagDiscount(source);
 
-        var sourceEmployer = GetEmployerName(source.Comp);
-        var targetEmployer = GetEmployerName(target.Comp);
+        var sourceEmployer = GetEmployerDisplayName(source.Comp.EmployerName);
+        var targetEmployer = GetEmployerDisplayName(target.Comp.EmployerName);
         var message = Loc.GetString("traitor-cooperation-uplink-link-whisper",
             ("first", sourceEmployer),
             ("second", targetEmployer));
@@ -144,11 +159,11 @@ public sealed partial class TraitorUplinkCooperationSystem
         WhisperFromDevice(target.Owner, message);
     }
 
-    private string GetEmployerName(TraitorUplinkCooperationComponent comp)
+    private string GetEmployerDisplayName(string employerName)
     {
-        return string.IsNullOrWhiteSpace(comp.Employer)
+        return string.IsNullOrWhiteSpace(employerName)
             ? Loc.GetString("traitor-cooperation-uplink-employer-unknown")
-            : comp.Employer;
+            : employerName;
     }
 
     private void WhisperFromDevice(EntityUid uid, string message)
