@@ -1,0 +1,7 @@
+traitor-cooperation-meeting-briefing = В районе [color=yellow]{$location}[/color] на [color=yellow]{$start}–{$end}[/color] минутах смены возможен контакт с другими агентами. Они предупреждены так же, как и вы. Временный союз может окупиться. Своевременное предательство – тоже.
+traitor-cooperation-meeting-location-unknown = бар
+
+traitor-cooperation-uplink-link-start = Устройства начинают скрытую синхронизацию.
+traitor-cooperation-uplink-link-already-linked = Это устройство уже синхронизировалось с вашим.
+traitor-cooperation-uplink-link-whisper = Скрытая синхронизация завершена. Определены работодатели агентов: {$first}; {$second}.
+traitor-cooperation-uplink-employer-unknown = неизвестный работодатель

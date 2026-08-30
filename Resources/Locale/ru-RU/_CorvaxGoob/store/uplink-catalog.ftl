@@ -16,3 +16,5 @@ uplink-dice-of-fate-name = Кость судьбы
 uplink-dice-of-fate-desc = Одноразовая кость d20. Бросьте и узнайте свою судьбу.
 uplink-toolbox-electrical-turret-name = Чертёж разворачиваемой баллистической турели
 uplink-toolbox-electrical-turret-desc = Чертёж, который позволит автолату печатать разворачиваемую баллистическую турель.
+uplink-implant-extractor-name = Имплантер
+uplink-implant-extractor-desc = Стерильный имплантер, способный извлекать импланты. Например, чужой аплинк или «Щит разума».

@@ -17,4 +17,9 @@ public sealed partial class PenSpinUplinkComponent : Component
 
     [DataField]
     public TimeSpan? NextSpinTime;
+
+    // CorvaxGoob Start - traitor-cooperation-system
+    [DataField]
+    public bool PermanentlyUnlocked;
+    // CorvaxGoob End
 }
