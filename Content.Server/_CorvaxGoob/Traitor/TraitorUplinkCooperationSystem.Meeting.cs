@@ -12,6 +12,24 @@ public sealed partial class TraitorUplinkCooperationSystem
 {
     public string GetOrCreateMeetingBriefing(EntityUid ruleUid)
     {
+        var comp = GetOrCreateMeetingHint(ruleUid);
+        return Loc.GetString("traitor-cooperation-meeting-briefing",
+            ("start", comp.StartMinute),
+            ("end", comp.EndMinute),
+            ("location", comp.Location));
+    }
+
+    public string GetOrCreateMeetingCharacterBriefing(EntityUid ruleUid)
+    {
+        var comp = GetOrCreateMeetingHint(ruleUid);
+        return Loc.GetString("traitor-cooperation-meeting-briefing-character",
+            ("start", comp.StartMinute),
+            ("end", comp.EndMinute),
+            ("location", comp.Location));
+    }
+
+    private TraitorMeetingComponent GetOrCreateMeetingHint(EntityUid ruleUid)
+    {
         // Store the meeting hint on the rule so every traitor in the round receives the same window and area.
         var comp = EnsureComp<TraitorMeetingComponent>(ruleUid);
         if (comp.StartMinute == 0)
@@ -20,13 +38,9 @@ public sealed partial class TraitorUplinkCooperationSystem
             comp.StartMinute = Math.Clamp(middleMinute - 3, 10, 30);
             comp.EndMinute = Math.Clamp(middleMinute + 3, 10, 30);
             comp.Location = PickMeetingLocation();
-            Dirty(ruleUid, comp);
         }
 
-        return Loc.GetString("traitor-cooperation-meeting-briefing",
-            ("start", comp.StartMinute),
-            ("end", comp.EndMinute),
-            ("location", comp.Location));
+        return comp;
     }
 
     private string PickMeetingLocation()

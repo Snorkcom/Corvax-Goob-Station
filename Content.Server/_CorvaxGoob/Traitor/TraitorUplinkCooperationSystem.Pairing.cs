@@ -124,9 +124,11 @@ public sealed partial class TraitorUplinkCooperationSystem
         source.Comp.LinkedMinds.Add(targetMind.Value);
         target.Comp.LinkedMinds.Add(sourceMind.Value);
 
-        // The radio implanter reward is first-link and initiator-only.
+        // Each device can get the radio implanter discount once, on its first successful pairing.
         if (source.Comp.LinkedMinds.Count == 1)
             GrantRadioImplanterDiscount(source);
+        if (target.Comp.LinkedMinds.Count == 1)
+            GrantRadioImplanterDiscount(target);
 
         GrantCooperationDiscounts(source, source.Comp.LinkedMinds.Count);
         GrantCooperationDiscounts(target, target.Comp.LinkedMinds.Count);
@@ -140,9 +142,6 @@ public sealed partial class TraitorUplinkCooperationSystem
 
         WhisperFromDevice(source.Owner, message);
         WhisperFromDevice(target.Owner, message);
-
-        Dirty(source);
-        Dirty(target);
     }
 
     private string GetEmployerName(TraitorUplinkCooperationComponent comp)

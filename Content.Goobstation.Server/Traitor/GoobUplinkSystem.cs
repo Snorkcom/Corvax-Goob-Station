@@ -176,6 +176,16 @@ public sealed class GoobUplinkSystem : GoobCommonUplinkSystem
         if (!TryComp<PenSpinUplinkComponent>(ent, out var uplink))
             return;
 
+        // CorvaxGoob Start - traitor-cooperation-system
+        if (uplink.PermanentlyUnlocked)
+        {
+            uplink.Unlocked = true;
+            _ui.OpenUi(ent.Owner, StoreUiKey.Key, args.Actor);
+            ResetCombination(ent.Comp, uplink);
+            return;
+        }
+        // CorvaxGoob End
+
         var curTime = _timing.CurTime;
         if (uplink.NextSpinTime.HasValue && curTime < uplink.NextSpinTime.Value)
             return;

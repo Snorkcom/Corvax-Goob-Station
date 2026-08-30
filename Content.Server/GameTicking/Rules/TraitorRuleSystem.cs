@@ -92,6 +92,7 @@ public sealed class TraitorRuleSystem : GameRuleSystem<TraitorRuleComponent>
 
         var issuer = _random.Pick(_prototypeManager.Index(component.ObjectiveIssuers));
         var meetingBriefing = _traitorUplinkCooperation.GetOrCreateMeetingBriefing(rule.Owner); // CorvaxGoob - traitor-cooperation-system
+        var meetingBriefingCharacter = _traitorUplinkCooperation.GetOrCreateMeetingCharacterBriefing(rule.Owner); // CorvaxGoob - traitor-cooperation-system
 
         string? uplinkBriefing = null; // Goob
         string? uplinkBriefingShort = null; // Goob
@@ -173,7 +174,7 @@ public sealed class TraitorRuleSystem : GameRuleSystem<TraitorRuleComponent>
             Log.Debug($"MakeTraitor {ToPrettyString(traitor)} - Add traitor briefing components");
             EnsureComp<RoleBriefingComponent>(traitorRole.Value.Owner, out var briefingComp);
             // Goobstation Change - If you remove this, we lose ringtones and flavor in char menu. Upstream's version sucks.
-            briefingComp.Briefing = GenerateBriefingCharacter(codewords, uplinkBriefingShort, issuer, meetingBriefing); // CorvaxGoob Edit - traitor-cooperation-system
+            briefingComp.Briefing = GenerateBriefingCharacter(codewords, uplinkBriefingShort, issuer, meetingBriefingCharacter); // CorvaxGoob Edit - traitor-cooperation-system
         }
 
         var color = TraitorCodewordColor; // Fall back to a dark red Syndicate color if a prototype is not found

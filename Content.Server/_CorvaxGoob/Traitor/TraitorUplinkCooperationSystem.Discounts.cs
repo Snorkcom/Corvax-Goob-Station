@@ -3,7 +3,6 @@
 using System.Linq;
 using Content.Goobstation.Maths.FixedPoint;
 using Content.Goobstation.Shared.ManifestListings;
-using Content.Shared.Mind;
 using Content.Shared.Store;
 using Content.Shared.Store.Components;
 using Robust.Shared.Prototypes;
@@ -19,8 +18,6 @@ public sealed partial class TraitorUplinkCooperationSystem
     private const string ManualDiscountMarker = "TraitorUplinkManualDiscount";
     private const string RadioImplanterListingId = "UplinkRadioImplanter";
     private const string EmagListingId = "UplinkEmag";
-    private const float FullCostCompensationMultiplier = 1f;
-    private const float EmagCompensationMultiplier = 0.4f;
     // A 0.3-0.5 final price multiplier means the fourth-link high-value reward is discounted by 50-70%.
     private const float FourthLinkMinCostMultiplier = 0.3f;
     private const float FourthLinkMaxCostMultiplier = 0.5f;
@@ -62,38 +59,25 @@ public sealed partial class TraitorUplinkCooperationSystem
 
     private void GrantRadioImplanterDiscount(Entity<TraitorUplinkCooperationComponent> uplink)
     {
+        if (uplink.Comp.RadioImplanterDiscountGranted)
+            return;
+
         if (!TryComp<StoreComponent>(uplink.Owner, out var store))
             return;
-
-        if (uplink.Comp.RadioImplanterDiscountGranted ||
-            HasDiscountedListing((uplink.Owner, store), RadioImplanterListingId))
-        {
-            if (TryAddListingCostCompensation((uplink.Owner, store), RadioImplanterListingId, FullCostCompensationMultiplier))
-            {
-                uplink.Comp.RadioImplanterDiscountGranted = true;
-                Dirty(uplink);
-            }
-
-            return;
-        }
 
         if (TryGrantPrototypeDiscount((uplink.Owner, store), uplink.Comp, RadioImplanterListingId, FixedPoint2.Zero))
         {
             uplink.Comp.RadioImplanterDiscountGranted = true;
-            Dirty(uplink);
         }
     }
 
     private void GrantEmagDiscount(Entity<TraitorUplinkCooperationComponent> uplink)
     {
-        if (!TryComp<StoreComponent>(uplink.Owner, out var store))
+        if (uplink.Comp.EmagDiscountGranted)
             return;
 
-        if (uplink.Comp.EmagDiscountGranted)
-        {
-            TryAddListingCostCompensation((uplink.Owner, store), EmagListingId, EmagCompensationMultiplier);
+        if (!TryComp<StoreComponent>(uplink.Owner, out var store))
             return;
-        }
 
         if (!_prototype.TryIndex<ListingPrototype>(EmagListingId, out var listing))
             return;
@@ -101,22 +85,10 @@ public sealed partial class TraitorUplinkCooperationSystem
         if (!listing.Cost.TryGetValue(TelecrystalCurrency, out var oldCost))
             return;
 
-        if (HasDiscountedListing((uplink.Owner, store), EmagListingId))
-        {
-            if (TryAddListingCostCompensation((uplink.Owner, store), EmagListingId, EmagCompensationMultiplier))
-            {
-                uplink.Comp.EmagDiscountGranted = true;
-                Dirty(uplink);
-            }
-
-            return;
-        }
-
         var saleCost = FixedPoint2.New(Math.Max(1, (int) MathF.Round(oldCost.Float() * 0.6f)));
         if (TryGrantDiscount((uplink.Owner, store), uplink.Comp, listing, saleCost))
         {
             uplink.Comp.EmagDiscountGranted = true;
-            Dirty(uplink);
         }
     }
 
@@ -209,29 +181,6 @@ public sealed partial class TraitorUplinkCooperationSystem
         return true;
     }
 
-    private bool HasDiscountedListing(Entity<StoreComponent> store, string listingId)
-    {
-        return store.Comp.Listings.Any(listing =>
-            listing.ID.Equals(listingId, StringComparison.OrdinalIgnoreCase) &&
-            listing.DiscountValue > 0 &&
-            listing.Categories.Contains(store.Comp.Sales.SalesCategory));
-    }
-
-    private bool TryAddListingCostCompensation(Entity<StoreComponent> store, string listingId, float multiplier)
-    {
-        if (!_prototype.TryIndex<ListingPrototype>(listingId, out var listing))
-            return false;
-
-        if (!listing.Cost.TryGetValue(TelecrystalCurrency, out var cost))
-            return false;
-
-        var amount = FixedPoint2.New(Math.Max(1, (int) MathF.Round(cost.Float() * multiplier)));
-        return _store.TryAddCurrency(new Dictionary<string, FixedPoint2>
-        {
-            { TelecrystalCurrency, amount },
-        }, store.Owner, store.Comp);
-    }
-
     private bool TryGrantPrototypeDiscount(
         Entity<StoreComponent> store,
         TraitorUplinkCooperationComponent uplink,
@@ -280,10 +229,9 @@ public sealed partial class TraitorUplinkCooperationSystem
         return true;
     }
 
-    private void OnListingPurchased(Entity<MindComponent> ent, ref ListingPurchasedEvent args)
+    private void OnListingPurchased(Entity<TraitorUplinkCooperationComponent> ent, ref ListingPurchasedEvent args)
     {
-        if (!TryComp<StoreComponent>(args.Store, out var store) ||
-            !TryComp<TraitorUplinkCooperationComponent>(args.Store, out var uplink))
+        if (!TryComp<StoreComponent>(ent.Owner, out var store))
             return;
 
         // Only manual discount clones are consumed after purchase; ordinary listings must remain available.
@@ -291,7 +239,6 @@ public sealed partial class TraitorUplinkCooperationSystem
             return;
 
         store.Listings.Remove(args.Data);
-        Dirty(args.Store, store);
-        Dirty(args.Store, uplink);
+        Dirty(ent.Owner, store);
     }
 }

@@ -28,7 +28,6 @@ public sealed class PenUplinkEmagSystem : EntitySystem
 
         ent.Comp.PermanentlyUnlocked = true;
         ent.Comp.Unlocked = true;
-        Dirty(ent);
 
         args.Handled = true;
         args.Repeatable = true;
