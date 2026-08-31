@@ -7,7 +7,7 @@ using Content.Server.Mind;
 using Content.Server.Objectives;
 using Content.Server.PDA.Ringer;
 using Content.Server.Roles;
-using Content.Server.Traitor.Meeting;
+using Content.Server.Traitor.Meeting; // CorvaxGoob - traitor-cooperation-meeting-system
 using Content.Server.Traitor.Uplink;
 using Content.Goobstation.Maths.FixedPoint;
 using Content.Shared.Mind;
@@ -51,7 +51,7 @@ public sealed class TraitorRuleSystem : GameRuleSystem<TraitorRuleComponent>
     [Dependency] private readonly PopupSystem _popup = default!; // goob edit
     [Dependency] private readonly IConfigurationManager _cfg = default!; // goob edit
     [Dependency] private readonly GoobCommonUplinkSystem _goobUplink = default!;
-    [Dependency] private TraitorMeetingSystem _traitorMeeting = default!;
+    [Dependency] private TraitorMeetingSystem _traitorMeeting = default!; // CorvaxGoob - traitor-cooperation-meeting-system
 
     // CorvaxGoob Start - traitor-cooperation-meeting-system
     private string? _meetingBriefing;
@@ -71,8 +71,10 @@ public sealed class TraitorRuleSystem : GameRuleSystem<TraitorRuleComponent>
     private void AfterEntitySelected(Entity<TraitorRuleComponent> ent, ref AfterAntagEntitySelectedEvent args)
     {
         Log.Debug($"AfterAntagEntitySelected {ToPrettyString(ent)}");
+     // MakeTraitor(args.EntityUid, ent); // CorvaxGoob Edit
 
-        // CorvaxGoob Start - traitor-cooperation-meeting-system
+        // CorvaxGoob Edit Start - traitor-cooperation-meeting-system
+        // The hint is set only for this MakeTraitor call to keep the public MakeTraitor API unchanged.
         var previousMeetingBriefing = _meetingBriefing;
         var previousMeetingBriefingCharacter = _meetingBriefingCharacter;
         (_meetingBriefing, _meetingBriefingCharacter) = _traitorMeeting.GetOrCreateMeetingBriefings(ent.Owner);
