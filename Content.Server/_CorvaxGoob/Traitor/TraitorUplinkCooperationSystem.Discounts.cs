@@ -11,7 +11,9 @@ using Robust.Shared.Random;
 namespace Content.Server.Traitor.Cooperation;
 
 /// <summary>
-/// Grants one-shot cooperation discounts and removes their cloned sale listings after purchase.
+/// Handles pairing and cooperation rewards for traitor PDA and pen uplinks.
+/// The system stores each device's original traitor owner and employer,
+/// then uses that data to validate pairings, whisper employer names, and grant one-use discounts.
 /// </summary>
 public sealed partial class TraitorUplinkCooperationSystem
 {
@@ -128,8 +130,10 @@ public sealed partial class TraitorUplinkCooperationSystem
             .Where(listing => HasMinimumTelecrystalCost(listing, minTelecrystalCost))
             .ToList();
 
-        while (_random.TryPickAndTake(available, out var listing))
+        while (available.Count > 0)
         {
+            var listing = _random.PickAndTake(available);
+
             if (!TryGetTelecrystalCost(listing, out var oldCost))
                 continue;
 
@@ -157,8 +161,10 @@ public sealed partial class TraitorUplinkCooperationSystem
         var available = GetEligibleRandomDiscountListings(uplink, store);
         var changed = false;
 
-        while (count > 0 && _random.TryPickAndTake(available, out var listing))
+        while (count > 0 && available.Count > 0)
         {
+            var listing = _random.PickAndTake(available);
+
             if (!TryGetTelecrystalCost(listing, out var oldCost))
                 continue;
 
