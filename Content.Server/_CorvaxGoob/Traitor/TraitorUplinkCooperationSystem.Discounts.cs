@@ -24,6 +24,13 @@ public sealed partial class TraitorUplinkCooperationSystem
     // The multiplier is the final price: 0.6 means the buyer pays 60%, so the discount is 40%.
     private const float EmagFinalCostMultiplier = 0.6f;
 
+    private const int StandardGuaranteedDiscountMinCost = 25;
+    private const float StandardGuaranteedDiscountMinPercent = 0.3f;
+    private const float StandardGuaranteedDiscountMaxPercent = 0.6f;
+    private const int FourthPairingGuaranteedDiscountMinCost = 50;
+    private const float FourthPairingGuaranteedDiscountMinPercent = 0.6f;
+    private const float FourthPairingGuaranteedDiscountMaxPercent = 0.8f;
+
     private static readonly ProtoId<CurrencyPrototype> TelecrystalCurrency = "Telecrystal";
 
     // Random cooperation discounts should avoid special shops, deterministic rewards, and high-variance bundles.
@@ -52,6 +59,7 @@ public sealed partial class TraitorUplinkCooperationSystem
             changed |= TryGrantPrototypeDiscount(uplink, store, EmagListingId, EmagFinalCostMultiplier);
         }
 
+        changed |= GrantGuaranteedPairingDiscount(uplink, store, pairingCount);
         changed |= GrantRandomDiscounts(uplink, store, GetRandomDiscountCount(pairingCount));
 
         if (!changed)
@@ -68,12 +76,71 @@ public sealed partial class TraitorUplinkCooperationSystem
     {
         return pairingCount switch
         {
-            1 => 3,
-            2 => 2,
-            3 => 2,
-            4 => 1,
+            1 => 2,
+            2 => 1,
+            3 => 1,
             _ => 0,
         };
+    }
+
+    /// <summary>
+    /// Grants the guaranteed high-value discount slot for the current pairing count.
+    /// </summary>
+    private bool GrantGuaranteedPairingDiscount(
+        Entity<TraitorUplinkCooperationComponent> uplink,
+        Entity<StoreComponent> store,
+        int pairingCount)
+    {
+        switch (pairingCount)
+        {
+            case 1:
+            case 2:
+            case 3:
+                return TryGrantRandomDiscountInRange(
+                    uplink,
+                    store,
+                    StandardGuaranteedDiscountMinCost,
+                    StandardGuaranteedDiscountMinPercent,
+                    StandardGuaranteedDiscountMaxPercent);
+            case 4:
+                return TryGrantRandomDiscountInRange(
+                    uplink,
+                    store,
+                    FourthPairingGuaranteedDiscountMinCost,
+                    FourthPairingGuaranteedDiscountMinPercent,
+                    FourthPairingGuaranteedDiscountMaxPercent);
+            default:
+                return false;
+        }
+    }
+
+    /// <summary>
+    /// Chooses one eligible item above the minimum cost and discounts it within the requested percent range.
+    /// </summary>
+    private bool TryGrantRandomDiscountInRange(
+        Entity<TraitorUplinkCooperationComponent> uplink,
+        Entity<StoreComponent> store,
+        int minTelecrystalCost,
+        float minDiscountPercent,
+        float maxDiscountPercent)
+    {
+        var available = GetEligibleRandomDiscountListings(uplink, store)
+            .Where(listing => HasMinimumTelecrystalCost(listing, minTelecrystalCost))
+            .ToList();
+
+        while (_random.TryPickAndTake(available, out var listing))
+        {
+            if (!TryGetTelecrystalCost(listing, out var oldCost))
+                continue;
+
+            var saleCost = GetRandomSaleCostByDiscountRange(oldCost, minDiscountPercent, maxDiscountPercent);
+            if (saleCost.Int() >= oldCost.Int() || !TryGrantDiscount(uplink, store, listing, saleCost))
+                continue;
+
+            return true;
+        }
+
+        return false;
     }
 
     /// <summary>
@@ -87,20 +154,12 @@ public sealed partial class TraitorUplinkCooperationSystem
         if (count <= 0)
             return false;
 
-        // Use the store account owner, or the registered traitor owner if the store has no account owner.
-        // The current holder can be different; rewards are added to this device's catalog.
-        var buyer = store.Comp.AccountOwner ?? uplink.Comp.OwnerMindId ?? uplink.Owner;
-
-        // Start from the store's currently available listings, then remove sale entries,
-        // special listings, and items this cooperation system has already discounted.
-        var available = _store.GetAvailableListings(buyer, uplink.Owner, store.Comp)
-            .Where(listing => IsEligibleForRandomDiscount(listing, store.Comp, uplink.Comp))
-            .ToList();
+        var available = GetEligibleRandomDiscountListings(uplink, store);
         var changed = false;
 
         while (count > 0 && _random.TryPickAndTake(available, out var listing))
         {
-            if (!listing.Cost.TryGetValue(TelecrystalCurrency, out var oldCost))
+            if (!TryGetTelecrystalCost(listing, out var oldCost))
                 continue;
 
             var saleCost = GetRandomSaleCost(oldCost, store.Comp);
@@ -115,12 +174,47 @@ public sealed partial class TraitorUplinkCooperationSystem
     }
 
     /// <summary>
+    /// Gets the current random-discount pool after store availability and cooperation filters are applied.
+    /// </summary>
+    private List<ListingData> GetEligibleRandomDiscountListings(
+        Entity<TraitorUplinkCooperationComponent> uplink,
+        Entity<StoreComponent> store)
+    {
+        // Use the store account owner, or the registered traitor owner if the store has no account owner.
+        // The current holder can be different; rewards are added to this device's catalog.
+        var buyer = store.Comp.AccountOwner ?? uplink.Comp.OwnerMindId ?? uplink.Owner;
+
+        // Start from the store's currently available listings, then remove sale entries,
+        // special listings, and items this cooperation system has already discounted.
+        return _store.GetAvailableListings(buyer, uplink.Owner, store.Comp)
+            .Where(listing => IsEligibleForRandomDiscount(listing, store.Comp, uplink.Comp))
+            .ToList();
+    }
+
+    /// <summary>
     /// Uses the uplink's standard sale multiplier range to calculate a discounted telecrystal price.
     /// </summary>
     private FixedPoint2 GetRandomSaleCost(FixedPoint2 oldCost, StoreComponent store)
     {
         var multiplier = _random.NextFloat() * (store.Sales.MaxMultiplier - store.Sales.MinMultiplier)
             + store.Sales.MinMultiplier;
+        return FixedPoint2.New(Math.Max(1, (int) MathF.Round(oldCost.Float() * multiplier)));
+    }
+
+    /// <summary>
+    /// Calculates a telecrystal price from a discount-percent range.
+    /// For example, 30-60% off means the final price is 40-70% of the original price.
+    /// </summary>
+    private FixedPoint2 GetRandomSaleCostByDiscountRange(
+        FixedPoint2 oldCost,
+        float minDiscountPercent,
+        float maxDiscountPercent)
+    {
+        var minFinalCostMultiplier = 1f - maxDiscountPercent;
+        var maxFinalCostMultiplier = 1f - minDiscountPercent;
+        var multiplier = _random.NextFloat() * (maxFinalCostMultiplier - minFinalCostMultiplier)
+            + minFinalCostMultiplier;
+
         return FixedPoint2.New(Math.Max(1, (int) MathF.Round(oldCost.Float() * multiplier)));
     }
 
@@ -138,7 +232,7 @@ public sealed partial class TraitorUplinkCooperationSystem
             listing.RaiseProductEventOnUser)
             return false;
 
-        if (!listing.Cost.TryGetValue(TelecrystalCurrency, out var cost) || cost <= FixedPoint2.New(1))
+        if (!TryGetTelecrystalCost(listing, out var cost) || cost <= FixedPoint2.New(1))
             return false;
 
         if (listing.Categories.Contains(store.Sales.SalesCategory) ||
@@ -152,6 +246,23 @@ public sealed partial class TraitorUplinkCooperationSystem
     }
 
     /// <summary>
+    /// Checks whether the listing is expensive enough for a guaranteed high-value discount slot.
+    /// </summary>
+    private static bool HasMinimumTelecrystalCost(ListingData listing, int minTelecrystalCost)
+    {
+        return TryGetTelecrystalCost(listing, out var cost) &&
+            cost >= FixedPoint2.New(minTelecrystalCost);
+    }
+
+    /// <summary>
+    /// Reads the telecrystal cost used by all cooperation discount calculations.
+    /// </summary>
+    private static bool TryGetTelecrystalCost(ListingData listing, out FixedPoint2 cost)
+    {
+        return listing.Cost.TryGetValue(TelecrystalCurrency, out cost);
+    }
+
+    /// <summary>
     /// Grants a fixed one-shot discount from a known listing prototype, such as radio implanter or emag.
     /// </summary>
     private bool TryGrantPrototypeDiscount(
@@ -161,7 +272,7 @@ public sealed partial class TraitorUplinkCooperationSystem
         float finalCostMultiplier)
     {
         if (!_prototype.TryIndex<ListingPrototype>(listingId, out var listing) ||
-            !listing.Cost.TryGetValue(TelecrystalCurrency, out var oldCost))
+            !TryGetTelecrystalCost(listing, out var oldCost))
             return false;
 
         var saleCost = finalCostMultiplier <= 0f
@@ -183,7 +294,7 @@ public sealed partial class TraitorUplinkCooperationSystem
         if (uplink.Comp.DiscountedListingIds.Contains(source.ID))
             return false;
 
-        if (!source.Cost.TryGetValue(TelecrystalCurrency, out var oldCost) ||
+        if (!TryGetTelecrystalCost(source, out var oldCost) ||
             saleCost < FixedPoint2.Zero ||
             saleCost >= oldCost)
             return false;
