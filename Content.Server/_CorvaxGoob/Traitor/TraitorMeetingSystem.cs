@@ -1,15 +1,19 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+using Content.Server.Station.Systems;
 using Content.Shared.Pinpointer;
 using Robust.Shared.Random;
 
-namespace Content.Server.Traitor.Cooperation;
+namespace Content.Server.Traitor.Meeting;
 
 /// <summary>
 /// Generates and stores the shared meeting hint shown in every traitor briefing for the round.
 /// </summary>
-public sealed partial class TraitorUplinkCooperationSystem
+public sealed class TraitorMeetingSystem : EntitySystem
 {
+    [Dependency] private IRobustRandom _random = default!;
+    [Dependency] private StationSystem _station = default!;
+
     private const int MinimumMeetingMinute = 10;
     private const int MaximumMeetingMinute = 30;
     private const int MeetingWindowRadius = 3;
@@ -21,8 +25,8 @@ public sealed partial class TraitorUplinkCooperationSystem
     {
         var comp = GetOrCreateMeetingHint(ruleUid);
         return (
-            FormatMeetingBriefing("traitor-cooperation-meeting-briefing", comp),
-            FormatMeetingBriefing("traitor-cooperation-meeting-briefing-character", comp));
+            FormatMeetingBriefing("traitor-meeting-briefing", comp),
+            FormatMeetingBriefing("traitor-meeting-briefing-character", comp));
     }
 
     private string FormatMeetingBriefing(string localizationKey, TraitorMeetingComponent meeting)
@@ -74,7 +78,7 @@ public sealed partial class TraitorUplinkCooperationSystem
         }
 
         return locations.Count == 0
-            ? Loc.GetString("traitor-cooperation-meeting-location-unknown")
+            ? Loc.GetString("traitor-meeting-location-unknown")
             : _random.Pick(locations);
     }
 }

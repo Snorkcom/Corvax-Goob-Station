@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-namespace Content.Server.Traitor.Cooperation;
+namespace Content.Server.Traitor.Meeting;
 
 /// <summary>
 /// Round-wide meeting hint shared by all traitors created under the same traitor rule.
