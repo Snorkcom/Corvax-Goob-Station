@@ -100,3 +100,14 @@
     - !type:BuyerDepartmentCondition
       whitelist:
       - Engineering
+
+# traitor-cooperation-this-is-mine-now
+- type: listing
+  id: UplinkImplantExtractor
+  name: uplink-implant-extractor-name
+  description: uplink-implant-extractor-desc
+  productEntity: Implanter
+  cost:
+    Telecrystal: 2
+  categories:
+  - UplinkImplants
