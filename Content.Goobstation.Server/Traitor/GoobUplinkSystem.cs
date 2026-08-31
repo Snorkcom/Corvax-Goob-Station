@@ -158,15 +158,13 @@ public sealed class GoobUplinkSystem : GoobCommonUplinkSystem
 
     private void OnCurrencyInsert(Entity<PenSpinUplinkComponent> ent, ref CurrencyInsertAttemptEvent args)
     {
-        // Allow currency insertion when the pen uplink is unlocked or has persistent unlock state.
-        if (!ent.Comp.Unlocked && !ent.Comp.PermanentlyUnlocked)
+        if (!ent.Comp.Unlocked && !ent.Comp.PermanentlyUnlocked) // CorvaxGoob Edit - traitor-cooperation-this-is-mine-now
             args.Cancel();
     }
 
     private void OnStoreClosed(Entity<PenSpinUplinkComponent> ent, ref BoundUIClosedEvent args)
     {
-        // Clear only transient unlocks when the store UI is closed.
-        if (args.UiKey is StoreUiKey && !ent.Comp.PermanentlyUnlocked)
+        if (args.UiKey is StoreUiKey && !ent.Comp.PermanentlyUnlocked) // CorvaxGoob Edit - traitor-cooperation-this-is-mine-now
             ent.Comp.Unlocked = false;
     }
 
@@ -178,6 +176,7 @@ public sealed class GoobUplinkSystem : GoobCommonUplinkSystem
         if (!TryComp<PenSpinUplinkComponent>(ent, out var uplink))
             return;
 
+        // CorvaxGoob Start - traitor-cooperation-this-is-mine-now
         // Persistent unlock state skips spin combination validation and opens the store UI.
         if (uplink.PermanentlyUnlocked)
         {
@@ -186,6 +185,7 @@ public sealed class GoobUplinkSystem : GoobCommonUplinkSystem
             ResetCombination(ent.Comp, uplink);
             return;
         }
+        // CorvaxGoob End
 
         var curTime = _timing.CurTime;
         if (uplink.NextSpinTime.HasValue && curTime < uplink.NextSpinTime.Value)

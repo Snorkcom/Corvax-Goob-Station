@@ -19,7 +19,7 @@ public sealed partial class PenSpinUplinkComponent : Component
     public TimeSpan? NextSpinTime;
 
     /// <summary>
-    /// Indicates that the pen uplink may be opened without matching the generated spin code.
+    /// CorvaxGoob. Indicates that the pen uplink may be opened without matching the generated spin code.
     /// </summary>
     [DataField]
     public bool PermanentlyUnlocked;
