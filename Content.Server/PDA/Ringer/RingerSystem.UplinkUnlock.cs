@@ -5,12 +5,12 @@ using Content.Shared.PDA.Ringer;
 namespace Content.Server.PDA.Ringer;
 
 /// <summary>
-/// Exposes server-side unlocking for an existing ringer uplink without its ringtone code.
+/// Provides a server API for opening an existing ringer uplink without validating its generated code.
 /// </summary>
 public sealed partial class RingerSystem
 {
     /// <summary>
-    /// Unlocks an existing ringer uplink without requiring the generated ringtone code.
+    /// Opens a locked ringer uplink through the standard toggle path.
     /// </summary>
     public bool UnlockUplink(Entity<RingerUplinkComponent> ent)
     {

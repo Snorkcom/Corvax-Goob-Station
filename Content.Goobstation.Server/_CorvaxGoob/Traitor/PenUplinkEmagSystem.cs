@@ -5,10 +5,10 @@ using Content.Server.Traitor.Uplink;
 using Content.Shared.Emag.Systems;
 using Content.Shared.Store.Components;
 
-namespace Content.Goobstation.Server.Traitor.Cooperation;
+namespace Content.Goobstation.Server.Traitor.Uplink;
 
 /// <summary>
-/// Permanently unlocks an existing pen uplink when the pen is emagged.
+/// Handles emag events for existing pen uplink stores.
 /// </summary>
 public sealed class PenUplinkEmagSystem : EntitySystem
 {
@@ -20,10 +20,11 @@ public sealed class PenUplinkEmagSystem : EntitySystem
     }
 
     /// <summary>
-    /// Permanently unlocks the pen's existing uplink when emagged without creating a new uplink.
+    /// Sets persistent unlock state for pen entities that already contain an uplink store.
     /// </summary>
     private void OnPenEmagged(Entity<PenSpinUplinkComponent> ent, ref GotEmaggedEvent args)
     {
+        // Require an existing uplink store; this handler must not add uplink components to unrelated pens.
         if (ent.Comp.PermanentlyUnlocked ||
             !HasComp<UplinkComponent>(ent.Owner) ||
             !HasComp<StoreComponent>(ent.Owner))
