@@ -4,6 +4,7 @@ namespace Content.Server.Traitor.Cooperation;
 
 /// <summary>
 /// Per-device state for traitor uplink cooperation rewards and identity disclosure.
+/// The component is attached to the actual uplink store entity, not to the current item holder.
 /// </summary>
 [RegisterComponent]
 public sealed partial class TraitorUplinkCooperationComponent : Component
@@ -27,15 +28,16 @@ public sealed partial class TraitorUplinkCooperationComponent : Component
     public HashSet<EntityUid> LinkedOwnerMindIds = new();
 
     /// <summary>
-    /// Catalog listing IDs that already received a one-shot discount on this device.
-    /// This also prevents deterministic radio implanter and emag rewards from being granted twice.
+    /// Source catalog listing IDs that already received a one-shot discount on this uplink.
+    /// Used to prevent granting the same discounted item again, even after its temporary sale listing is bought and removed.
     /// </summary>
     [DataField]
     public HashSet<string> DiscountedListingIds = new();
 }
 
 /// <summary>
-/// Relays store purchase events from a traitor mind without conflicting with the existing mind event subscriber.
+/// Marker component added to the traitor mind so this system can receive uplink purchase events.
+/// It does not store data; it avoids subscribing to the same MindComponent purchase event as other systems.
 /// </summary>
 [RegisterComponent]
 public sealed partial class TraitorUplinkPurchaseRelayComponent : Component;

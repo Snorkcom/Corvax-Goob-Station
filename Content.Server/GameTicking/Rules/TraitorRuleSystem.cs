@@ -51,7 +51,7 @@ public sealed class TraitorRuleSystem : GameRuleSystem<TraitorRuleComponent>
     [Dependency] private readonly PopupSystem _popup = default!; // goob edit
     [Dependency] private readonly IConfigurationManager _cfg = default!; // goob edit
     [Dependency] private readonly GoobCommonUplinkSystem _goobUplink = default!;
-    [Dependency] private readonly TraitorUplinkCooperationSystem _traitorUplinkCooperation = default!; // CorvaxGoob - traitor-cooperation-system
+    [Dependency] private TraitorUplinkCooperationSystem _traitorUplinkCooperation = default!; // CorvaxGoob - traitor-cooperation-system
 
     public override void Initialize()
     {

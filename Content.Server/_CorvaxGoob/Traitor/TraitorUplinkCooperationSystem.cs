@@ -19,24 +19,27 @@ namespace Content.Server.Traitor.Cooperation;
 /// </summary>
 public sealed partial class TraitorUplinkCooperationSystem : EntitySystem
 {
-    [Dependency] private readonly IRobustRandom _random = default!;
-    [Dependency] private readonly IPrototypeManager _prototype = default!;
-    [Dependency] private readonly SharedDoAfterSystem _doAfter = default!;
-    [Dependency] private readonly ChatSystem _chat = default!;
-    [Dependency] private readonly PopupSystem _popup = default!;
-    [Dependency] private readonly StoreSystem _store = default!;
+    [Dependency] private IRobustRandom _random = default!;
+    [Dependency] private IPrototypeManager _prototype = default!;
+    [Dependency] private SharedDoAfterSystem _doAfter = default!;
+    [Dependency] private ChatSystem _chat = default!;
+    [Dependency] private PopupSystem _popup = default!;
+    [Dependency] private StoreSystem _store = default!;
 
     public override void Initialize()
     {
         base.Initialize();
 
+        // Pairing starts from item interaction and completes through a shared do-after event.
         SubscribeLocalEvent<TraitorUplinkCooperationComponent, AfterInteractEvent>(OnUplinkAfterInteract);
         SubscribeLocalEvent<TraitorUplinkCooperationComponent, TraitorUplinkLinkDoAfterEvent>(OnUplinkLinkDoAfter);
+
+        // Purchases are raised on the buyer's mind; the relay component avoids subscribing to MindComponent twice.
         SubscribeLocalEvent<TraitorUplinkPurchaseRelayComponent, ListingPurchasedEvent>(OnListingPurchased);
     }
 
     /// <summary>
-    /// Attaches the traitor owner's identity and employer to an existing uplink.
+    /// Attaches the traitor owner's identity and employer to an uplink that was created by the normal traitor flow.
     /// </summary>
     public void RegisterTraitorUplink(EntityUid uplink, EntityUid mindId, string employer)
     {
@@ -50,9 +53,15 @@ public sealed partial class TraitorUplinkCooperationSystem : EntitySystem
         EnsureComp<TraitorUplinkPurchaseRelayComponent>(mindId);
     }
 
+    /// <summary>
+    /// Confirms that the entity is already a real uplink store; this feature never creates a new uplink.
+    /// </summary>
     private bool HasExistingUplink(EntityUid uid) =>
         HasComp<UplinkComponent>(uid) && HasComp<StoreComponent>(uid);
 
+    /// <summary>
+    /// Gets the StoreComponent from this registered uplink device.
+    /// </summary>
     private bool TryGetUplinkStore(
         Entity<TraitorUplinkCooperationComponent> uplink,
         out Entity<StoreComponent> store)

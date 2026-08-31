@@ -20,6 +20,8 @@ public sealed partial class TraitorUplinkCooperationSystem
     private const string RadioImplanterListingId = "UplinkRadioImplanter";
     private const string EmagListingId = "UplinkEmag";
     private const float FreeFinalCostMultiplier = 0f;
+
+    // The multiplier is the final price: 0.6 means the buyer pays 60%, so the discount is 40%.
     private const float EmagFinalCostMultiplier = 0.6f;
 
     private static readonly ProtoId<CurrencyPrototype> TelecrystalCurrency = "Telecrystal";
@@ -34,6 +36,9 @@ public sealed partial class TraitorUplinkCooperationSystem
         "Surplus",
     ];
 
+    /// <summary>
+    /// Grants all rewards for one device after a successful pairing and refreshes the store UI once.
+    /// </summary>
     private void GrantPairingRewards(Entity<TraitorUplinkCooperationComponent> uplink, int pairingCount)
     {
         if (!TryGetUplinkStore(uplink, out var store))
@@ -56,6 +61,9 @@ public sealed partial class TraitorUplinkCooperationSystem
         _store.UpdateUserInterface(store.Comp.AccountOwner ?? uplink.Comp.OwnerMindId, store.Owner, store.Comp);
     }
 
+    /// <summary>
+    /// Returns how many random discounts this device should receive for its current unique pairing count.
+    /// </summary>
     private static int GetRandomDiscountCount(int pairingCount)
     {
         return pairingCount switch
@@ -68,6 +76,9 @@ public sealed partial class TraitorUplinkCooperationSystem
         };
     }
 
+    /// <summary>
+    /// Chooses random eligible uplink items and creates temporary discounted sale listings for them.
+    /// </summary>
     private bool GrantRandomDiscounts(
         Entity<TraitorUplinkCooperationComponent> uplink,
         Entity<StoreComponent> store,
@@ -76,7 +87,12 @@ public sealed partial class TraitorUplinkCooperationSystem
         if (count <= 0)
             return false;
 
+        // Use the store account owner, or the registered traitor owner if the store has no account owner.
+        // The current holder can be different; rewards are added to this device's catalog.
         var buyer = store.Comp.AccountOwner ?? uplink.Comp.OwnerMindId ?? uplink.Owner;
+
+        // Start from the store's currently available listings, then remove sale entries,
+        // special listings, and items this cooperation system has already discounted.
         var available = _store.GetAvailableListings(buyer, uplink.Owner, store.Comp)
             .Where(listing => IsEligibleForRandomDiscount(listing, store.Comp, uplink.Comp))
             .ToList();
@@ -98,6 +114,9 @@ public sealed partial class TraitorUplinkCooperationSystem
         return changed;
     }
 
+    /// <summary>
+    /// Uses the uplink's standard sale multiplier range to calculate a discounted telecrystal price.
+    /// </summary>
     private FixedPoint2 GetRandomSaleCost(FixedPoint2 oldCost, StoreComponent store)
     {
         var multiplier = _random.NextFloat() * (store.Sales.MaxMultiplier - store.Sales.MinMultiplier)
@@ -105,6 +124,9 @@ public sealed partial class TraitorUplinkCooperationSystem
         return FixedPoint2.New(Math.Max(1, (int) MathF.Round(oldCost.Float() * multiplier)));
     }
 
+    /// <summary>
+    /// Filters the random discount pool to normal catalog items that have not already been discounted on this device.
+    /// </summary>
     private bool IsEligibleForRandomDiscount(
         ListingData listing,
         StoreComponent store,
@@ -129,6 +151,9 @@ public sealed partial class TraitorUplinkCooperationSystem
             productEntity.Contains(exclusion, StringComparison.OrdinalIgnoreCase));
     }
 
+    /// <summary>
+    /// Grants a fixed one-shot discount from a known listing prototype, such as radio implanter or emag.
+    /// </summary>
     private bool TryGrantPrototypeDiscount(
         Entity<TraitorUplinkCooperationComponent> uplink,
         Entity<StoreComponent> store,
@@ -145,6 +170,10 @@ public sealed partial class TraitorUplinkCooperationSystem
         return TryGrantDiscount(uplink, store, listing, saleCost);
     }
 
+    /// <summary>
+    /// Creates a temporary one-use discounted copy of a normal uplink listing.
+    /// The original listing stays in the catalog at full price, while the copy appears in the sale category.
+    /// </summary>
     private bool TryGrantDiscount(
         Entity<TraitorUplinkCooperationComponent> uplink,
         Entity<StoreComponent> store,
@@ -177,10 +206,14 @@ public sealed partial class TraitorUplinkCooperationSystem
         if (!store.Comp.Listings.Add(sale))
             return false;
 
+        // Store the original listing ID, not the cloned sale listing, to prevent reissuing the same reward later.
         uplink.Comp.DiscountedListingIds.Add(source.ID);
         return true;
     }
 
+    /// <summary>
+    /// Removes a consumed manual discount clone after it is bought from an uplink store.
+    /// </summary>
     private void OnListingPurchased(
         Entity<TraitorUplinkPurchaseRelayComponent> _,
         ref ListingPurchasedEvent args)
