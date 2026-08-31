@@ -5,7 +5,6 @@ using Content.Shared.DoAfter;
 using Content.Shared.Interaction;
 using Content.Shared.Mindshield.Components;
 using Content.Shared.Popups;
-using Content.Shared.Store.Components;
 using Content.Shared.Traitor.Cooperation;
 
 namespace Content.Server.Traitor.Cooperation;
@@ -74,7 +73,7 @@ public sealed partial class TraitorUplinkCooperationSystem
                 (target, targetComp),
                 out var sourceMindId,
                 out var targetMindId,
-            out _))
+                out _))
             return;
 
         CompletePairing((ent.Owner, ent.Comp), (target, targetComp), sourceMindId, targetMindId);
@@ -96,10 +95,13 @@ public sealed partial class TraitorUplinkCooperationSystem
             return false;
 
         // Uniqueness is scoped to the source device and keyed by the other traitor mind.
-        if (!TryGetUplinkOwnerMindId(source, out sourceMindId) ||
-            !TryGetUplinkOwnerMindId(target, out targetMindId) ||
-            sourceMindId == targetMindId)
+        if (source.Comp.OwnerMindId is not { } sourceOwnerMindId ||
+            target.Comp.OwnerMindId is not { } targetOwnerMindId ||
+            sourceOwnerMindId == targetOwnerMindId)
             return false;
+
+        sourceMindId = sourceOwnerMindId;
+        targetMindId = targetOwnerMindId;
 
         if (source.Comp.LinkedOwnerMindIds.Contains(targetMindId))
         {
@@ -110,27 +112,6 @@ public sealed partial class TraitorUplinkCooperationSystem
         return true;
     }
 
-    private bool TryGetUplinkOwnerMindId(
-        Entity<TraitorUplinkCooperationComponent> uplink,
-        out EntityUid mindId)
-    {
-        if (uplink.Comp.OwnerMindId is { } ownerMindId)
-        {
-            mindId = ownerMindId;
-            return true;
-        }
-
-        // Fall back to StoreComponent for any uplink that existed before cooperation metadata was attached.
-        if (TryComp<StoreComponent>(uplink.Owner, out var store) && store.AccountOwner is { } accountOwner)
-        {
-            mindId = accountOwner;
-            return true;
-        }
-
-        mindId = default;
-        return false;
-    }
-
     private void CompletePairing(
         Entity<TraitorUplinkCooperationComponent> source,
         Entity<TraitorUplinkCooperationComponent> target,
@@ -139,21 +120,13 @@ public sealed partial class TraitorUplinkCooperationSystem
     {
         source.Comp.LinkedOwnerMindIds.Add(targetMindId);
         target.Comp.LinkedOwnerMindIds.Add(sourceMindId);
-        Dirty(source.Owner, source.Comp);
-        Dirty(target.Owner, target.Comp);
 
         var sourceLinkCount = source.Comp.LinkedOwnerMindIds.Count;
         var targetLinkCount = target.Comp.LinkedOwnerMindIds.Count;
 
-        // Each device can get the radio implanter discount once, on its first successful pairing.
-        if (sourceLinkCount == 1)
-            GrantRadioImplanterDiscount(source);
-        if (targetLinkCount == 1)
-            GrantRadioImplanterDiscount(target);
-
-        GrantCooperationDiscounts(source, sourceLinkCount);
-        GrantCooperationDiscounts(target, targetLinkCount);
-        GrantEmagDiscount(source);
+        // Both devices receive their fixed rewards on their own first pairing, regardless of which one initiated it.
+        GrantPairingRewards(source, sourceLinkCount);
+        GrantPairingRewards(target, targetLinkCount);
 
         var sourceEmployer = GetEmployerDisplayName(source.Comp.EmployerName);
         var targetEmployer = GetEmployerDisplayName(target.Comp.EmployerName);

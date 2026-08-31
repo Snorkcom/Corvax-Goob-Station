@@ -19,9 +19,11 @@ public sealed partial class TraitorUplinkCooperationSystem
     private const string ManualDiscountMarker = "TraitorUplinkManualDiscount";
     private const string RadioImplanterListingId = "UplinkRadioImplanter";
     private const string EmagListingId = "UplinkEmag";
+    private const float FreeFinalCostMultiplier = 0f;
     private const float EmagFinalCostMultiplier = 0.6f;
 
     private static readonly ProtoId<CurrencyPrototype> TelecrystalCurrency = "Telecrystal";
+
     // Random cooperation discounts should avoid special shops, deterministic rewards, and high-variance bundles.
     private static readonly string[] RandomDiscountExclusionFragments =
     [
@@ -32,12 +34,29 @@ public sealed partial class TraitorUplinkCooperationSystem
         "Surplus",
     ];
 
-    private void GrantCooperationDiscounts(Entity<TraitorUplinkCooperationComponent> uplink, int pairingCount)
+    private void GrantPairingRewards(Entity<TraitorUplinkCooperationComponent> uplink, int pairingCount)
     {
-        GrantRandomDiscounts(uplink, GetRandomDiscountCount(pairingCount));
+        if (!TryGetUplinkStore(uplink, out var store))
+            return;
+
+        var changed = false;
+
+        if (pairingCount == 1)
+        {
+            changed |= TryGrantPrototypeDiscount(uplink, store, RadioImplanterListingId, FreeFinalCostMultiplier);
+            changed |= TryGrantPrototypeDiscount(uplink, store, EmagListingId, EmagFinalCostMultiplier);
+        }
+
+        changed |= GrantRandomDiscounts(uplink, store, GetRandomDiscountCount(pairingCount));
+
+        if (!changed)
+            return;
+
+        Dirty(store);
+        _store.UpdateUserInterface(store.Comp.AccountOwner ?? uplink.Comp.OwnerMindId, store.Owner, store.Comp);
     }
 
-    private int GetRandomDiscountCount(int pairingCount)
+    private static int GetRandomDiscountCount(int pairingCount)
     {
         return pairingCount switch
         {
@@ -49,70 +68,34 @@ public sealed partial class TraitorUplinkCooperationSystem
         };
     }
 
-    private void GrantRadioImplanterDiscount(Entity<TraitorUplinkCooperationComponent> uplink)
+    private bool GrantRandomDiscounts(
+        Entity<TraitorUplinkCooperationComponent> uplink,
+        Entity<StoreComponent> store,
+        int count)
     {
-        if (uplink.Comp.DiscountedListingIds.Contains(RadioImplanterListingId))
-            return;
-
-        if (!TryGetUplinkStore(uplink, out var store))
-            return;
-
-        TryGrantPrototypeDiscount(uplink, store, RadioImplanterListingId, FixedPoint2.Zero);
-    }
-
-    private void GrantEmagDiscount(Entity<TraitorUplinkCooperationComponent> uplink)
-    {
-        if (uplink.Comp.DiscountedListingIds.Contains(EmagListingId))
-            return;
-
-        if (!TryGetUplinkStore(uplink, out var store))
-            return;
-
-        if (!_prototype.TryIndex<ListingPrototype>(EmagListingId, out var listing))
-            return;
-
-        if (!listing.Cost.TryGetValue(TelecrystalCurrency, out var oldCost))
-            return;
-
-        var discountedCost = Math.Max(1, (int) MathF.Round(oldCost.Float() * EmagFinalCostMultiplier));
-        var saleCost = FixedPoint2.New(discountedCost);
-        TryGrantDiscount(uplink, store, listing, saleCost);
-    }
-
-    private void GrantRandomDiscounts(Entity<TraitorUplinkCooperationComponent> uplink, int count)
-    {
-        for (var i = 0; i < count; i++)
-        {
-            if (!TryGrantRandomDiscount(uplink))
-                return;
-        }
-    }
-
-    private bool TryGrantRandomDiscount(Entity<TraitorUplinkCooperationComponent> uplink)
-    {
-        if (!TryGetUplinkStore(uplink, out var store))
+        if (count <= 0)
             return false;
 
         var buyer = store.Comp.AccountOwner ?? uplink.Comp.OwnerMindId ?? uplink.Owner;
         var available = _store.GetAvailableListings(buyer, uplink.Owner, store.Comp)
             .Where(listing => IsEligibleForRandomDiscount(listing, store.Comp, uplink.Comp))
             .ToList();
-        _random.Shuffle(available);
+        var changed = false;
 
-        foreach (var listing in available)
+        while (count > 0 && _random.TryPickAndTake(available, out var listing))
         {
             if (!listing.Cost.TryGetValue(TelecrystalCurrency, out var oldCost))
                 continue;
 
             var saleCost = GetRandomSaleCost(oldCost, store.Comp);
-            if (saleCost.Int() >= oldCost.Int())
+            if (saleCost.Int() >= oldCost.Int() || !TryGrantDiscount(uplink, store, listing, saleCost))
                 continue;
 
-            if (TryGrantDiscount(uplink, store, listing, saleCost))
-                return true;
+            changed = true;
+            count--;
         }
 
-        return false;
+        return changed;
     }
 
     private FixedPoint2 GetRandomSaleCost(FixedPoint2 oldCost, StoreComponent store)
@@ -136,31 +119,29 @@ public sealed partial class TraitorUplinkCooperationSystem
         if (!listing.Cost.TryGetValue(TelecrystalCurrency, out var cost) || cost <= FixedPoint2.New(1))
             return false;
 
-        if (listing.Categories.Contains(store.Sales.SalesCategory))
-            return false;
-
-        if (uplink.DiscountedListingIds.Contains(listing.ID))
+        if (listing.Categories.Contains(store.Sales.SalesCategory) ||
+            uplink.DiscountedListingIds.Contains(listing.ID))
             return false;
 
         var productEntity = listing.ProductEntity?.ToString() ?? string.Empty;
-
-        if (RandomDiscountExclusionFragments.Any(exclusion =>
-                listing.ID.Contains(exclusion, StringComparison.OrdinalIgnoreCase) ||
-                productEntity.Contains(exclusion, StringComparison.OrdinalIgnoreCase)))
-            return false;
-
-        return true;
+        return !RandomDiscountExclusionFragments.Any(exclusion =>
+            listing.ID.Contains(exclusion, StringComparison.OrdinalIgnoreCase) ||
+            productEntity.Contains(exclusion, StringComparison.OrdinalIgnoreCase));
     }
 
     private bool TryGrantPrototypeDiscount(
         Entity<TraitorUplinkCooperationComponent> uplink,
         Entity<StoreComponent> store,
         string listingId,
-        FixedPoint2 saleCost)
+        float finalCostMultiplier)
     {
-        if (!_prototype.TryIndex<ListingPrototype>(listingId, out var listing))
+        if (!_prototype.TryIndex<ListingPrototype>(listingId, out var listing) ||
+            !listing.Cost.TryGetValue(TelecrystalCurrency, out var oldCost))
             return false;
 
+        var saleCost = finalCostMultiplier <= 0f
+            ? FixedPoint2.Zero
+            : FixedPoint2.New(Math.Max(1, (int) MathF.Round(oldCost.Float() * finalCostMultiplier)));
         return TryGrantDiscount(uplink, store, listing, saleCost);
     }
 
@@ -197,22 +178,20 @@ public sealed partial class TraitorUplinkCooperationSystem
             return false;
 
         uplink.Comp.DiscountedListingIds.Add(source.ID);
-        Dirty(uplink.Owner, uplink.Comp);
-        Dirty(store);
-        _store.UpdateUserInterface(store.Comp.AccountOwner ?? uplink.Comp.OwnerMindId, store.Owner, store.Comp);
         return true;
     }
 
-    private void OnListingPurchased(Entity<TraitorUplinkCooperationComponent> ent, ref ListingPurchasedEvent args)
+    private void OnListingPurchased(
+        Entity<TraitorUplinkPurchaseRelayComponent> _,
+        ref ListingPurchasedEvent args)
     {
-        if (!TryGetUplinkStore(ent, out var store))
+        if (!TryComp<TraitorUplinkCooperationComponent>(args.Store, out var uplinkComp) ||
+            !TryGetUplinkStore((args.Store, uplinkComp), out var store))
             return;
 
         // Only manual discount clones are consumed after purchase; ordinary listings must remain available.
-        if (!args.Data.Components.Contains(ManualDiscountMarker))
-            return;
-
-        if (!store.Comp.Listings.Remove(args.Data))
+        if (!args.Data.Components.Contains(ManualDiscountMarker) ||
+            !store.Comp.Listings.Remove(args.Data))
             return;
 
         Dirty(store);

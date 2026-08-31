@@ -32,7 +32,7 @@ public sealed partial class TraitorUplinkCooperationSystem : EntitySystem
 
         SubscribeLocalEvent<TraitorUplinkCooperationComponent, AfterInteractEvent>(OnUplinkAfterInteract);
         SubscribeLocalEvent<TraitorUplinkCooperationComponent, TraitorUplinkLinkDoAfterEvent>(OnUplinkLinkDoAfter);
-        SubscribeLocalEvent<TraitorUplinkCooperationComponent, ListingPurchasedEvent>(OnListingPurchased);
+        SubscribeLocalEvent<TraitorUplinkPurchaseRelayComponent, ListingPurchasedEvent>(OnListingPurchased);
     }
 
     /// <summary>
@@ -47,13 +47,11 @@ public sealed partial class TraitorUplinkCooperationSystem : EntitySystem
         var comp = EnsureComp<TraitorUplinkCooperationComponent>(uplink);
         comp.OwnerMindId = mindId;
         comp.EmployerName = employer;
-        Dirty(uplink, comp);
+        EnsureComp<TraitorUplinkPurchaseRelayComponent>(mindId);
     }
 
-    private bool HasExistingUplink(EntityUid uid)
-    {
-        return HasComp<UplinkComponent>(uid) && HasComp<StoreComponent>(uid);
-    }
+    private bool HasExistingUplink(EntityUid uid) =>
+        HasComp<UplinkComponent>(uid) && HasComp<StoreComponent>(uid);
 
     private bool TryGetUplinkStore(
         Entity<TraitorUplinkCooperationComponent> uplink,

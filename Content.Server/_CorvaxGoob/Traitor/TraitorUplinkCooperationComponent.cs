@@ -33,3 +33,9 @@ public sealed partial class TraitorUplinkCooperationComponent : Component
     [DataField]
     public HashSet<string> DiscountedListingIds = new();
 }
+
+/// <summary>
+/// Relays store purchase events from a traitor mind without conflicting with the existing mind event subscriber.
+/// </summary>
+[RegisterComponent]
+public sealed partial class TraitorUplinkPurchaseRelayComponent : Component;
