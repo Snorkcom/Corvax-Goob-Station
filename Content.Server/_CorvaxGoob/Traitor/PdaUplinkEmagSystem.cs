@@ -12,7 +12,7 @@ namespace Content.Server.Traitor.Uplink;
 /// </summary>
 public sealed class PdaUplinkEmagSystem : EntitySystem
 {
-    [Dependency] private readonly RingerSystem _ringer = default!;
+    [Dependency] private RingerSystem _ringer = default!;
 
     public override void Initialize()
     {
