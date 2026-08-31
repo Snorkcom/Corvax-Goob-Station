@@ -64,6 +64,9 @@ public sealed partial class TraitorUplinkCooperationSystem
         if (args.Cancelled || args.Target is not { } target)
             return;
 
+        if (HasComp<MindShieldComponent>(args.User))
+            return;
+
         if (!TryComp<TraitorUplinkCooperationComponent>(target, out var targetComp))
             return;
 
@@ -71,10 +74,11 @@ public sealed partial class TraitorUplinkCooperationSystem
                 (target, targetComp),
                 out var sourceMindId,
                 out var targetMindId,
-                out _))
+            out _))
             return;
 
         CompletePairing((ent.Owner, ent.Comp), (target, targetComp), sourceMindId, targetMindId);
+        args.Handled = true;
     }
 
     private bool TryValidatePairing(
@@ -135,6 +139,8 @@ public sealed partial class TraitorUplinkCooperationSystem
     {
         source.Comp.LinkedOwnerMindIds.Add(targetMindId);
         target.Comp.LinkedOwnerMindIds.Add(sourceMindId);
+        Dirty(source.Owner, source.Comp);
+        Dirty(target.Owner, target.Comp);
 
         var sourceLinkCount = source.Comp.LinkedOwnerMindIds.Count;
         var targetLinkCount = target.Comp.LinkedOwnerMindIds.Count;

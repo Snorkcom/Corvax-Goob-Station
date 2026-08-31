@@ -2,15 +2,11 @@
 
 using Content.Goobstation.Shared.ManifestListings;
 using Content.Server.Chat.Systems;
-using Content.Server.PDA.Ringer;
 using Content.Server.Popups;
-using Content.Server.Station.Systems;
 using Content.Server.Store.Systems;
 using Content.Server.Traitor.Uplink;
 using Content.Shared.DoAfter;
-using Content.Shared.Emag.Systems;
 using Content.Shared.Interaction;
-using Content.Shared.PDA.Ringer;
 using Content.Shared.Store.Components;
 using Content.Shared.Traitor.Cooperation;
 using Robust.Shared.Prototypes;
@@ -28,15 +24,11 @@ public sealed partial class TraitorUplinkCooperationSystem : EntitySystem
     [Dependency] private readonly SharedDoAfterSystem _doAfter = default!;
     [Dependency] private readonly ChatSystem _chat = default!;
     [Dependency] private readonly PopupSystem _popup = default!;
-    [Dependency] private readonly RingerSystem _ringer = default!;
     [Dependency] private readonly StoreSystem _store = default!;
-    [Dependency] private readonly StationSystem _station = default!;
 
     public override void Initialize()
     {
         base.Initialize();
-
-        SubscribeLocalEvent<RingerUplinkComponent, GotEmaggedEvent>(OnPdaEmagged);
 
         SubscribeLocalEvent<TraitorUplinkCooperationComponent, AfterInteractEvent>(OnUplinkAfterInteract);
         SubscribeLocalEvent<TraitorUplinkCooperationComponent, TraitorUplinkLinkDoAfterEvent>(OnUplinkLinkDoAfter);
@@ -55,6 +47,7 @@ public sealed partial class TraitorUplinkCooperationSystem : EntitySystem
         var comp = EnsureComp<TraitorUplinkCooperationComponent>(uplink);
         comp.OwnerMindId = mindId;
         comp.EmployerName = employer;
+        Dirty(uplink, comp);
     }
 
     private bool HasExistingUplink(EntityUid uid)
