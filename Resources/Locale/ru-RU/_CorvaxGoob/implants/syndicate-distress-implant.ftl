@@ -5,9 +5,6 @@ ent-SyndicateDistressImplanter = имплантер тревоги Синдик�
 ent-ActionActivateSyndicateDistressImplant = Передать сигнал тревоги
     .desc = Отправить ваше зарегистрированное имя и текущую позицию в канал Синдиката. Работает даже в критическом состоянии.
 
-action-name-syndicate-distress-implant = Передать сигнал тревоги
-action-description-syndicate-distress-implant = Отправить ваше зарегистрированное имя и текущую позицию в канал Синдиката. Работает даже в критическом состоянии.
-
 uplink-syndicate-distress-implanter-name = Имплантер тревоги
 uplink-syndicate-distress-implanter-desc = Экстренный имплант, передающий ваше зарегистрированное имя и местоположение в канал Синдиката. Работает даже в критическом состоянии.
 

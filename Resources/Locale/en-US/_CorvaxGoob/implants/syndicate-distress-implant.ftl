@@ -5,9 +5,6 @@ ent-SyndicateDistressImplanter = syndicate distress implanter
 ent-ActionActivateSyndicateDistressImplant = Transmit distress signal
     .desc = Sends your registered name and current position over the Syndicate channel. Works even in critical condition.
 
-action-name-syndicate-distress-implant = Transmit distress signal
-action-description-syndicate-distress-implant = Sends your registered name and current position over the Syndicate channel. Works even in critical condition.
-
 uplink-syndicate-distress-implanter-name = Distress Implanter
 uplink-syndicate-distress-implanter-desc = An emergency implant that transmits your registered name and location to the Syndicate channel. Works even in critical condition.
 
