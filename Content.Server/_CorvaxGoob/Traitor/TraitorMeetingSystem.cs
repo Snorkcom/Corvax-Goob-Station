@@ -9,7 +9,7 @@ namespace Content.Server.Traitor.Meeting;
 /// <summary>
 /// Generates and stores the shared meeting hint shown in every traitor briefing for the round.
 /// </summary>
-public sealed class TraitorMeetingSystem : EntitySystem
+public sealed partial class TraitorMeetingSystem : EntitySystem
 {
     [Dependency] private IRobustRandom _random = default!;
     [Dependency] private StationSystem _station = default!;
@@ -66,7 +66,10 @@ public sealed class TraitorMeetingSystem : EntitySystem
         while (query.MoveNext(out var uid, out _, out var beacon, out var xform))
         {
             // Station-owned nav beacons keep the hint useful and avoid off-station landmarks.
-            if (!beacon.Enabled || xform.GridUid == null || _station.GetOwningStation(xform.GridUid.Value) == null)
+            if (!beacon.Enabled ||
+                xform.GridUid == null ||
+                _station.GetOwningStation(xform.GridUid.Value) == null ||
+                !IsAllowedMeetingBeacon(uid, beacon))
                 continue;
 
             var text = beacon.Text;
