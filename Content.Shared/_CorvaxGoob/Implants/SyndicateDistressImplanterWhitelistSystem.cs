@@ -17,10 +17,10 @@ public sealed partial class SyndicateDistressImplanterWhitelistSystem : EntitySy
     {
         base.Initialize();
 
-        SubscribeLocalEvent<ImplanterComponent, ComponentInit>(OnImplanterInit);
+        SubscribeLocalEvent<ImplanterComponent, ComponentStartup>(OnImplanterStartup);
     }
 
-    private void OnImplanterInit(Entity<ImplanterComponent> ent, ref ComponentInit args)
+    private void OnImplanterStartup(Entity<ImplanterComponent> ent, ref ComponentStartup args)
     {
         if (ent.Comp.DeimplantWhitelist.Contains(DistressImplantPrototype))
             return;
