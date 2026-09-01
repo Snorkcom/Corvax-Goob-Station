@@ -5,6 +5,9 @@ using Content.Server.Pinpointer;
 using Content.Server.Radio.EntitySystems;
 using Content.Shared.Implants;
 using Content.Shared.Mind;
+using Content.Shared.Mobs.Systems;
+using Content.Shared.Roles;
+using Content.Shared.Roles.Components;
 using Robust.Shared.Utility;
 
 namespace Content.Server.Implants;
@@ -18,6 +21,8 @@ public sealed partial class SyndicateDistressImplantSystem : EntitySystem
     [Dependency] private NavMapSystem _navMap = default!;
     [Dependency] private RadioSystem _radio = default!;
     [Dependency] private SharedMindSystem _mind = default!;
+    [Dependency] private MobStateSystem _mobState = default!;
+    [Dependency] private SharedRoleSystem _role = default!;
     [Dependency] private SharedTransformSystem _transform = default!;
 
     public override void Initialize()
@@ -33,7 +38,12 @@ public sealed partial class SyndicateDistressImplantSystem : EntitySystem
             return;
 
         var user = args.Performer;
-        var name = GetRegisteredName(user);
+
+        // The implant can be used while alive or in critical condition, but not after death.
+        if (_mobState.IsDead(user))
+            return;
+
+        var name = GetBroadcastName(user);
         var position = GetPositionText(user);
         var message = Loc.GetString(ent.Comp.DistressMessage, ("name", name), ("position", position));
 
@@ -41,10 +51,14 @@ public sealed partial class SyndicateDistressImplantSystem : EntitySystem
         args.Handled = true;
     }
 
-    private string GetRegisteredName(EntityUid user)
+    private string GetBroadcastName(EntityUid user)
     {
-        // Mind.CharacterName is the character's registered identity and is not affected by ordinary body renaming.
-        if (_mind.TryGetMind(user, out _, out var mind) && !string.IsNullOrWhiteSpace(mind.CharacterName))
+        if (!_mind.TryGetMind(user, out var mindId, out var mind) ||
+            !_role.MindHasRole<TraitorRoleComponent>(mindId))
+            return Loc.GetString("syndicate-distress-implant-name-unknown");
+
+        // Traitor broadcasts expose the registered identity from the mind instead of the current body name.
+        if (!string.IsNullOrWhiteSpace(mind.CharacterName))
             return mind.CharacterName;
 
         return Name(user);

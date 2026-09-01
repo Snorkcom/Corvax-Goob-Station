@@ -4,7 +4,7 @@
   parent: BaseAction
   id: ActionActivateSyndicateDistressImplant
   name: Transmit distress signal
-  description: Sends your registered name and current position over the Syndicate channel.
+  description: Sends your registered name and current position over the Syndicate channel. Works even in critical condition.
   categories: [ HideSpawnMenu ]
   components:
   - type: Action
