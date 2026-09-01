@@ -108,6 +108,6 @@
   description: uplink-implant-extractor-desc
   productEntity: Implanter
   cost:
-    Telecrystal: 2
+    Telecrystal: 5
   categories:
   - UplinkImplants
