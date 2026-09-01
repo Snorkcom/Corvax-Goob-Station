@@ -1,0 +1,24 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+- type: entity
+  parent: BaseSubdermalImplant
+  id: SyndicateDistressImplant
+  name: syndicate distress implant
+  description: Broadcasts the user's registered identity and position over the Syndicate radio channel.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: SubdermalImplant
+    implantAction: ActionActivateSyndicateDistressImplant
+    whitelist:
+      components:
+      - MobState
+  - type: SyndicateDistressImplant
+
+- type: entity
+  parent: BaseImplantOnlyImplanterSyndi
+  id: SyndicateDistressImplanter
+  name: syndicate distress implanter
+  description: A single-use implanter containing a Syndicate distress implant.
+  components:
+  - type: Implanter
+    implant: SyndicateDistressImplant

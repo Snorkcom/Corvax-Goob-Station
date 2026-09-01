@@ -1,0 +1,17 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+- type: listing
+  id: UplinkSyndicateDistressImplanter
+  name: uplink-syndicate-distress-implanter-name
+  description: uplink-syndicate-distress-implanter-desc
+  icon: { sprite: /Textures/_Goobstation/Objects/Specific/Security/panicbutton.rsi, state: icon }
+  productEntity: SyndicateDistressImplanter
+  cost:
+    Telecrystal: 2
+  categories:
+  - UplinkImplants
+  conditions:
+  - !type:StoreWhitelistCondition
+    blacklist:
+      tags:
+      - ContravendUplink
