@@ -15,7 +15,7 @@ public sealed class TraitorMeetingSystem : EntitySystem
     [Dependency] private StationSystem _station = default!;
 
     private const int MinimumMeetingMinute = 10;
-    private const int MaximumMeetingMinute = 30;
+    private const int MaximumMeetingMinute = 50;
     private const int MeetingWindowRadius = 3;
 
     /// <summary>
