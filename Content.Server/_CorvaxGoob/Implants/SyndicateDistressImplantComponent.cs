@@ -6,7 +6,7 @@ using Robust.Shared.Prototypes;
 namespace Content.Server.Implants.Components;
 
 /// <summary>
-/// Marks an implant that can broadcast the user's registered identity and position
+/// Marks an implant that can broadcast the user's real name and position
 /// to a configured radio channel.
 /// </summary>
 [RegisterComponent]

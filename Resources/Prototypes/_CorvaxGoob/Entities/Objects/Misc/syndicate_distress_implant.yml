@@ -4,7 +4,7 @@
   parent: BaseSubdermalImplant
   id: SyndicateDistressImplant
   name: syndicate distress implant
-  description: Broadcasts the user's registered identity and position over the Syndicate radio channel. Works even in critical condition.
+  description: Broadcasts the user's real identity and position over the Syndicate radio channel. Works even in critical condition.
   categories: [ HideSpawnMenu ]
   components:
   - type: SubdermalImplant

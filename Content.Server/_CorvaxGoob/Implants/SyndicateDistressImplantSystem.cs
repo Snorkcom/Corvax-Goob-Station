@@ -69,7 +69,7 @@ public sealed partial class SyndicateDistressImplantSystem : EntitySystem
             !_role.MindHasRole<TraitorRoleComponent>(mindId))
             return Loc.GetString("syndicate-distress-implant-name-unknown");
 
-        // Traitor broadcasts expose the registered identity from the mind instead of the current body name.
+        // Traitor broadcasts expose the real name from the mind instead of the current body name.
         if (!string.IsNullOrWhiteSpace(mind.CharacterName))
             return mind.CharacterName;
 
