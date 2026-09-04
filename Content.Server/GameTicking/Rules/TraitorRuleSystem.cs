@@ -7,7 +7,6 @@ using Content.Server.Mind;
 using Content.Server.Objectives;
 using Content.Server.PDA.Ringer;
 using Content.Server.Roles;
-using Content.Server.Traitor.Meeting; // CorvaxGoob - traitor-cooperation-meeting-system
 using Content.Server.Traitor.Uplink;
 using Content.Goobstation.Maths.FixedPoint;
 using Content.Shared.Mind;
@@ -34,7 +33,7 @@ namespace Content.Server.GameTicking.Rules;
 
 // goobstation - heavily edited.
 // do not touch unless you want to shoot yourself in the leg
-public sealed class TraitorRuleSystem : GameRuleSystem<TraitorRuleComponent>
+public sealed partial class TraitorRuleSystem : GameRuleSystem<TraitorRuleComponent> // CorvaxGoob Edit - made partial
 {
     private static readonly Color TraitorCodewordColor = Color.FromHex("#cc3b3b");
 
@@ -51,12 +50,6 @@ public sealed class TraitorRuleSystem : GameRuleSystem<TraitorRuleComponent>
     [Dependency] private readonly PopupSystem _popup = default!; // goob edit
     [Dependency] private readonly IConfigurationManager _cfg = default!; // goob edit
     [Dependency] private readonly GoobCommonUplinkSystem _goobUplink = default!;
-    [Dependency] private TraitorMeetingSystem _traitorMeeting = default!; // CorvaxGoob - traitor-cooperation-meeting-system
-
-    // CorvaxGoob Start - traitor-cooperation-meeting-system
-    private string? _meetingBriefing;
-    private string? _meetingBriefingCharacter;
-    // CorvaxGoob End
 
     public override void Initialize()
     {
@@ -71,28 +64,12 @@ public sealed class TraitorRuleSystem : GameRuleSystem<TraitorRuleComponent>
     private void AfterEntitySelected(Entity<TraitorRuleComponent> ent, ref AfterAntagEntitySelectedEvent args)
     {
         Log.Debug($"AfterAntagEntitySelected {ToPrettyString(ent)}");
-     // MakeTraitor(args.EntityUid, ent); // CorvaxGoob Edit
-
-        // CorvaxGoob Edit Start - traitor-cooperation-meeting-system
-        // The hint is set only for this MakeTraitor call to keep the public MakeTraitor API unchanged.
-        var previousMeetingBriefing = _meetingBriefing;
-        var previousMeetingBriefingCharacter = _meetingBriefingCharacter;
-        (_meetingBriefing, _meetingBriefingCharacter) = _traitorMeeting.GetOrCreateMeetingBriefings(ent.Owner);
-
-        try
-        {
-            MakeTraitor(args.EntityUid, ent.Comp);
-        }
-        finally
-        {
-            _meetingBriefing = previousMeetingBriefing;
-            _meetingBriefingCharacter = previousMeetingBriefingCharacter;
-        }
-        // CorvaxGoob End
+        MakeTraitor(args.EntityUid, ent);
     }
 
-    public bool MakeTraitor(EntityUid traitor, TraitorRuleComponent component)
+    public bool MakeTraitor(EntityUid traitor, Entity<TraitorRuleComponent> rule) // CorvaxGoob Edit - traitor-cooperation-meeting-system
     {
+        var component = rule.Comp;  // CorvaxGoob - traitor-cooperation-meeting-system
         Log.Debug($"MakeTraitor {ToPrettyString(traitor)} - start");
         var factionCodewords = _codewordSystem.GetCodewords(component.CodewordFactionPrototypeId);
 
@@ -166,9 +143,14 @@ public sealed class TraitorRuleSystem : GameRuleSystem<TraitorRuleComponent>
             codewords = factionCodewords;
         }
 
+        var meetingBriefings = GetOrCreateMeetingBriefings(rule); // CorvaxGoob - traitor-cooperation-meeting-system
+
         if (component.GiveBriefing)
         {
-            _antag.SendBriefing(traitor, GenerateBriefing(codewords, uplinkBriefing, issuer), Color.Crimson, component.GreetSoundNotification); // Goob
+            _antag.SendBriefing(traitor,
+                GenerateBriefing(codewords, uplinkBriefing, issuer, meetingBriefings.Chat),
+                Color.Crimson,
+                component.GreetSoundNotification); // CorvaxGoob Edit - traitor-cooperation-meeting-system
             Log.Debug($"MakeTraitor {ToPrettyString(traitor)} - Sent the Briefing");
         }
 
@@ -188,7 +170,11 @@ public sealed class TraitorRuleSystem : GameRuleSystem<TraitorRuleComponent>
             Log.Debug($"MakeTraitor {ToPrettyString(traitor)} - Add traitor briefing components");
             EnsureComp<RoleBriefingComponent>(traitorRole.Value.Owner, out var briefingComp);
             // Goobstation Change - If you remove this, we lose ringtones and flavor in char menu. Upstream's version sucks.
-            briefingComp.Briefing = GenerateBriefingCharacter(codewords, uplinkBriefingShort, issuer);
+            briefingComp.Briefing = GenerateBriefingCharacter(
+                codewords,
+                uplinkBriefingShort,
+                issuer,
+                meetingBriefings.Character); // CorvaxGoob Edit - traitor-cooperation-meeting-system
         }
 
         var color = TraitorCodewordColor; // Fall back to a dark red Syndicate color if a prototype is not found
@@ -276,7 +262,11 @@ public sealed class TraitorRuleSystem : GameRuleSystem<TraitorRuleComponent>
     }
 
     // TODO: figure out how to handle this? add priority to briefing event?
-    private string GenerateBriefing(string[]? codewords, string? uplinkBriefing, string objectiveIssuer)
+    private string GenerateBriefing(
+        string[]? codewords,
+        string? uplinkBriefing,
+        string objectiveIssuer,
+        string meetingBriefing) // CorvaxGoob Edit - traitor-cooperation-meeting-system
     {
         var issuer = objectiveIssuer.Replace(" ", "").ToLower();
         var sb = new StringBuilder();
@@ -292,10 +282,7 @@ public sealed class TraitorRuleSystem : GameRuleSystem<TraitorRuleComponent>
         if (codewords != null)
             sb.AppendLine("\n" + Loc.GetString("traitor-role-codewords", ("codewords", string.Join(", ", codewords))));
 
-        // CorvaxGoob Start - traitor-cooperation-meeting-system
-        if (!string.IsNullOrWhiteSpace(_meetingBriefing))
-            sb.AppendLine("\n" + _meetingBriefing);
-        // CorvaxGoob End
+        sb.AppendLine("\n" + meetingBriefing);
 
         sb.AppendLine("\n" + Loc.GetString("traitor-role-moreinfo"));
 
@@ -303,7 +290,11 @@ public sealed class TraitorRuleSystem : GameRuleSystem<TraitorRuleComponent>
     }
 
     // Goobstation Change - Readd the character briefing text.
-    private string GenerateBriefingCharacter(string[]? codewords, string? uplinkBriefingShort, string objectiveIssuer)
+    private string GenerateBriefingCharacter(
+        string[]? codewords,
+        string? uplinkBriefingShort,
+        string objectiveIssuer,
+        string meetingBriefing) // CorvaxGoob Edit - traitor-cooperation-meeting-system
     {
         var issuer = objectiveIssuer.Replace(" ", "").ToLower();
         var sb = new StringBuilder();
@@ -316,10 +307,7 @@ public sealed class TraitorRuleSystem : GameRuleSystem<TraitorRuleComponent>
         if (codewords != null)
             sb.AppendLine("\n" + Loc.GetString($"traitor-role-codewords-short", ("codewords", string.Join(", ", codewords))));
 
-        // CorvaxGoob Start - traitor-cooperation-meeting-system
-        if (!string.IsNullOrWhiteSpace(_meetingBriefingCharacter))
-            sb.AppendLine("\n" + _meetingBriefingCharacter);
-        // CorvaxGoob End
+        sb.AppendLine("\n" + meetingBriefing);
 
         sb.AppendLine("\n" + Loc.GetString($"traitor-role-allegiances"));
         sb.AppendLine(Loc.GetString($"traitor-{issuer}-allies"));

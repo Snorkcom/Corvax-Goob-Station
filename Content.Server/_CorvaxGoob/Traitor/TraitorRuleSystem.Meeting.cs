@@ -1,17 +1,16 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+using Content.Server.GameTicking.Rules.Components;
 using Content.Server.Station.Systems;
 using Content.Shared.Pinpointer;
-using Robust.Shared.Random;
 
-namespace Content.Server.Traitor.Meeting;
+namespace Content.Server.GameTicking.Rules;
 
 /// <summary>
-/// Generates and stores the shared meeting hint shown in every traitor briefing for the round.
+/// Generates the meeting hint shared by traitors assigned by the same traitor rule.
 /// </summary>
-public sealed partial class TraitorMeetingSystem : EntitySystem
+public sealed partial class TraitorRuleSystem
 {
-    [Dependency] private IRobustRandom _random = default!;
     [Dependency] private StationSystem _station = default!;
 
     private const int MinimumMeetingMinute = 10;
@@ -19,17 +18,22 @@ public sealed partial class TraitorMeetingSystem : EntitySystem
     private const int MeetingWindowRadius = 3;
 
     /// <summary>
-    /// Returns chat and character-menu versions of the shared meeting hint for this traitor rule.
+    /// Returns chat and character-menu versions of the rule's shared meeting hint.
     /// </summary>
-    public (string Chat, string Character) GetOrCreateMeetingBriefings(EntityUid ruleUid)
+    private (string Chat, string Character) GetOrCreateMeetingBriefings(Entity<TraitorRuleComponent> rule)
     {
-        var comp = GetOrCreateMeetingHint(ruleUid);
+        if (rule.Comp.MeetingHint is not { } meeting)
+        {
+            meeting = CreateMeetingHint();
+            rule.Comp.MeetingHint = meeting;
+        }
+
         return (
-            FormatMeetingBriefing("traitor-meeting-briefing", comp),
-            FormatMeetingBriefing("traitor-meeting-briefing-character", comp));
+            FormatMeetingBriefing("traitor-meeting-briefing", meeting),
+            FormatMeetingBriefing("traitor-meeting-briefing-character", meeting));
     }
 
-    private string FormatMeetingBriefing(string localizationKey, TraitorMeetingComponent meeting)
+    private string FormatMeetingBriefing(string localizationKey, TraitorMeetingHint meeting)
     {
         return Loc.GetString(localizationKey,
             ("start", meeting.StartMinute),
@@ -37,26 +41,19 @@ public sealed partial class TraitorMeetingSystem : EntitySystem
             ("location", meeting.Location));
     }
 
-    private TraitorMeetingComponent GetOrCreateMeetingHint(EntityUid ruleUid)
+    private TraitorMeetingHint CreateMeetingHint()
     {
-        // Store the meeting hint on the rule so every traitor in the round receives the same window and area.
-        var comp = EnsureComp<TraitorMeetingComponent>(ruleUid);
-        if (!comp.Initialized)
-        {
-            var middleMinute = _random.Next(MinimumMeetingMinute, MaximumMeetingMinute + 1);
-            comp.StartMinute = Math.Clamp(
-                middleMinute - MeetingWindowRadius,
-                MinimumMeetingMinute,
-                MaximumMeetingMinute);
-            comp.EndMinute = Math.Clamp(
-                middleMinute + MeetingWindowRadius,
-                MinimumMeetingMinute,
-                MaximumMeetingMinute);
-            comp.Location = PickMeetingLocation();
-            comp.Initialized = true;
-        }
+        var middleMinute = _random.Next(MinimumMeetingMinute, MaximumMeetingMinute + 1);
+        var startMinute = Math.Clamp(
+            middleMinute - MeetingWindowRadius,
+            MinimumMeetingMinute,
+            MaximumMeetingMinute);
+        var endMinute = Math.Clamp(
+            middleMinute + MeetingWindowRadius,
+            MinimumMeetingMinute,
+            MaximumMeetingMinute);
 
-        return comp;
+        return new TraitorMeetingHint(startMinute, endMinute, PickMeetingLocation());
     }
 
     private string PickMeetingLocation()
