@@ -21,10 +21,13 @@ public sealed class PdaUplinkEmagSystem : EntitySystem
         SubscribeLocalEvent<RingerUplinkComponent, GotEmaggedEvent>(OnPdaEmagged);
     }
 
+    /// <summary>
+    /// Unlocks an existing PDA uplink without validating its ringtone code.
+    /// </summary>
     private void OnPdaEmagged(Entity<RingerUplinkComponent> ent, ref GotEmaggedEvent args)
     {
         // Require an existing uplink store; this handler must not add uplink components to unrelated PDAs.
-        if (ent.Comp.Unlocked ||
+        if ((args.Type & EmagType.Interaction) == 0 ||
             !HasComp<UplinkComponent>(ent.Owner) ||
             !HasComp<StoreComponent>(ent.Owner))
             return;
@@ -33,6 +36,7 @@ public sealed class PdaUplinkEmagSystem : EntitySystem
             return;
 
         args.Handled = true;
+        // The PDA may be relocked normally and emagged again later.
         args.Repeatable = true;
     }
 }

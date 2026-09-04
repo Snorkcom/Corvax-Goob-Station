@@ -5,6 +5,7 @@ using Content.Goobstation.Shared.Traitor.PenSpin;
 using Content.Server.PDA.Ringer;
 using Content.Server.Preferences.Managers;
 using Content.Server.Store.Systems;
+using Content.Shared.Emag.Systems; // CorvaxGoob Edit - traitor-cooperation-this-is-mine-now
 using Content.Shared.Mind;
 using Content.Shared.PDA;
 using Content.Shared.PDA.Ringer;
@@ -27,6 +28,7 @@ public sealed class GoobUplinkSystem : GoobCommonUplinkSystem
     [Dependency] private readonly IServerPreferencesManager _prefs = default!;
     [Dependency] private readonly IPrototypeManager _proto = default!;
     [Dependency] private readonly EntityWhitelistSystem _whitelistSystem = default!;
+    [Dependency] private EmagSystem _emag = default!; // CorvaxGoob Edit - traitor-cooperation-this-is-mine-now
 
     private static readonly ProtoId<RoleLoadoutPrototype> AntagTraitorLoadout = "AntagTraitor";
     private static readonly ProtoId<LoadoutGroupPrototype> TraitorUplinkGroup = "TraitorUplink";
@@ -158,13 +160,13 @@ public sealed class GoobUplinkSystem : GoobCommonUplinkSystem
 
     private void OnCurrencyInsert(Entity<PenSpinUplinkComponent> ent, ref CurrencyInsertAttemptEvent args)
     {
-        if (!ent.Comp.Unlocked && !ent.Comp.PermanentlyUnlocked) // CorvaxGoob Edit - traitor-cooperation-this-is-mine-now
+        if (!ent.Comp.Unlocked)
             args.Cancel();
     }
 
     private void OnStoreClosed(Entity<PenSpinUplinkComponent> ent, ref BoundUIClosedEvent args)
     {
-        if (args.UiKey is StoreUiKey && !ent.Comp.PermanentlyUnlocked) // CorvaxGoob Edit - traitor-cooperation-this-is-mine-now
+        if (args.UiKey is StoreUiKey && !_emag.CheckFlag(ent, EmagType.Interaction)) // CorvaxGoob Edit - traitor-cooperation-this-is-mine-now
             ent.Comp.Unlocked = false;
     }
 
@@ -177,8 +179,8 @@ public sealed class GoobUplinkSystem : GoobCommonUplinkSystem
             return;
 
         // CorvaxGoob Start - traitor-cooperation-this-is-mine-now
-        // Persistent unlock state skips spin combination validation and opens the store UI.
-        if (uplink.PermanentlyUnlocked)
+        // Pens marked with an Interaction emag bypass the spin code and open the uplink directly.
+        if (_emag.CheckFlag(ent, EmagType.Interaction))
         {
             uplink.Unlocked = true;
             _ui.OpenUi(ent.Owner, StoreUiKey.Key, args.Actor);

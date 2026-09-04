@@ -12,6 +12,7 @@ public sealed partial class RingerSystem
     /// <summary>
     /// Opens a locked ringer uplink through the standard toggle path.
     /// </summary>
+    /// <returns>True when the uplink was opened; false when it was already unlocked.</returns>
     public bool UnlockUplink(Entity<RingerUplinkComponent> ent)
     {
         if (ent.Comp.Unlocked)

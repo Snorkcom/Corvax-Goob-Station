@@ -16,6 +16,7 @@ namespace Content.Goobstation.Server.Traitor.Uplink;
 public sealed class PenUplinkEmagSystem : EntitySystem
 {
     [Dependency] private PopupSystem _popup = default!;
+    [Dependency] private EmagSystem _emag = default!;
 
     public override void Initialize()
     {
@@ -25,17 +26,17 @@ public sealed class PenUplinkEmagSystem : EntitySystem
     }
 
     /// <summary>
-    /// Sets persistent unlock state for pen entities that already contain an uplink store.
+    /// Unlocks an existing pen uplink and lets the standard emag system preserve that state.
     /// </summary>
     private void OnPenEmagged(Entity<PenSpinUplinkComponent> ent, ref GotEmaggedEvent args)
     {
-        // Require an existing uplink store; this handler must not add uplink components to unrelated pens.
-        if (ent.Comp.PermanentlyUnlocked ||
+        // Only the first Interaction emag may unlock a pen that already contains an uplink store.
+        if (!_emag.CompareFlag(args.Type, EmagType.Interaction) ||
+            _emag.CheckFlag(ent, EmagType.Interaction) ||
             !HasComp<UplinkComponent>(ent.Owner) ||
             !HasComp<StoreComponent>(ent.Owner))
             return;
 
-        ent.Comp.PermanentlyUnlocked = true;
         ent.Comp.Unlocked = true;
 
         // The generic emag success popup is predicted from shared code, but this handler only runs on the server.
@@ -47,6 +48,5 @@ public sealed class PenUplinkEmagSystem : EntitySystem
             PopupType.Medium);
 
         args.Handled = true;
-        args.Repeatable = true;
     }
 }
