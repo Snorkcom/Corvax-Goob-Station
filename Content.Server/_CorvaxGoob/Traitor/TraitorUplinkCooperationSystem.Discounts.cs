@@ -86,13 +86,13 @@ public sealed partial class TraitorUplinkCooperationSystem
 
         while (expensiveListings.Count > 0)
         {
-            var listing = _random.PickAndTake(expensiveListings);
+            var listing = PickAndTake(expensiveListings);
             available.Remove(listing);
 
             if (!TryGetTelecrystalCost(listing, out var oldCost))
                 continue;
 
-            var discountPercent = _random.Pick(rule.GuaranteedDiscountPercents);
+            var discountPercent = Pick(rule.GuaranteedDiscountPercents);
             var saleCost = GetSaleCostByDiscountPercent(oldCost, discountPercent);
             if (TryGrantDiscount(uplink, store, listing, saleCost))
                 return true;
@@ -111,7 +111,7 @@ public sealed partial class TraitorUplinkCooperationSystem
 
         while (count > 0 && available.Count > 0)
         {
-            var listing = _random.PickAndTake(available);
+            var listing = PickAndTake(available);
 
             if (!TryGetTelecrystalCost(listing, out var oldCost))
                 continue;
@@ -125,6 +125,19 @@ public sealed partial class TraitorUplinkCooperationSystem
         }
 
         return changed;
+    }
+
+    private T Pick<T>(IReadOnlyList<T> entries)
+    {
+        return entries[_random.Next(entries.Count)];
+    }
+
+    private T PickAndTake<T>(List<T> entries)
+    {
+        var index = _random.Next(entries.Count);
+        var entry = entries[index];
+        entries.RemoveAt(index);
+        return entry;
     }
 
     private List<ListingData> GetEligibleRandomDiscountListings(
