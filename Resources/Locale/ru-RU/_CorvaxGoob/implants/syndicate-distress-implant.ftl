@@ -6,9 +6,10 @@ ent-ActionActivateSyndicateDistressImplant = Передать сигнал тр�
     .desc = Отправить ваше зарегистрированное имя и текущую позицию в канал Синдиката. Работает даже в критическом состоянии.
 
 uplink-syndicate-distress-implanter-name = Имплантер тревоги
-uplink-syndicate-distress-implanter-desc = Экстренный имплант, передающий ваше зарегистрированное имя и местоположение в канал Синдиката. Работает даже в критическом состоянии.
+uplink-syndicate-distress-implanter-desc = Экстренный имплант, передающий ваше зарегистрированное имя и местоположение в канал Синдиката. Работает даже в критическом состоянии. Перезарядка 90 секунд.
 
 syndicate-distress-implant-message = Активирован тревожный сигнал Синдиката. Агент: {$name}. Позиция: {$position}.
+syndicate-distress-implant-critical-state = Агент в критическом состоянии.
 syndicate-distress-implant-name-unknown = Неизвестно
 syndicate-distress-implant-location = {$coordinates}, {$beacon}
 syndicate-distress-implant-location-space = {$coordinates}, космос

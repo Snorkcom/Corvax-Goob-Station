@@ -1,16 +1,13 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 - type: entity
-  parent: BaseAction
+  parent: BaseMentalAction
   id: ActionActivateSyndicateDistressImplant
   name: Transmit distress signal
   description: Sends your registered name and current position over the Syndicate channel. Works even in critical condition.
   categories: [ HideSpawnMenu ]
   components:
   - type: Action
-    # The implant is an emergency signal, so it remains usable while the user is in critical condition.
-    checkCanInteract: false
-    checkConsciousness: false
     itemIconStyle: BigAction
     priority: -20
     useDelay: 90

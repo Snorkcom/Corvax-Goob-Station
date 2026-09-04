@@ -3,11 +3,14 @@
 using Content.Server.Implants.Components;
 using Content.Server.Pinpointer;
 using Content.Server.Radio.EntitySystems;
+using Content.Shared._EinsteinEngines.Language;
+using Content.Shared._EinsteinEngines.Language.Systems;
 using Content.Shared.Implants;
 using Content.Shared.Mind;
 using Content.Shared.Mobs.Systems;
 using Content.Shared.Roles;
 using Content.Shared.Roles.Components;
+using Robust.Shared.Prototypes;
 using Robust.Shared.Utility;
 
 namespace Content.Server.Implants;
@@ -22,12 +25,17 @@ public sealed partial class SyndicateDistressImplantSystem : EntitySystem
     [Dependency] private RadioSystem _radio = default!;
     [Dependency] private SharedMindSystem _mind = default!;
     [Dependency] private MobStateSystem _mobState = default!;
+    [Dependency] private IPrototypeManager _prototype = default!;
     [Dependency] private SharedRoleSystem _role = default!;
     [Dependency] private SharedTransformSystem _transform = default!;
+
+    private LanguagePrototype _broadcastLanguage = default!;
 
     public override void Initialize()
     {
         base.Initialize();
+
+        _broadcastLanguage = _prototype.Index<LanguagePrototype>(SharedLanguageSystem.FallbackLanguagePrototype);
 
         SubscribeLocalEvent<SyndicateDistressImplantComponent, SyndicateDistressImplantActionEvent>(OnDistressAction);
     }
@@ -47,7 +55,11 @@ public sealed partial class SyndicateDistressImplantSystem : EntitySystem
         var position = GetPositionText(user);
         var message = Loc.GetString(ent.Comp.DistressMessage, ("name", name), ("position", position));
 
-        _radio.SendRadioMessage(user, message, ent.Comp.RadioChannel, user);
+        if (_mobState.IsCritical(user))
+            message = $"{message} {Loc.GetString("syndicate-distress-implant-critical-state")}";
+
+        // Use common language so the automated signal is not blocked by the user's current language.
+        _radio.SendRadioMessage(user, message, ent.Comp.RadioChannel, user, _broadcastLanguage);
         args.Handled = true;
     }
 
