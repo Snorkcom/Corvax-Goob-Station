@@ -1,12 +1,12 @@
 ent-SyndicateDistressImplant = syndicate distress implant
-    .desc = Broadcasts the user's registered identity and position over the Syndicate radio channel. Works even in critical condition.
+    .desc = Broadcasts the user's real identity and position over the Syndicate radio channel. Works even in critical condition.
 ent-SyndicateDistressImplanter = syndicate distress implanter
     .desc = A single-use implanter containing a Syndicate distress implant.
 ent-ActionActivateSyndicateDistressImplant = Transmit distress signal
-    .desc = Sends your registered name and current position over the Syndicate channel. Works even in critical condition.
+    .desc = Sends your real name and current position over the Syndicate channel. Works even in critical condition.
 
 uplink-syndicate-distress-implanter-name = Distress Implanter
-uplink-syndicate-distress-implanter-desc = An emergency implant that transmits your registered name and location to the Syndicate channel. Works even in critical condition. 90-second cooldown.
+uplink-syndicate-distress-implanter-desc = An emergency implant that transmits your real name and location to the Syndicate channel. Works even in critical condition. 90-second cooldown.
 
 syndicate-distress-implant-message = Syndicate distress signal activated. Agent: {$name}. Position: {$position}.
 syndicate-distress-implant-critical-state = Agent is in critical condition.

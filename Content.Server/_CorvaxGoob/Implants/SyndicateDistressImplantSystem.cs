@@ -16,7 +16,7 @@ using Robust.Shared.Utility;
 namespace Content.Server.Implants;
 
 /// <summary>
-/// Handles the syndicate distress implant action by broadcasting the user's registered name
+/// Handles the syndicate distress implant action by broadcasting the user's real name
 /// and current position over the syndicate radio channel.
 /// </summary>
 public sealed partial class SyndicateDistressImplantSystem : EntitySystem
