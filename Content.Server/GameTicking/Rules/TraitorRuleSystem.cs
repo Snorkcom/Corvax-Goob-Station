@@ -67,9 +67,8 @@ public sealed partial class TraitorRuleSystem : GameRuleSystem<TraitorRuleCompon
         MakeTraitor(args.EntityUid, ent);
     }
 
-    public bool MakeTraitor(EntityUid traitor, Entity<TraitorRuleComponent> rule) // CorvaxGoob Edit - traitor-cooperation-meeting-system
+    public bool MakeTraitor(EntityUid traitor, TraitorRuleComponent component)
     {
-        var component = rule.Comp;  // CorvaxGoob - traitor-cooperation-meeting-system
         Log.Debug($"MakeTraitor {ToPrettyString(traitor)} - start");
         var factionCodewords = _codewordSystem.GetCodewords(component.CodewordFactionPrototypeId);
 
@@ -143,7 +142,7 @@ public sealed partial class TraitorRuleSystem : GameRuleSystem<TraitorRuleCompon
             codewords = factionCodewords;
         }
 
-        var meetingBriefings = GetOrCreateMeetingBriefings(rule); // CorvaxGoob - traitor-cooperation-meeting-system
+        var meetingBriefings = GetOrCreateMeetingBriefings(component); // CorvaxGoob - traitor-cooperation-meeting-system
 
         if (component.GiveBriefing)
         {
@@ -282,7 +281,7 @@ public sealed partial class TraitorRuleSystem : GameRuleSystem<TraitorRuleCompon
         if (codewords != null)
             sb.AppendLine("\n" + Loc.GetString("traitor-role-codewords", ("codewords", string.Join(", ", codewords))));
 
-        sb.AppendLine("\n" + meetingBriefing);
+        sb.AppendLine("\n" + meetingBriefing); // CorvaxGoob - traitor-cooperation-meeting-system
 
         sb.AppendLine("\n" + Loc.GetString("traitor-role-moreinfo"));
 
@@ -307,7 +306,7 @@ public sealed partial class TraitorRuleSystem : GameRuleSystem<TraitorRuleCompon
         if (codewords != null)
             sb.AppendLine("\n" + Loc.GetString($"traitor-role-codewords-short", ("codewords", string.Join(", ", codewords))));
 
-        sb.AppendLine("\n" + meetingBriefing);
+        sb.AppendLine("\n" + meetingBriefing); // CorvaxGoob - traitor-cooperation-meeting-system
 
         sb.AppendLine("\n" + Loc.GetString($"traitor-role-allegiances"));
         sb.AppendLine(Loc.GetString($"traitor-{issuer}-allies"));

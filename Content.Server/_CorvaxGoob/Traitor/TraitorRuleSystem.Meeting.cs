@@ -20,12 +20,12 @@ public sealed partial class TraitorRuleSystem
     /// <summary>
     /// Returns chat and character-menu versions of the rule's shared meeting hint.
     /// </summary>
-    private (string Chat, string Character) GetOrCreateMeetingBriefings(Entity<TraitorRuleComponent> rule)
+    private (string Chat, string Character) GetOrCreateMeetingBriefings(TraitorRuleComponent component)
     {
-        if (rule.Comp.MeetingHint is not { } meeting)
+        if (component.MeetingHint is not { } meeting)
         {
             meeting = CreateMeetingHint();
-            rule.Comp.MeetingHint = meeting;
+            component.MeetingHint = meeting;
         }
 
         return (
