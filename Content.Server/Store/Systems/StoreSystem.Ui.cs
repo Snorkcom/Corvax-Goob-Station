@@ -194,6 +194,12 @@ public sealed partial class StoreSystem
             var ev = new ListingPurchasedEvent(buyer, uid, listing);
             RaiseLocalEvent(mindId, ref ev);
         }
+
+        // CorvaxGoob Start - traitor-cooperation-make-friends-not-discounts
+        // Store-owned systems also need purchase events when the buyer is not the original account owner.
+        var storePurchaseEvent = new ListingPurchasedEvent(buyer, uid, listing);
+        RaiseLocalEvent(uid, ref storePurchaseEvent);
+        // CorvaxGoob End
         // Goobstation end
 
         // if (!IsOnStartingMap(uid, component)) // Goob edit

@@ -34,10 +34,3 @@ public sealed partial class TraitorUplinkCooperationComponent : Component
     [DataField]
     public HashSet<string> DiscountedListingIds = new();
 }
-
-/// <summary>
-/// Marker component added to the traitor mind so this system can receive uplink purchase events.
-/// It does not store data; it avoids subscribing to the same MindComponent purchase event as other systems.
-/// </summary>
-[RegisterComponent]
-public sealed partial class TraitorUplinkPurchaseRelayComponent : Component;

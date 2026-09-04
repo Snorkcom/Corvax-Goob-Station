@@ -34,8 +34,8 @@ public sealed partial class TraitorUplinkCooperationSystem : EntitySystem
         SubscribeLocalEvent<TraitorUplinkCooperationComponent, AfterInteractEvent>(OnUplinkAfterInteract);
         SubscribeLocalEvent<TraitorUplinkCooperationComponent, TraitorUplinkLinkDoAfterEvent>(OnUplinkLinkDoAfter);
 
-        // Purchases are raised on the buyer's mind; the relay component avoids subscribing to MindComponent twice.
-        SubscribeLocalEvent<TraitorUplinkPurchaseRelayComponent, ListingPurchasedEvent>(OnListingPurchased);
+        // Manual sale clones are removed by the store that owns them, even if another character buys from the device.
+        SubscribeLocalEvent<TraitorUplinkCooperationComponent, ListingPurchasedEvent>(OnListingPurchased);
     }
 
     /// <summary>
@@ -50,7 +50,6 @@ public sealed partial class TraitorUplinkCooperationSystem : EntitySystem
         var comp = EnsureComp<TraitorUplinkCooperationComponent>(uplink);
         comp.OwnerMindId = mindId;
         comp.EmployerName = employer;
-        EnsureComp<TraitorUplinkPurchaseRelayComponent>(mindId);
     }
 
     /// <summary>

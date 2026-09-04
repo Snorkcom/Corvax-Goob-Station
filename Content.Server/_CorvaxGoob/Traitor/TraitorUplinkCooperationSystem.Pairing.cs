@@ -17,9 +17,6 @@ public sealed partial class TraitorUplinkCooperationSystem
     private static readonly TimeSpan PairingDuration = TimeSpan.FromSeconds(5);
     private const float PairingDistanceThreshold = 2f;
 
-    /// <summary>
-    /// Starts pairing when one registered traitor uplink device is used on another registered traitor uplink device.
-    /// </summary>
     private void OnUplinkAfterInteract(Entity<TraitorUplinkCooperationComponent> ent, ref AfterInteractEvent args)
     {
         if (args.Handled || !args.CanReach || args.Target is not { } target || target == ent.Owner)
@@ -61,9 +58,6 @@ public sealed partial class TraitorUplinkCooperationSystem
         args.Handled = true;
     }
 
-    /// <summary>
-    /// Revalidates both devices after the do-after finishes, then records the link and grants rewards.
-    /// </summary>
     private void OnUplinkLinkDoAfter(Entity<TraitorUplinkCooperationComponent> ent, ref TraitorUplinkLinkDoAfterEvent args)
     {
         if (args.Cancelled || args.Target is not { } target)
@@ -86,9 +80,6 @@ public sealed partial class TraitorUplinkCooperationSystem
         args.Handled = true;
     }
 
-    /// <summary>
-    /// Checks that both devices are existing uplinks owned by different traitor minds and not already linked.
-    /// </summary>
     private bool TryValidatePairing(
         Entity<TraitorUplinkCooperationComponent> source,
         Entity<TraitorUplinkCooperationComponent> target,
@@ -121,9 +112,6 @@ public sealed partial class TraitorUplinkCooperationSystem
         return true;
     }
 
-    /// <summary>
-    /// Stores the successful link on both devices, grants per-device rewards, and whispers employer names from both items.
-    /// </summary>
     private void CompletePairing(
         Entity<TraitorUplinkCooperationComponent> source,
         Entity<TraitorUplinkCooperationComponent> target,
@@ -150,9 +138,6 @@ public sealed partial class TraitorUplinkCooperationSystem
         WhisperFromDevice(target.Owner, message);
     }
 
-    /// <summary>
-    /// Converts a missing employer value into a localized fallback before it is shown to either side.
-    /// </summary>
     private string GetEmployerDisplayName(string employerName)
     {
         return string.IsNullOrWhiteSpace(employerName)
@@ -160,9 +145,6 @@ public sealed partial class TraitorUplinkCooperationSystem
             : employerName;
     }
 
-    /// <summary>
-    /// Sends the cooperation result as an in-character whisper using the uplink device name as the speaker.
-    /// </summary>
     private void WhisperFromDevice(EntityUid uid, string message)
     {
         _chat.TrySendInGameICMessage(uid,
