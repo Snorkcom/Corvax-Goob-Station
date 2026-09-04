@@ -29,7 +29,9 @@ public sealed partial class TraitorUplinkCooperationSystem
     private static readonly int[] StandardGuaranteedDiscountPercents = [30, 40, 50, 60];
     private static readonly int[] FourthPairingGuaranteedDiscountPercents = [60, 70, 80];
 
-    // The array index is one less than the unique pairing count for this device.
+    // Reward table for unique pairings on one uplink device.
+    // Index 0 is the first successful pairing, index 1 is the second, and so on.
+    // Each rule grants one guaranteed discount by minimum item cost, plus the listed amount of ordinary random discounts.
     private static readonly PairingDiscountRule[] PairingDiscountRules =
     [
         new(2, 40, StandardGuaranteedDiscountPercents),
@@ -47,6 +49,7 @@ public sealed partial class TraitorUplinkCooperationSystem
         "Surplus",
     ];
 
+    // Adds fixed first-pairing rewards and table-driven random rewards after a unique pairing.
     private void GrantPairingRewards(Entity<TraitorUplinkCooperationComponent> uplink, int pairingCount)
     {
         if (!TryGetUplinkStore(uplink, out var store))
@@ -74,6 +77,7 @@ public sealed partial class TraitorUplinkCooperationSystem
         _store.UpdateUserInterface(store.Comp.AccountOwner ?? uplink.Comp.OwnerMindId, store.Owner, store.Comp);
     }
 
+    // Tries to add one guaranteed discount for an item that meets the rule's minimum TC cost.
     private bool TryGrantGuaranteedDiscount(
         Entity<TraitorUplinkCooperationComponent> uplink,
         Entity<StoreComponent> store,
@@ -101,6 +105,7 @@ public sealed partial class TraitorUplinkCooperationSystem
         return false;
     }
 
+    // Adds ordinary random discounts from the remaining pool without repeating this batch's picks.
     private bool GrantRandomDiscounts(
         Entity<TraitorUplinkCooperationComponent> uplink,
         Entity<StoreComponent> store,
@@ -140,6 +145,7 @@ public sealed partial class TraitorUplinkCooperationSystem
         return entry;
     }
 
+    // Builds the currently visible listing pool for cooperation discounts on this uplink store.
     private List<ListingData> GetEligibleRandomDiscountListings(
         Entity<TraitorUplinkCooperationComponent> uplink,
         Entity<StoreComponent> store)
@@ -151,6 +157,7 @@ public sealed partial class TraitorUplinkCooperationSystem
             .ToList();
     }
 
+    // Uses the store's normal sale multiplier range for ordinary random discounts.
     private FixedPoint2 GetRandomSaleCost(FixedPoint2 oldCost, StoreComponent store)
     {
         var multiplier = _random.NextFloat() * (store.Sales.MaxMultiplier - store.Sales.MinMultiplier)
@@ -158,6 +165,7 @@ public sealed partial class TraitorUplinkCooperationSystem
         return FixedPoint2.New(Math.Max(1, (int) MathF.Round(oldCost.Float() * multiplier)));
     }
 
+    // Converts a fixed discount percentage into a final TC price.
     private FixedPoint2 GetSaleCostByDiscountPercent(FixedPoint2 oldCost, int discountPercent)
     {
         if (discountPercent >= 100)
@@ -167,6 +175,7 @@ public sealed partial class TraitorUplinkCooperationSystem
         return FixedPoint2.New(Math.Max(1, (int) MathF.Round(oldCost.Float() * multiplier)));
     }
 
+    // Excludes sales, event purchases, already discounted items, cheap filler, fixed rewards, and bundles.
     private bool IsEligibleForRandomDiscount(
         ListingData listing,
         StoreComponent store,
@@ -202,6 +211,7 @@ public sealed partial class TraitorUplinkCooperationSystem
         return listing.Cost.TryGetValue(TelecrystalCurrency, out cost);
     }
 
+    // Adds a fixed first-pairing discount for a known uplink listing prototype.
     private bool TryGrantPrototypeDiscount(
         Entity<TraitorUplinkCooperationComponent> uplink,
         Entity<StoreComponent> store,
@@ -215,6 +225,8 @@ public sealed partial class TraitorUplinkCooperationSystem
         return TryGrantDiscount(uplink, store, listing, GetSaleCostByDiscountPercent(oldCost, discountPercent));
     }
 
+    // Creates a one-use sale clone while leaving the original listing available at full price.
+    // Remembering the source ID prevents duplicate cooperation discounts on the same item.
     private bool TryGrantDiscount(
         Entity<TraitorUplinkCooperationComponent> uplink,
         Entity<StoreComponent> store,
@@ -250,6 +262,7 @@ public sealed partial class TraitorUplinkCooperationSystem
         return true;
     }
 
+    // Removes bought one-use cooperation sale clones; ordinary listings do not have the marker.
     private void OnListingPurchased(
         Entity<TraitorUplinkCooperationComponent> ent,
         ref ListingPurchasedEvent args)
