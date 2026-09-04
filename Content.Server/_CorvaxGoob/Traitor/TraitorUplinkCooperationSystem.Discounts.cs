@@ -26,20 +26,21 @@ public sealed partial class TraitorUplinkCooperationSystem
         int GuaranteedMinTelecrystalCost,
         int[] GuaranteedDiscountPercents);
 
-    // Index is the unique pairing count for this device. Index 0 is unused.
+    private static readonly int[] StandardGuaranteedDiscountPercents = [30, 40, 50, 60];
+    private static readonly int[] FourthPairingGuaranteedDiscountPercents = [60, 70, 80];
+
+    // The array index is one less than the unique pairing count for this device.
     private static readonly PairingDiscountRule[] PairingDiscountRules =
     [
-        new(0, 0, []),
-        new(2, 40, [30, 40, 50, 60]),
-        new(1, 40, [30, 40, 50, 60]),
-        new(1, 40, [30, 40, 50, 60]),
-        new(0, 50, [60, 70, 80]),
+        new(2, 40, StandardGuaranteedDiscountPercents),
+        new(1, 40, StandardGuaranteedDiscountPercents),
+        new(1, 40, StandardGuaranteedDiscountPercents),
+        new(0, 50, FourthPairingGuaranteedDiscountPercents),
     ];
 
     // Random cooperation discounts should avoid special shops, deterministic rewards, and high-variance bundles.
     private static readonly string[] RandomDiscountExclusionFragments =
     [
-        "UplinkSales",
         RadioImplanterListingId,
         EmagListingId,
         "Bundle",
@@ -59,8 +60,9 @@ public sealed partial class TraitorUplinkCooperationSystem
             changed |= TryGrantPrototypeDiscount(uplink, store, EmagListingId, EmagDiscountPercent);
         }
 
-        if (TryGetPairingDiscountRule(pairingCount, out var rule))
+        if (pairingCount > 0 && pairingCount <= PairingDiscountRules.Length)
         {
+            var rule = PairingDiscountRules[pairingCount - 1];
             var available = GetEligibleRandomDiscountListings(uplink, store);
             changed |= TryGrantGuaranteedDiscount(uplink, store, available, rule);
             changed |= GrantRandomDiscounts(uplink, store, available, rule.RandomDiscountCount);
@@ -69,20 +71,7 @@ public sealed partial class TraitorUplinkCooperationSystem
         if (!changed)
             return;
 
-        Dirty(store);
         _store.UpdateUserInterface(store.Comp.AccountOwner ?? uplink.Comp.OwnerMindId, store.Owner, store.Comp);
-    }
-
-    private static bool TryGetPairingDiscountRule(int pairingCount, out PairingDiscountRule rule)
-    {
-        if (pairingCount <= 0 || pairingCount >= PairingDiscountRules.Length)
-        {
-            rule = default;
-            return false;
-        }
-
-        rule = PairingDiscountRules[pairingCount];
-        return true;
     }
 
     private bool TryGrantGuaranteedDiscount(
@@ -91,9 +80,6 @@ public sealed partial class TraitorUplinkCooperationSystem
         List<ListingData> available,
         PairingDiscountRule rule)
     {
-        if (rule.GuaranteedDiscountPercents.Length == 0)
-            return false;
-
         var expensiveListings = available
             .Where(listing => HasMinimumTelecrystalCost(listing, rule.GuaranteedMinTelecrystalCost))
             .ToList();
@@ -106,7 +92,7 @@ public sealed partial class TraitorUplinkCooperationSystem
             if (!TryGetTelecrystalCost(listing, out var oldCost))
                 continue;
 
-            var discountPercent = PickDiscountPercent(rule.GuaranteedDiscountPercents);
+            var discountPercent = _random.Pick(rule.GuaranteedDiscountPercents);
             var saleCost = GetSaleCostByDiscountPercent(oldCost, discountPercent);
             if (TryGrantDiscount(uplink, store, listing, saleCost))
                 return true;
@@ -166,11 +152,6 @@ public sealed partial class TraitorUplinkCooperationSystem
 
         var multiplier = Math.Clamp(100 - discountPercent, 0, 100) / 100f;
         return FixedPoint2.New(Math.Max(1, (int) MathF.Round(oldCost.Float() * multiplier)));
-    }
-
-    private int PickDiscountPercent(int[] discountPercents)
-    {
-        return discountPercents[_random.Next(discountPercents.Length)];
     }
 
     private bool IsEligibleForRandomDiscount(
@@ -241,14 +222,13 @@ public sealed partial class TraitorUplinkCooperationSystem
         sale.OldCost = source.Cost.ToDictionary(x => x.Key, x => x.Value);
         sale.Cost = source.Cost.ToDictionary(x => x.Key, x => x.Value);
         sale.Cost[TelecrystalCurrency] = saleCost;
-        sale.SaleCost = sale.Cost.ToDictionary(x => x.Key, x => x.Value);
+        sale.SaleCost = sale.Cost;
         sale.PurchaseAmount = 0;
         sale.SaleLimit = 1;
         sale.DiscountValue = saleCost <= FixedPoint2.Zero
             ? 100
             : 100 - (saleCost / oldCost * 100).Int();
-        sale.Components = source.Components.ToList();
-        sale.Components.Add(ManualDiscountMarker);
+        sale.Components = [.. source.Components, ManualDiscountMarker];
 
         if (!store.Comp.Listings.Add(sale))
             return false;
@@ -264,10 +244,7 @@ public sealed partial class TraitorUplinkCooperationSystem
         if (args.Store != ent.Owner || !TryGetUplinkStore(ent, out var store))
             return;
 
-        if (!args.Data.Components.Contains(ManualDiscountMarker) ||
-            !store.Comp.Listings.Remove(args.Data))
-            return;
-
-        Dirty(store);
+        if (args.Data.Components.Contains(ManualDiscountMarker))
+            store.Comp.Listings.Remove(args.Data);
     }
 }
