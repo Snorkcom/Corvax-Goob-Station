@@ -1,0 +1,11 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+- type: listing
+  id: UplinkHighRiskPinpointer
+  name: uplink-high-risk-pinpointer-name
+  description: uplink-high-risk-pinpointer-desc
+  productEntity: PinpointerSyndicateHighRisk
+  cost:
+    Telecrystal: 30
+  categories:
+  - UplinkDeception

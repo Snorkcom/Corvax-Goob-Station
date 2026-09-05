@@ -1,0 +1,10 @@
+<controls:FancyWindow xmlns="https://spacestation14.io"
+                      xmlns:controls="clr-namespace:Content.Client.UserInterface.Controls"
+                      Title="{Loc 'high-risk-pinpointer-ui-title'}"
+                      MinSize="360 0">
+    <BoxContainer Orientation="Vertical" Margin="10 10">
+        <OptionButton Name="TargetSelector" Access="Public" Margin="0 0 0 6" />
+        <LineEdit Name="DnaInput" Access="Public" Visible="False" Margin="0 0 0 6" PlaceHolder="{Loc 'high-risk-pinpointer-dna-placeholder'}" />
+        <Button Name="SearchButton" Access="Public" Text="{Loc 'high-risk-pinpointer-search-button'}" />
+    </BoxContainer>
+</controls:FancyWindow>

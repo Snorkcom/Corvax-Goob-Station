@@ -1,0 +1,24 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+- type: entity
+  parent: [PinpointerSyndicateNuclear, BaseSyndicateContraband]
+  id: PinpointerSyndicateHighRisk
+  name: high-risk pinpointer
+  description: A Syndicate pinpointer configured to find the station's most valuable targets or an exact DNA sequence.
+  components:
+  - type: Pinpointer
+    whitelist: null
+    targetName: null
+    canToggle: false
+    canRetarget: false
+    canEmag: false
+  - type: HighRiskPinpointer
+  - type: ActivatableUI
+    inHandsOnly: true
+    singleUser: true
+    requireActiveHand: false
+    key: enum.HighRiskPinpointerUiKey.Key
+  - type: UserInterface
+    interfaces:
+      enum.HighRiskPinpointerUiKey.Key:
+        type: HighRiskPinpointerUserInterface
