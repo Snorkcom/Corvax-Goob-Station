@@ -8,10 +8,10 @@ namespace Content.Server._CorvaxGoob.TTS;
 // ReSharper disable once InconsistentNaming
 public sealed partial class TTSSystem
 {
-    private static readonly Regex regexInvalidChars = new Regex(@"[^a-zA-Zа-яА-ЯёЁ0-9,\-+?!. ]", RegexOptions.Compiled);
+    private static readonly Regex regexInvalidChars = new Regex(@"[^a-zA-Zа-яА-ЯёЁ0-9,\-+?!.:; ]", RegexOptions.Compiled);
     private static readonly Regex regexLatToCyr = new Regex(@"[a-zA-Z]", RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
-    private static readonly Regex regexWordBoundary = new Regex(@"(?<![a-zA-Zа-яёА-ЯЁ])[a-zA-Zа-яёА-ЯЁ]+?(?![a-zA-Zа-яёА-ЯЁ])", RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
-    private static readonly Regex regexDecimal = new Regex(@"(?<=[1-90])(\.|,)(?=[1-90])", RegexOptions.Compiled);
+    private static readonly Regex regexWordBoundary = new Regex(@"(?<![a-zA-Zа-яёА-ЯЁ0-9])[a-zA-Zа-яёА-ЯЁ0-9]+?(?![a-zA-Zа-яёА-ЯЁ0-9])", RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
+    private static readonly Regex regexDecimal = new Regex(@"(?<=[0-9])(\.|,)(?=[0-9])", RegexOptions.Compiled);
     private static readonly Regex regexDigits = new Regex(@"\d+", RegexOptions.Compiled);
     private void OnTransformSpeech(TransformSpeechEvent args)
     {
@@ -23,8 +23,8 @@ public sealed partial class TTSSystem
     {
         text = text.Trim();
         text = regexInvalidChars.Replace(text, "");
-        text = regexLatToCyr.Replace(text, ReplaceLat2Cyr);
         text = regexWordBoundary.Replace(text, ReplaceMatchedWord);
+        text = regexLatToCyr.Replace(text, ReplaceLat2Cyr);
         text = regexDecimal.Replace(text, " целых ");
         text = regexDigits.Replace(text, ReplaceWord2Num);
         text = text.Trim();
@@ -145,7 +145,19 @@ public sealed partial class TTSSystem
             {"бсс", "Бэ Эс Эс"},
             {"сии", "Эс И И"},
             {"ии", "И И"},
+            {"ции", "Цэ И И"},
             {"опз", "О Пэ Зэ"},
+            {"рпс", "Эр Пэ Эс"},
+            {"втф", "Вэ Тэ Эф"},
+            {"исб", "И Эс Бэ"},
+            {"мми", "Эм Эм И"},
+            {"эми", "Эм Эм И"},
+            {"owo", "Оу Воу"},
+            {"ouo", "Оу Воу"},
+            {"ovo", "Оу Воу"},
+            {"uwu", "У Ву"},
+            {"оwо", "Оу Воу"},
+            {"уwу", "У Ву"},
         };
 
     private static readonly IReadOnlyDictionary<string, string> ReverseTranslit =
