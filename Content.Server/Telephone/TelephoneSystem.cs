@@ -125,12 +125,20 @@ public sealed class TelephoneSystem : SharedTelephoneSystem
         // If speaker entity has TTS, the telephone will speak with the same voice
         if (TryComp<TTSComponent>(args.MessageSource, out var ttsSpeaker))
         {
-            EntityManager.EnsureComponent<TTSComponent>(entity, out var ttsTelephone);
+            EntityManager.EnsureComponent<TTSComponent>(speaker, out var ttsTelephone);
             ttsTelephone.VoicePrototypeId = ttsSpeaker.VoicePrototypeId;
+            ttsTelephone.Pitch = ttsSpeaker.Pitch;
+
+            if (ttsTelephone.VoicePrototypeId is { } voicePrototypeId)
+            {
+                var transformVoiceEvent = new TransformSpeakerVoiceEvent(args.MessageSource, voicePrototypeId.Id);
+                RaiseLocalEvent(args.MessageSource, transformVoiceEvent);
+                ttsTelephone.VoicePrototypeId = transformVoiceEvent.VoiceId;
+            }
         }
         else // Remove TTS if the speaker has no TTS
         {
-            EntityManager.RemoveComponent<TTSComponent>(entity);
+            EntityManager.RemoveComponent<TTSComponent>(speaker);
         }
         // CorvaxGoob-TTS-End
 

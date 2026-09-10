@@ -57,7 +57,7 @@ public sealed class HeadsetSystem : SharedHeadsetSystem
             && keys.Channels.Contains(args.Channel.ID)
             && _whitelist.IsWhitelistPassOrNull(args.Channel.SendWhitelist, uid)) // Goobstation - Whitelisted channels
         {
-            _radio.SendRadioMessage(uid, args.Message, args.Channel, component.Headset);
+            _radio.SendRadioMessage(uid, args.Message, args.Channel, component.Headset, args.Language, isWhisper: args.IsWhisper);
             args.Channel = null; // prevent duplicate messages from other listeners.
         }
     }

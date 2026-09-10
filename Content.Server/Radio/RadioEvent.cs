@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+using System.Collections.Generic;
 using Content.Shared.Chat;
 using Content.Shared._EinsteinEngines.Language;
 using Content.Shared.Radio;
@@ -21,6 +22,19 @@ public readonly record struct RadioReceiveEvent(
     EntityUid RadioSource
     );
 // Einstein Engines - Language end
+
+/// <summary>
+/// Raised after <see cref="RadioSystem"/> has finished a radio transmission and collected every receiver
+/// that passed the usual channel, telecom, EMP and per-receiver checks.
+/// </summary>
+public readonly record struct RadioTransmissionFinishedEvent(
+    EntityUid MessageSource,
+    EntityUid RadioSource,
+    RadioChannelPrototype Channel,
+    string Message,
+    LanguagePrototype Language,
+    bool IsWhisper,
+    IReadOnlyCollection<EntityUid> Receivers);
 
 /// <summary>
 /// Event raised on the parent entity of a headset radio when a radio message is received

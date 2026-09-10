@@ -1,3 +1,4 @@
+using Content.Shared._CorvaxGoob.TTS;
 using Robust.Shared.Configuration;
 
 namespace Content.Shared._CorvaxGoob.CCCVars;
@@ -99,7 +100,25 @@ public sealed class CCCVars
     /// Default volume setting of TTS sound
     /// </summary>
     public static readonly CVarDef<float> TTSVolume =
-        CVarDef.Create("tts.volume", 0f, CVar.CLIENTONLY | CVar.ARCHIVE);
+        CVarDef.Create("tts.volume", 1.2f, CVar.CLIENT | CVar.REPLICATED | CVar.ARCHIVE);
+
+    /// <summary>
+    /// Default volume setting of radio TTS sound.
+    /// </summary>
+    public static readonly CVarDef<float> TTSRadioVolume =
+        CVarDef.Create("tts.radio_volume", 1.2f, CVar.CLIENT | CVar.REPLICATED | CVar.ARCHIVE);
+
+    /// <summary>
+    /// Client-side voice EFX preset for TTS.
+    /// </summary>
+    public static readonly CVarDef<int> TTSVoiceEffect =
+        CVarDef.Create("tts.voice_effect", 0, CVar.CLIENTONLY | CVar.ARCHIVE);
+
+    /// <summary>
+    /// Bit mask of radio channels that should be voiced by TTS.
+    /// </summary>
+    public static readonly CVarDef<int> TTSRadioFilter =
+        CVarDef.Create("tts.radio_filter", (int) RadioChannelFlag.AllExceptCommon, CVar.CLIENT | CVar.REPLICATED | CVar.ARCHIVE);
 
     /// <summary>
     /// Count of in-memory cached tts voice lines.
@@ -151,7 +170,7 @@ public sealed class CCCVars
     /// Default volume setting of announcements sound.
     /// </summary>
     public static readonly CVarDef<float> AnnouncementsSound =
-        CVarDef.Create("audio.announcements_volume", 0.5f, CVar.CLIENTONLY | CVar.ARCHIVE);
+        CVarDef.Create("audio.announcements_volume", 0.5f, CVar.CLIENT | CVar.REPLICATED | CVar.ARCHIVE);
 
     public static readonly CVarDef<bool> PhotoPlayTimeRequire =
         CVarDef.Create("photo.playtime_require", true, CVar.SERVERONLY);

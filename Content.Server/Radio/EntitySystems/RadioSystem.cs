@@ -64,7 +64,7 @@ public sealed partial class RadioSystem : EntitySystem
             && component.Channels.Contains(args.Channel.ID)
             && _whitelist.IsWhitelistPassOrNull(args.Channel.SendWhitelist, uid)) // Goobstation - Whitelisted radio channels
         {
-            SendRadioMessage(uid, args.Message, args.Channel, uid, args.Language); // Einstein Engines - Language
+            SendRadioMessage(uid, args.Message, args.Channel, uid, args.Language, isWhisper: args.IsWhisper); // Einstein Engines - Language
             args.Channel = null; // prevent duplicate messages from other listeners.
         }
     }
@@ -100,9 +100,10 @@ public sealed partial class RadioSystem : EntitySystem
         ProtoId<RadioChannelPrototype> channel,
         EntityUid radioSource,
         LanguagePrototype? language = null,
-        bool escapeMarkup = true)
+        bool escapeMarkup = true,
+        bool isWhisper = false)
     {
-        SendRadioMessage(messageSource, message, _prototype.Index(channel), radioSource, escapeMarkup: escapeMarkup, language: language); // Einstein Engines - Language
+        SendRadioMessage(messageSource, message, _prototype.Index(channel), radioSource, escapeMarkup: escapeMarkup, language: language, isWhisper: isWhisper); // Einstein Engines - Language
     }
 
     /// <summary>
@@ -116,7 +117,8 @@ public sealed partial class RadioSystem : EntitySystem
         RadioChannelPrototype channel,
         EntityUid radioSource,
         LanguagePrototype? language = null,
-        bool escapeMarkup = true)
+        bool escapeMarkup = true,
+        bool isWhisper = false)
     {
         // Einstein Engines - Language begin
         if (language == null)
@@ -207,6 +209,7 @@ public sealed partial class RadioSystem : EntitySystem
         var hasActiveServer = HasActiveServer(sourceMapId, channel.ID);
         var sourceServerExempt = _exemptQuery.HasComp(radioSource);
 
+        var acceptedReceivers = new List<EntityUid>();
         var radioQuery = EntityQueryEnumerator<ActiveRadioComponent, TransformComponent>();
         while (canSend && radioQuery.MoveNext(out var receiver, out var radio, out var transform))
         {
@@ -235,6 +238,19 @@ public sealed partial class RadioSystem : EntitySystem
 
             // send the message
             RaiseLocalEvent(receiver, ref ev);
+            acceptedReceivers.Add(receiver);
+        }
+
+        if (acceptedReceivers.Count > 0)
+        {
+            RaiseLocalEvent(new RadioTransmissionFinishedEvent(
+                messageSource,
+                radioSource,
+                channel,
+                message,
+                language,
+                isWhisper,
+                acceptedReceivers));
         }
 
         if (name != Name(messageSource))

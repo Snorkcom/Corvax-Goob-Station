@@ -2,6 +2,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading;
@@ -34,14 +35,27 @@ public sealed class TTSManager
 
     [Dependency] private readonly IConfigurationManager _cfg = default!;
 
-    private readonly HttpClient _httpClient = new();
+    private readonly HttpClient _httpClient;
 
     private ISawmill _sawmill = default!;
     private readonly Dictionary<string, byte[]> _cache = new();
     private readonly List<string> _cacheKeysSeq = new();
+    private readonly Dictionary<string, Task<byte[]?>> _pendingRequests = new();
+    private readonly object _cacheLock = new();
     private int _maxCachedCount = 200;
     private string _apiUrl = string.Empty;
     private string _apiToken = string.Empty;
+    private int _cacheEpoch;
+
+    public TTSManager()
+    {
+        _httpClient = new HttpClient();
+    }
+
+    internal TTSManager(HttpClient httpClient)
+    {
+        _httpClient = httpClient;
+    }
 
     public void Initialize()
     {
@@ -65,13 +79,36 @@ public sealed class TTSManager
     {
         WantedCount.Inc();
         var cacheKey = GenerateCacheKey(speaker, text);
-        if (_cache.TryGetValue(cacheKey, out var data))
+        Task<byte[]?> request;
+
+        lock (_cacheLock)
         {
-            ReusedCount.Inc();
-            _sawmill.Verbose($"Use cached sound for '{text}' speech by '{speaker}' speaker");
-            return data;
+            if (_cache.TryGetValue(cacheKey, out var data))
+            {
+                ReusedCount.Inc();
+                _sawmill.Verbose($"Use cached sound for '{text}' speech by '{speaker}' speaker");
+                return data;
+            }
+
+            if (_pendingRequests.TryGetValue(cacheKey, out var pending))
+            {
+                ReusedCount.Inc();
+                _sawmill.Verbose($"Await pending sound for '{text}' speech by '{speaker}' speaker");
+                request = pending;
+            }
+            else
+            {
+                var requestEpoch = _cacheEpoch;
+                request = ConvertTextToSpeechUncached(speaker, text, cacheKey, requestEpoch);
+                _pendingRequests[cacheKey] = request;
+            }
         }
 
+        return await request;
+    }
+
+    private async Task<byte[]?> ConvertTextToSpeechUncached(string speaker, string text, string cacheKey, int requestEpoch)
+    {
         _sawmill.Verbose($"Generate new audio for '{text}' speech by '{speaker}' speaker");
 
         var body = new GenerateVoiceRequest
@@ -85,17 +122,19 @@ public sealed class TTSManager
         try
         {
             var timeout = _cfg.GetCVar(CCCVars.TTSApiTimeout);
-            var cts = new CancellationTokenSource(TimeSpan.FromSeconds(timeout));
+            using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(timeout));
             var response = await _httpClient.PostAsJsonAsync(_apiUrl, body, cts.Token);
             if (!response.IsSuccessStatusCode)
             {
                 if (response.StatusCode == HttpStatusCode.TooManyRequests)
                 {
                     _sawmill.Warning("TTS request was rate limited");
+                    ForgetPending(cacheKey);
                     return null;
                 }
 
                 _sawmill.Error($"TTS request returned bad status code: {response.StatusCode}");
+                ForgetPending(cacheKey);
                 return null;
             }
 
@@ -103,6 +142,7 @@ public sealed class TTSManager
             if (json.Results == null || json.Results.Count == 0)
             {
                 _sawmill.Error($"TTS API returned empty results for '{text}'");
+                ForgetPending(cacheKey);
                 return null;
             }
 
@@ -110,18 +150,28 @@ public sealed class TTSManager
             if (string.IsNullOrEmpty(firstResult.Audio))
             {
                 _sawmill.Error($"TTS API returned empty audio data for '{text}'");
+                ForgetPending(cacheKey);
                 return null;
             }
 
             var soundData = Convert.FromBase64String(firstResult.Audio);
 
-            _cache.Add(cacheKey, soundData);
-            _cacheKeysSeq.Add(cacheKey);
-            if (_cache.Count > _maxCachedCount)
+            lock (_cacheLock)
             {
-                var firstKey = _cacheKeysSeq.First();
-                _cache.Remove(firstKey);
-                _cacheKeysSeq.Remove(firstKey);
+                _pendingRequests.Remove(cacheKey);
+
+                if (requestEpoch != _cacheEpoch)
+                    return null;
+
+                _cache[cacheKey] = soundData;
+                _cacheKeysSeq.Remove(cacheKey);
+                _cacheKeysSeq.Add(cacheKey);
+                if (_cache.Count > _maxCachedCount && _cacheKeysSeq.Count > 0)
+                {
+                    var firstKey = _cacheKeysSeq.First();
+                    _cache.Remove(firstKey);
+                    _cacheKeysSeq.Remove(firstKey);
+                }
             }
 
             _sawmill.Debug($"Generated new audio for '{text}' speech by '{speaker}' speaker ({soundData.Length} bytes)");
@@ -131,12 +181,16 @@ public sealed class TTSManager
         }
         catch (TaskCanceledException)
         {
+            ForgetPending(cacheKey);
+
             RequestTimings.WithLabels("Timeout").Observe((DateTime.UtcNow - reqTime).TotalSeconds);
             _sawmill.Error($"Timeout of request generation new audio for '{text}' speech by '{speaker}' speaker");
             return null;
         }
         catch (Exception e)
         {
+            ForgetPending(cacheKey);
+
             RequestTimings.WithLabels("Error").Observe((DateTime.UtcNow - reqTime).TotalSeconds);
             _sawmill.Error($"Failed of request generation new sound for '{text}' speech by '{speaker}' speaker\n{e}");
             return null;
@@ -145,15 +199,29 @@ public sealed class TTSManager
 
     public void ResetCache()
     {
-        _cache.Clear();
-        _cacheKeysSeq.Clear();
+        lock (_cacheLock)
+        {
+            _cacheEpoch++;
+            _cache.Clear();
+            _cacheKeysSeq.Clear();
+            _pendingRequests.Clear();
+        }
+    }
+
+    private void ForgetPending(string cacheKey)
+    {
+        lock (_cacheLock)
+            _pendingRequests.Remove(cacheKey);
     }
 
     private string GenerateCacheKey(string speaker, string text)
     {
-        //var key = $"{speaker}/{text}";
-        //var bytes = System.Security.Cryptography.SHA256.HashData(Encoding.UTF8.GetBytes(key)); пробуем экономить цпу тайм
-        return $"{speaker}/{text.ToLowerInvariant()}"; //Convert.ToHexString(key);
+        var rawKey = $"{speaker}/{text}";
+        if (rawKey.Length <= 64)
+            return rawKey;
+
+        var bytes = MD5.HashData(Encoding.UTF8.GetBytes(rawKey));
+        return Convert.ToHexString(bytes);
     }
 
     private struct GenerateVoiceRequest
