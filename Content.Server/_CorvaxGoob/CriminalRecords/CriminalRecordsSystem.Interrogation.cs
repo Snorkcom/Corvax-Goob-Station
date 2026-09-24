@@ -13,9 +13,6 @@ public sealed partial class CriminalRecordsSystem
 {
     [Dependency] private RadioSystem _radio = default!;
 
-    // If the station has no criminal records console when the timer expires, keep trying at this interval.
-    private static readonly TimeSpan ConsoleRetryDelay = TimeSpan.FromSeconds(5);
-
     /// <summary>
     /// Starts a new interrogation countdown or clears the current one when another status is selected.
     /// </summary>
@@ -23,7 +20,6 @@ public sealed partial class CriminalRecordsSystem
     {
         if (status != SecurityStatus.Interrogation)
         {
-            // Scheduled callbacks cannot be cancelled directly, so clearing the deadline invalidates them.
             record.InterrogationEndTime = null;
             return;
         }
@@ -32,7 +28,7 @@ public sealed partial class CriminalRecordsSystem
         var endTime = _ticker.RoundDuration() + CriminalRecord.InterrogationDuration;
         record.InterrogationEndTime = endTime;
 
-        // Capture this exact deadline. If the status is reset later, the old callback will fail validation below.
+        // When the interrogation timer expires, check the status and send a warning.
         Timer.Spawn(CriminalRecord.InterrogationDuration, () => AnnounceOverdueInterrogation(key, endTime));
     }
 
@@ -50,12 +46,9 @@ public sealed partial class CriminalRecordsSystem
             return;
         }
 
+        // Skip the warning if the station has no criminal records console.
         if (!TryGetCriminalRecordsConsole(key.OriginStation, out var console, out var consoleComponent))
-        {
-            // A console may be rebuilt later, so retry without scanning every record on every server tick.
-            Timer.Spawn(ConsoleRetryDelay, () => AnnounceOverdueInterrogation(key, endTime));
             return;
-        }
 
         var message = Loc.GetString("criminal-records-console-interrogation-overdue",
             ("name", generalRecord.Name),
