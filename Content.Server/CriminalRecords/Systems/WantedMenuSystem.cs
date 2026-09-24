@@ -136,6 +136,8 @@ public sealed partial class CriminalRecordsConsoleSystem
         {
             // person has been detained
             (_, SecurityStatus.Detained) => "detained",
+            // person has arrived for an interrogation
+            (_, SecurityStatus.Interrogation) => "interrogation", // CorvaxGoob - Interrogation-timer
             // person did something sus
             (_, SecurityStatus.Suspected) => "suspected",
             // released on parole
@@ -158,6 +160,8 @@ public sealed partial class CriminalRecordsConsoleSystem
             (SecurityStatus.Wanted, SecurityStatus.None) => "not-wanted",
             // criminal status removed
             (SecurityStatus.Detained, SecurityStatus.None) => "released",
+            // interrogation status removed
+            (SecurityStatus.Interrogation, SecurityStatus.None) => "not-interrogation", // CorvaxGoob - Interrogation-timer
             // criminal is no longer on parole
             (SecurityStatus.Paroled, SecurityStatus.None) => "not-parole",
             // criminal is no longer in perma
@@ -171,6 +175,12 @@ public sealed partial class CriminalRecordsConsoleSystem
             // this is impossible
             _ => "not-wanted"
         };
+
+        // CorvaxGoob Start - Interrogation-timer
+        if (msg.Status == SecurityStatus.Interrogation)
+            _criminalRecords.TryAddHistory(key.Value, Loc.GetString("criminal-records-status-interrogation"), officer, status: msg.Status);
+        // CorvaxGoob End
+
         _radio.SendRadioMessage(msg.Actor, Loc.GetString($"criminal-records-console-{statusString}", args),
             ent.Comp.SecurityChannel, ent);
 

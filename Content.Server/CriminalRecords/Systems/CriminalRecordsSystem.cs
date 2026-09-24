@@ -24,7 +24,7 @@ namespace Content.Server.CriminalRecords.Systems;
 ///         - See security officers' actions in Criminal Records in the radio
 ///         - See reasons for any action with no need to ask the officer personally
 /// </summary>
-public sealed class CriminalRecordsSystem : SharedCriminalRecordsSystem
+public sealed partial class CriminalRecordsSystem : SharedCriminalRecordsSystem // CorvaxGoob Edit - made partial
 {
     [Dependency] private readonly GameTicker _ticker = default!;
     [Dependency] private readonly StationRecordsSystem _records = default!;
@@ -73,6 +73,7 @@ public sealed class CriminalRecordsSystem : SharedCriminalRecordsSystem
         record.Status = status;
         record.Reason = reason;
         record.InitiatorName = initiatorName;
+        UpdateInterrogationTimer(key, record, status); // CorvaxGoob - Interrogation-timer
 
         var name = _records.RecordName(key);
         if (name != string.Empty)

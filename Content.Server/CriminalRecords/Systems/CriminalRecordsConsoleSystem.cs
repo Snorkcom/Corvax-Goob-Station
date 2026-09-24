@@ -181,6 +181,8 @@ public sealed partial class CriminalRecordsConsoleSystem : SharedCriminalRecords
             (_, SecurityStatus.Eliminated) => "eliminated",
             // person has been detained
             (_, SecurityStatus.Detained) => "detained",
+            // person has arrived for an interrogation
+            (_, SecurityStatus.Interrogation) => "interrogation", // CorvaxGoob - Interrogation-timer
             // person did something sus
             (_, SecurityStatus.Suspected) => "suspected",
             // released on parole
@@ -205,6 +207,8 @@ public sealed partial class CriminalRecordsConsoleSystem : SharedCriminalRecords
             (SecurityStatus.Wanted, SecurityStatus.None) => "not-wanted",
             // criminal status removed
             (SecurityStatus.Detained, SecurityStatus.None) => "released",
+            // interrogation status removed
+            (SecurityStatus.Interrogation, SecurityStatus.None) => "not-interrogation", // CorvaxGoob - Interrogation-timer
             // criminal is no longer on parole
             (SecurityStatus.Paroled, SecurityStatus.None) => "not-parole",
             // criminal is no longer in perma

@@ -17,6 +17,7 @@ namespace Content.Shared.Security;
 /// Perma - the person has been sentenced to permanent imprisonment
 /// Dangerous - the person is highly dangerous and may resist arrest
 /// Demote - The person is about to be demoted
+/// Interrogation - the person has arrived for an interrogation.
 /// </summary>
 public enum SecurityStatus : byte
 {
@@ -31,5 +32,6 @@ public enum SecurityStatus : byte
     Search, // Goobstation
     Perma, // Goobstation
     Dangerous, // Goobstation
-    Demote // Goobstation - Demotion
+    Demote, // Goobstation - Demotion
+    Interrogation // CorvaxGoob - Interrogation-timer
 }

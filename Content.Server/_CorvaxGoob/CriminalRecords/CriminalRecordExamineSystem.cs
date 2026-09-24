@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 using System.Diagnostics.CodeAnalysis;
+using Content.Server.GameTicking;
 using Content.Server.Station.Systems;
 using Content.Server.StationRecords.Systems;
 using Content.Shared.Access.Components;
@@ -15,12 +16,17 @@ using Robust.Shared.Utility;
 
 namespace Content.Server._CorvaxGoob.CriminalRecords;
 
-// #criminal-record-examine
+
+/// <summary>
+/// #criminal-record-examine
+/// Adds criminal-record information to examination text for players using a security HUD.
+/// </summary>
 public sealed class CriminalRecordExamineSystem : EntitySystem
 {
     [Dependency] private InventorySystem _inventory = default!;
     [Dependency] private StationRecordsSystem _records = default!;
     [Dependency] private StationSystem _station = default!;
+    [Dependency] private GameTicker _ticker = default!;
 
     private const int ExaminePriority = -100;
 
@@ -45,7 +51,7 @@ public sealed class CriminalRecordExamineSystem : EntitySystem
             return;
 
         var status = Loc.GetString($"criminal-records-status-{record.Status.ToString().ToLowerInvariant()}");
-        args.PushMessage(GetExamineMessage(record, status), ExaminePriority);
+        args.PushMessage(GetExamineMessage(record, status, _ticker.RoundDuration()), ExaminePriority);
     }
 
     private bool HasSecurityHud(EntityUid user)
@@ -81,7 +87,7 @@ public sealed class CriminalRecordExamineSystem : EntitySystem
             stationRecords);
     }
 
-    private static FormattedMessage GetExamineMessage(CriminalRecord record, string status)
+    private FormattedMessage GetExamineMessage(CriminalRecord record, string status, TimeSpan currentTime)
     {
         var message = new FormattedMessage();
         var escapedStatus = FormattedMessage.EscapeText(status);
@@ -98,7 +104,26 @@ public sealed class CriminalRecordExamineSystem : EntitySystem
             message.AddText($" - {FormattedMessage.EscapeText(record.Reason.Trim())}");
         }
 
+        if (record.Status == SecurityStatus.Interrogation && record.InterrogationEndTime is { } endTime)
+        {
+            // Using the stored deadline keeps counting below zero after the InterrogationDuration limit has passed (10 min default).
+            var remaining = endTime - currentTime;
+            message.PushNewline();
+            message.AddText(Loc.GetString("criminal-records-examine-interrogation-timer", ("time", FormatTimer(remaining))));
+        }
+
         return message;
+    }
+
+    /// <summary>
+    /// Formats the countdown as MM:SS while preserving the minus sign for overdue interrogations.
+    /// TotalMinutes is used so values longer than one hour do not wrap back to zero.
+    /// </summary>
+    private static string FormatTimer(TimeSpan time)
+    {
+        var prefix = time < TimeSpan.Zero ? "-" : string.Empty;
+        var absolute = time.Duration();
+        return $"{prefix}{(int) absolute.TotalMinutes:00}:{absolute.Seconds:00}";
     }
 
     private static string GetStatusColor(SecurityStatus status)
@@ -109,6 +134,7 @@ public sealed class CriminalRecordExamineSystem : EntitySystem
             SecurityStatus.Wanted => "#ff0000",
             SecurityStatus.Hostile => "#bf0909",
             SecurityStatus.Detained => "#B18644",
+            SecurityStatus.Interrogation => "#BA55D3",
             SecurityStatus.Paroled => "#7FB717",
             SecurityStatus.Discharged => "#288EFF",
             SecurityStatus.Eliminated => "#FFFFFF",
