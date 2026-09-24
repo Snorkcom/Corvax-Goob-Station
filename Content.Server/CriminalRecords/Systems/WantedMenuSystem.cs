@@ -83,6 +83,7 @@ public sealed partial class CriminalRecordsConsoleSystem
         // prevent malf client violating wanted/reason nullability
         var requireReason = msg.Status is SecurityStatus.Wanted
             or SecurityStatus.Suspected
+            or SecurityStatus.Hostile // CorvaxGoob
             or SecurityStatus.Search
             or SecurityStatus.Dangerous
             or SecurityStatus.Demote; // Goobstation
@@ -134,6 +135,10 @@ public sealed partial class CriminalRecordsConsoleSystem
         // figure out which radio message to send depending on transition
         var statusString = (oldStatus, msg.Status) switch
         {
+            // person has been marked as hostile
+            (_, SecurityStatus.Hostile) => "hostile", // CorvaxGoob
+            // person has been marked as eliminated
+            (_, SecurityStatus.Eliminated) => "eliminated", // CorvaxGoob
             // person has been detained
             (_, SecurityStatus.Detained) => "detained",
             // person has arrived for an interrogation
@@ -158,6 +163,10 @@ public sealed partial class CriminalRecordsConsoleSystem
             (SecurityStatus.Suspected, SecurityStatus.None) => "not-suspected",
             // going from wanted to none, must have been a mistake
             (SecurityStatus.Wanted, SecurityStatus.None) => "not-wanted",
+            // person is no longer marked as hostile
+            (SecurityStatus.Hostile, SecurityStatus.None) => "not-hostile", // CorvaxGoob
+            // person's eliminated status has been cleared
+            (SecurityStatus.Eliminated, SecurityStatus.None) => "not-eliminated", // CorvaxGoob
             // criminal status removed
             (SecurityStatus.Detained, SecurityStatus.None) => "released",
             // interrogation status removed
@@ -177,8 +186,13 @@ public sealed partial class CriminalRecordsConsoleSystem
         };
 
         // CorvaxGoob Start - Interrogation-timer
-        if (msg.Status == SecurityStatus.Interrogation)
-            _criminalRecords.TryAddHistory(key.Value, Loc.GetString("criminal-records-status-interrogation"), officer, status: msg.Status);
+        // Record every status change made through the SecHUD except Detained, which has its own history entry.
+        if (msg.Status != SecurityStatus.Detained)
+        {
+            _criminalRecords.TryAddHistory(key.Value, Loc.GetString("criminal-records-console-history",
+                ("status", Loc.GetString($"criminal-records-status-{statusString}")),
+                ("reason", reason ?? Loc.GetString("criminal-records-console-unspecified"))), officer, status: msg.Status);
+        }
         // CorvaxGoob End
 
         _radio.SendRadioMessage(msg.Actor, Loc.GetString($"criminal-records-console-{statusString}", args),

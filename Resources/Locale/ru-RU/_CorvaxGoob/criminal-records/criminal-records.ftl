@@ -15,3 +15,6 @@ criminal-records-console-duration-placeholder = Пример: 10
 
 criminal-records-console-print = Распечатать
 
+criminal-records-status-not-hostile = Больше не помечен враждебным
+criminal-records-status-not-eliminated = Больше не помечен ликвидированным
+
