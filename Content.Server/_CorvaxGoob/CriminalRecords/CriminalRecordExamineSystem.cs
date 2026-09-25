@@ -111,6 +111,12 @@ public sealed class CriminalRecordExamineSystem : EntitySystem
             message.PushNewline();
             message.AddText(Loc.GetString("criminal-records-examine-interrogation-timer", ("time", FormatTimer(remaining))));
         }
+        else if (record.Status == SecurityStatus.Detained && record.DetainedEndTime is { } detainedEndTime)
+        {
+            var remaining = detainedEndTime - currentTime;
+            message.PushNewline();
+            message.AddText(Loc.GetString("criminal-records-examine-detained-timer", ("time", FormatTimer(remaining))));
+        }
 
         return message;
     }

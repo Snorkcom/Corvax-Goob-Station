@@ -243,7 +243,7 @@ public sealed partial class CriminalRecordsConsoleSystem
         if (tryGetIdentityShortInfoEvent.Title != null)
             officer = tryGetIdentityShortInfoEvent.Title;
 
-        _criminalRecords.TryChangeStatus(key.Value, SecurityStatus.Detained, msg.Articles, officer);
+        _criminalRecords.TryChangeStatus(key.Value, SecurityStatus.Detained, articles, officer, msg.Duration); // CorvaxGoob Edit - Interrogation-timer
 
         (string, object)[] args;
         if (articles != null)
