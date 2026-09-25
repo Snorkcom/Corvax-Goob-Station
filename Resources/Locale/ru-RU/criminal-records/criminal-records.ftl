@@ -21,6 +21,7 @@ criminal-records-status-dangerous = Опасен
 criminal-records-status-search = Пропал
 criminal-records-status-perma = Пермабриг
 criminal-records-console-suspected-reason = Причина подозрения
+criminal-records-console-hostile-reason = Причина
 criminal-records-console-reason = Причина
 criminal-records-console-search-reason = Причина поиска
 criminal-records-console-dangerous-reason = Причина

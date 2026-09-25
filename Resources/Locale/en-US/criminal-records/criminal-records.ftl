@@ -39,6 +39,7 @@ criminal-records-status-perma = Perma
 
 criminal-records-console-wanted-reason = Wanted Reason
 criminal-records-console-suspected-reason = Suspected Reason
+criminal-records-console-hostile-reason = Hostile Reason
 criminal-records-console-search-reason = Search Reason
 criminal-records-console-dangerous-reason = Dangerous Reason
 
