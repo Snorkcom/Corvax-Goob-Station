@@ -417,6 +417,10 @@ public sealed partial class CriminalRecordsConsoleSystem : SharedCriminalRecords
             .Replace(Loc.GetString("doc-var-job"), idCard.Comp.LocalizedJobTitle ?? Loc.GetString("doc-text-printer-default-job"));
         }
 
+        content = content
+            .Replace("(ФИО)", record.Name)
+            .Replace("(полное наименование должности)", record.JobTitle);
+
         var printed = Spawn("Paper", Transform(ent).Coordinates);
 
         if (HasComp<PaperComponent>(printed))
