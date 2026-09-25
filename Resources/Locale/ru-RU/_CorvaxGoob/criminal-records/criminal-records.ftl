@@ -20,4 +20,12 @@ criminal-records-console-print = Распечатать
 
 criminal-records-status-not-hostile = Больше не помечен враждебным
 criminal-records-status-not-eliminated = Больше не помечен ликвидированным
+criminal-records-status-released = Освобождён
+criminal-records-status-not-suspected = Подозрение снято
+criminal-records-status-not-wanted = Розыск снят
+criminal-records-status-not-parole = Статус УДО снят
+criminal-records-status-not-perma = Освобождён из пермабрига
+criminal-records-status-not-search = Статус «Пропал» снят
+criminal-records-status-not-dangerous = Больше не считается опасным
+criminal-records-status-not-demoted = Статус понижения снят
 

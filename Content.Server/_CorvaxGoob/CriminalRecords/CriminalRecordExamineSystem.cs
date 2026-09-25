@@ -104,25 +104,25 @@ public sealed class CriminalRecordExamineSystem : EntitySystem
             message.AddText($" - {FormattedMessage.EscapeText(record.Reason.Trim())}");
         }
 
-        if (record.Status == SecurityStatus.Interrogation && record.InterrogationEndTime is { } endTime)
+        var timerLoc = record.Status switch
         {
-            // Using the stored deadline keeps counting below zero after the InterrogationDuration limit has passed (10 min default).
-            var remaining = endTime - currentTime;
-            message.PushNewline();
-            message.AddText(Loc.GetString("criminal-records-examine-interrogation-timer", ("time", FormatTimer(remaining))));
-        }
-        else if (record.Status == SecurityStatus.Detained && record.DetainedEndTime is { } detainedEndTime)
+            SecurityStatus.Interrogation => "criminal-records-examine-interrogation-timer",
+            SecurityStatus.Detained => "criminal-records-examine-detained-timer",
+            _ => null,
+        };
+
+        if (timerLoc != null && record.StatusEndTime is { } endTime)
         {
-            var remaining = detainedEndTime - currentTime;
+            // The stored deadline allows an overdue timer to continue below zero.
             message.PushNewline();
-            message.AddText(Loc.GetString("criminal-records-examine-detained-timer", ("time", FormatTimer(remaining))));
+            message.AddText(Loc.GetString(timerLoc, ("time", FormatTimer(endTime - currentTime))));
         }
 
         return message;
     }
 
     /// <summary>
-    /// Formats the countdown as MM:SS while preserving the minus sign for overdue interrogations.
+    /// Formats the countdown as MM:SS while preserving the minus sign for overdue statuses.
     /// TotalMinutes is used so values longer than one hour do not wrap back to zero.
     /// </summary>
     private static string FormatTimer(TimeSpan time)

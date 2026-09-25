@@ -219,6 +219,10 @@ public sealed partial class CriminalRecordsConsoleSystem
                 return;
         }
 
+        // Detention duration must be between 1 minute and 24 hours.
+        if (msg.Duration <= 0 || msg.Duration > 1440)
+            return;
+
         var oldStatus = record.Status;
 
         var name = _records.RecordName(key.Value);

@@ -79,8 +79,7 @@ public sealed partial class CriminalRecordsSystem : SharedCriminalRecordsSystem 
         record.Reason = reason;
         record.InitiatorName = initiatorName;
         // CorvaxGoob Start - Interrogation-timer
-        UpdateInterrogationTimer(key, record, status);
-        UpdateDetainedTimer(key, record, status, duration);
+        UpdateStatusTimer(key, record, status, duration);
         // CorvaxGoob End
 
         var name = _records.RecordName(key);

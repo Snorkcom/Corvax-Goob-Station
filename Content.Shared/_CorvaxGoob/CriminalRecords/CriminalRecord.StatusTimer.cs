@@ -7,8 +7,8 @@ public sealed partial record CriminalRecord
     public static readonly TimeSpan InterrogationDuration = TimeSpan.FromMinutes(10);
 
     /// <summary>
-    /// The round time at which the interrogation becomes overdue.
+    /// The round time at which the current timed status expires.
     /// </summary>
     [DataField]
-    public TimeSpan? InterrogationEndTime;
+    public TimeSpan? StatusEndTime;
 }

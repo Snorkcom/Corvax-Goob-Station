@@ -252,11 +252,9 @@ public sealed partial class CriminalRecordsConsoleSystem : SharedCriminalRecords
                 return;
         }
 
-        if (msg.Duration is not null)
-        {
-            if (msg.Duration <= 0)
-                return;
-        }
+        // Detention duration must be between 1 minute and 24 hours.
+        if (msg.Duration <= 0 || msg.Duration > 1440)
+            return;
 
         var name = _records.RecordName(key.Value);
         GetOfficer(mob.Value, out var officer);
